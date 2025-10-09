@@ -1,0 +1,671 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+:root {
+    --color-table-header: #2b7e4b;
+    --color-content-header-bg: #1e2b4b;
+    --color-navigation-bg: #1e2b4b;
+}
+
+body {
+    /* background: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    font-family: Verdana;
+    height: 100%;
+    margin: 0;
+    padding: 0; */
+
+    background: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    /* AQUI! Use 'Fira Sans' primeiro, seguido de uma fonte genérica */
+    font-size: 16px;
+    /* Tamanho de fonte base para a aplicação */
+    line-height: 1.5;
+    /* Altura da linha para melhor legibilidade */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* ======= TOPBAR ======= */
+.topbar {
+    align-items: center;
+    background: linear-gradient(to right, var(--color-navigation-bg), #2b7e4b);
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 60px;
+    width: 100%;
+    left: 0;
+    padding: 0 20px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+}
+
+.topbar-brand {
+    align-items: center;
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    gap: 10px;
+}
+
+.topbar-brand span.logo-text {
+    color: #fff;
+}
+
+.logo-image {
+    display: block;
+    height: 26px;
+    width: auto;
+}
+
+.logo-icon {
+    color: #000;
+    font-size: 22px;
+}
+
+.topbar-controls {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.toggle {
+    background: none;
+    border: none;
+    color: rgb(0, 0, 0);
+    /* Cor do ícone */
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 700;
+    /* Negrito para o ícone */
+
+}
+
+.user img {
+    border-radius: 50%;
+    height: 35px;
+}
+
+/* ======= SIDEBAR ======= */
+
+
+.navigation {
+    background-color: var(--color-navigation-bg);
+    height: calc(100vh - 60px);
+    left: 0;
+    position: fixed;
+    top: 60px;
+    transition: width 0.3s;
+    width: 60px;
+    /* Z-index para ficar abaixo do topbar */
+}
+
+.main-content {
+    margin-left: 60px;
+    transition: margin-left 0.3s;
+}
+
+.main-content.expanded {
+    margin-left: 250px;
+}
+
+
+.navigation:hover {
+    width: 250px;
+    overflow: hidden;
+}
+
+
+.menu {
+    list-style: none;
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+}
+
+.menu li {
+    padding: 5px 10px;
+}
+
+.menu li a {
+    align-items: center;
+    border-radius: 4px;
+    color: #fff;
+    display: flex;
+    padding: 6px 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.menu li a:hover {
+    background-color: #2f4270;
+}
+
+.icon {
+    font-size: 20px;
+    margin-right: 5px;
+    text-align: center;
+    width: 30px;
+}
+
+
+.title {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+.navigation:hover .title {
+    font-size: 14px;
+    opacity: 1;
+    /* Garante que o título esteja visível por padrão */
+    transition: opacity 0.3s;
+    white-space: nowrap;
+}
+
+
+/* ======= SUBMENU ======= */
+.submenu {
+    background-color: #263147;
+    list-style: none;
+    margin: 0;
+    /* Remova margens padrão da ul */
+    padding-left: 1px;
+    max-height: 0;
+    /* Oculta o submenu por padrão */
+    overflow: hidden;
+    /* Garante que o conteúdo extra seja cortado */
+    transition: max-height 0.3s ease-in-out;
+    /* Tempo de transição */
+}
+
+/* Adicionado: Classe 'active' para controlar a exibição via JS */
+.navigation .submenu.active {
+    max-height: 500px;
+    overflow: hidden;
+    /* Valor grande o suficiente para mostrar todo o submenu */
+}
+
+.submenu-item {
+    padding: 6px 0;
+}
+
+.submenu .title {
+    font-size: 13px;
+}
+
+/* Rotação do ícone de seta */
+.submenu-toggle-icon {
+    display: none;
+    transition: transform 0.3s ease-in-out;
+    margin-left: auto;
+    /* Empurra o ícone para a direita */
+    padding-left: 10px;
+    /* Adiciona um espaçamento à esquerda do ícone */
+}
+
+.submenu-toggle-icon.expanded {
+    display: flex;
+    border-color: #4AD489;
+}
+
+.menu-item.active .submenu-toggle-icon {
+    transform: rotate(180deg);
+}
+
+
+/* ======= MAIN CONTENT ======= */
+.main-content {
+    max-width: 100%;
+    margin-top: 60px;
+    padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+
+/* Este seletor é a chave para o comportamento de recolher o sidebar */
+.navigation.active~.main-content {
+    margin-left: 60px;
+    background-color: aqua;
+}
+
+/* ======= USUARIO ======= */
+
+/* Estilos para o contêiner do dropdown do usuário */
+.user-dropdown-container {
+    position: relative;
+    /* Essencial para posicionar o dropdown */
+    display: flex;
+    /* Para alinhar o ícone e o nome */
+    align-items: center;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* Espaço entre a pesquisa e o usuário */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Espaço entre o ícone e o nome */
+    color: #ffffff;
+    /* Cor do texto do nome de usuário */
+    font-weight: 500;
+}
+
+.user-info ion-icon {
+    font-size: 28px;
+    /* Tamanho do ícone do usuário */
+    color: #d6d6d6d7;
+}
+
+.username {
+    /* Estilos para o nome de usuário */
+    white-space: nowrap;
+    /* Evita quebra de linha no nome */
+}
+
+/* Estilos para o menu dropdown */
+.user-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    /* Posiciona abaixo do user-info */
+    right: 0;
+    /* Alinha à direita do user-info */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 1001;
+    /* Acima de outros elementos */
+    opacity: 0;
+    /* Começa invisível */
+    visibility: hidden;
+    /* Esconde completamente */
+    transform: translateY(10px);
+    /* Começa um pouco abaixo */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s;
+}
+
+.user-dropdown-menu.active {
+    opacity: 1;
+    /* Torna visível */
+    visibility: visible;
+    /* Torna visível */
+    transform: translateY(0);
+    /* Volta à posição original */
+}
+
+.user-dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-dropdown-menu li a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.user-dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+}
+
+.user-dropdown-menu .logout-item a {
+    color: #e74c3c;
+    /* Cor para o link de logout */
+    font-weight: bold;
+}
+
+.user-dropdown-menu .logout-item a:hover {
+    background-color: #ffebeb;
+    /* Fundo mais claro ao passar o mouse */
+}
+
+/* ======= Container ======= */
+.container-section {
+    margin-top: 0px;
+    text-transform: capitalize;
+}
+
+.container-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px 10px 0px 0px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+.container-list h1 {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-left: 15px;
+    color: #333;
+}
+
+.container-list button {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.container-list button i {
+    margin-left: 8px;
+}
+
+
+/* ======= TABELAS / TABLES ======= */
+.table-section {
+    margin-top: 5px;
+    text-transform: capitalize;
+}
+
+.table-list {
+    width: 100%;
+    padding: 10px;
+    margin-top: 0px;
+    background: #fff;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 12px;
+    min-width: 100%;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+table thead tr {
+    color: #ebe7ef;
+    background: var(--color-table-header);
+    text-align: left;
+    font-weight: bold;
+}
+
+.table th,
+.table td {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:nth-of-type(odd) {
+    background: #f3f3f3;
+}
+
+.table tbody tr.active {
+    font-weight: bold;
+    color: #4AD489;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #4AD489;
+}
+
+.table button {
+    display: flex;
+    align-items: center;
+}
+
+.table button:hover {
+    background: #4ad48883;
+    color: #fff;
+    transition: 0.5rem;
+}
+
+/* Estilo para linhas inativas da tabela bloqueio inativo */
+
+tr.bloqueio-inativo td {
+    color: #dc3545; /* vermelho bootstrap */
+    font-weight: 600;
+}
+
+
+/* ======= FORMULÁRIOS / FORMS ======= */
+
+/* Container principal da seção do formulário */
+.form-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px;
+}
+
+/* Wrapper para o formulário, atuando como um "card" */
+.form-wrapper {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    /* Garante que o border-radius seja aplicado */
+}
+
+/* Estilo do formulário em si */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabeçalho do formulário */
+.card-header {
+    background-color: #1e2b4b;
+    /* Cor do cabeçalho do card */
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Linha do formulário (label + input) */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    padding: 0.3rem 1.25rem;
+    /* Espaçamento unificado */
+    border-bottom: 1px solid #f0f0f0;
+    /* Linha sutil para separar os campos */
+}
+
+.form-row:last-of-type {
+    border-bottom: none;
+}
+
+/* Estilo para os rótulos (labels) */
+.form-row label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* Estilo para inputs, selects e textareas */
+.form-row input[type="text"],
+.form-row input[type="email"],
+.form-row input[type="password"],
+.form-row select,
+.form-row textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-in {
+    width: 95%;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0px;
+    font-size: 1rem;
+    margin-left: 10px;
+    margin-right: 10px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-cadastro input,
+.form-cadastro select {
+    border: none;
+    border-bottom: 1px solid #5a5a5a;
+    border-radius: 0px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-cadastro label {
+    margin-top: 10px;
+}
+
+.form-check {
+    margin-top: 20px !important;
+}
+
+
+.form-check input {
+    border: 2px solid #000000;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+
+.form-control:focus,
+.form-check-input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: #577bd8 !important;
+    /* ou a cor que preferir */
+}
+
+/* Foco nos campos de input */
+.form-row input:focus,
+.form-row select:focus,
+.form-row textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+    /* Cor azul suave */
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+/* Rodapé do formulário */
+.card-footer {
+    background-color: #f7f7f9;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid #ddd;
+    display: flex;
+    /* Adicionado para alinhar o botão */
+    justify-content: flex-end;
+    /* Alinha o botão à direita */
+}
+
+
+.createBtn {
+    background-color: #0066cc;
+    /* Cor azul do seu código original */
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.createBtn2 {
+    background-color: #0066cc;
+    /* Cor azul do seu código original */
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    margin-top: 16px;
+}
+
+.createBtn:hover {
+    background-color: #005bb5;
+}
+
+/* Estilos do Modal */
+.modal-footer {
+    background-color: #92AFC2;
+}
+
+.modal-header {
+    background-color: #92AFC2;
+    color: white;
+}
+
+.bg-may-green-t {
+  background-color: #2b7e4b !important; /* !important pra sobrescrever o Bootstrap se preciso */
+  color: white; /* Ajusta o texto pra contrastar */
+}
+
+.bg-may-green-b {
+  background-color: #a8dfbd !important; /* !important pra sobrescrever o Bootstrap se preciso */
+  color: white; /* Ajusta o texto pra contrastar */
+}
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.904) !important; /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
+  opacity: 0.8 !important; /* Garante a opacidade no fade-in. */
+}
+
+.modal-backdrop.show {
+  opacity: 0.95 !important; /* Para quando o modal está visível. */
+}
+
+
+/* ======= RESPONSIVO OPCIONAL ======= */
+@media (max-width: 768px) {
+    .search-input {
+        display: none;
+    }
+
+    .topbar {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .topbar-brand .logo-text {
+        display: none;
+    }
+}
