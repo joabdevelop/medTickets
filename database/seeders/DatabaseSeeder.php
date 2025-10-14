@@ -40,7 +40,24 @@ class DatabaseSeeder extends Seeder
             'relacionamento_id' => $profissional->id,
         ]);
 
-        $this->call(\Database\Seeders\EmpresaSeeder::class);
-        $this->call(TipoServicosTableSeeder::class);
+         // Ordem de execução: tabelas que NÃO dependem de outras vêm primeiro.
+        // Tabela de Departamentos é crucial, então a chamamos primeiro.
+        // Adicione aqui seu Seeder de Departamentos se ele existir.
+        
+        // 1. Populando a tabela de SLAs (PRIMEIRO PASSO CRÍTICO)
+        $this->call(SlaSeeder::class);
+        
+        // 2. Populando a tabela de Tipos de Serviço (depende de SLAs e Departamentos)
+        // Se a coluna 'departamento_id' é sempre 1 no TipoServicosTableSeeder,
+        // o seeder de Departamentos deve garantir que o ID 1 exista.
+        $this->call(TipoServicosTableSeeder::class); 
+
+        // 3. Outros Seeders (Usuários, Empresas, etc.)
+       
+        $this->call(EmpresaSeeder::class);
+        
+        // Certifique-se de que a ordem aqui respeite as chaves estrangeiras.
+        // Ex: TicketsSeeder só deve rodar se tipo_servicos e users já estiverem populados.
+
     }
 }

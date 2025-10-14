@@ -11,8 +11,8 @@ class EmpresaFactory extends Factory
 
         $this->faker->locale('pt_BR');
         $modalidades = ["PRIME", "POOL", "PD SITE", "NUCLEO", "NUCLEO ENG"];
-        $renovacaoTipos = ["REN MAN", "REN AUTO"];
-        $fifStatus = ["CORTESIA", "OK", "PENDENTE", "RENOV AUT"];
+        $renovacaoTipos = ["REN MAN", "REN AUT"];
+        $fifStatus = ["CORTESIA", "OK", "PENDENTE"];
         $isCnpj = $this->faker->boolean;
         $codigofiscal = $isCnpj
             ? $this->faker->unique()->numerify('##.###.###/####-##')
@@ -20,8 +20,8 @@ class EmpresaFactory extends Factory
         // ...existing code...
         $gruposClassificacao = ["I", "II"];
         $profissionais = 1; // IDs dos profissionais
-// Define tipo_codigo_fiscal baseado no tamanho do código fiscal
-       //$tipo_codigo_fiscal = strlen(preg_replace('/\D/', '', $codigofiscal)) === 14 ? 1 : 2;
+        // Define tipo_codigo_fiscal baseado no tamanho do código fiscal
+        //$tipo_codigo_fiscal = strlen(preg_replace('/\D/', '', $codigofiscal)) === 14 ? 1 : 2;
         return [
             'nome_fantasia' => $this->faker->company,
             'razao_social' => $this->faker->company . ' LTDA',

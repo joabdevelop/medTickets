@@ -182,7 +182,11 @@
                     const modalidade = editButton.getAttribute('data-modalidade');
                     const fif_status = editButton.getAttribute('data-fif-status');
                     const FIF_data_liberacao = editButton.getAttribute('data-fif-data-liberacao');
+
+                    console.log('FIF_data_liberacao:', FIF_data_liberacao);
                     const ultima_renovacao_tipo = editButton.getAttribute('data-ultima-renovacao-tipo');
+                    console.log('Ultima renovacao tipo:', ultima_renovacao_tipo);
+                    
                     const ultima_renovacao_contrato = editButton.getAttribute('data-ultima-renovacao-contrato');
                     const bloqueio_status_financ = editButton.getAttribute('data-bloqueio-status-financ');
                     const status_produto_preco = editButton.getAttribute('data-status-produto-preco');

@@ -164,6 +164,7 @@ class ProfissionalController extends Controller
         }
 
         try {
+            // Alterar o status do profissional
             $profissional->profissional_ativo = !$profissional->profissional_ativo; // Inverte o status
             $profissional->save();
             // Bloqueia ou desbloqueia o login do profissional com base no status

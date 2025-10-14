@@ -4,17 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Generator as Faker;
+use Illuminate\Support\Carbon; // Adicionado para gerenciar datas
 
 class TipoServicosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(Faker $faker): void
     {
-
-        // Limpa a tabela antes de inserir novos dados (opcional, remova se não quiser apagar dados existentes)
-        // DB::table('tipo_servicos')->truncate();
+        // Pega o timestamp atual, que será usado para created_at e updated_at
+        $now = Carbon::now(); 
 
         $servicos = [
             'Abertura de chamado de SOC',
@@ -41,13 +42,51 @@ class TipoServicosTableSeeder extends Seeder
             'Treinamento/reciclagem SOC',
             'Validação de documentos tecnicos',
         ];
-        foreach ($servicos as $servico) {
-            DB::table('tipo_servicos')->insert([
-                'departamento_id' => 1, // Exemplo: ID 1 para o departamento. Ajuste conforme seus dados.
-                'descricao_servico' => $servico,
-                'prioridade' => 's/p', // Exemplo: 's/p' (sem prioridade). Ajuste conforme suas regras.
-                'sla' => 3, // Exemplo: 3 (superior a 10 minutos). Ajuste conforme suas regras.
-            ]);
+
+        // Definindo as opções disponíveis para os campos
+        $opcoesPrioridade = ['sem prioridade', 'alta', 'media', 'baixa'];
+        $opcoesSla = [1, 2, 3, 4, 5, 6]; // Valores em horas
+        $opcoesSercicoAtivo = [true, false];
+        $TituloNome = [
+            'Digite o nome do serviço',
+            'Digite a unidade, Setor, Cargo e CBO',
+            'Digite a qualquer informação relevante',
+            'Digite a quantidade de colaboradores',
+            'Digite o dia que sera realizado o exame',
+        ];
+
+        // Dados fixos que não mudam entre os registros
+        $dadosFixos = [
+            'executante_departamento_id' => 1,
+            'dados_add' => 0,
+            'quem_solicita' => 0,
+            'created_at' => $now,
+            'updated_at' => $now,
+
+        ];
+
+        $dadosInserir = [];
+        foreach ($servicos as $nomeServico) {
+            
+            // Gerando os valores aleatórios para CADA serviço dentro do loop
+            $dadosAleatorios = [
+                'prioridade' => $faker->randomElement($opcoesPrioridade),
+                'sla' => $faker->randomElement($opcoesSla),
+                'servico_ativo' => $faker->randomElement($opcoesSercicoAtivo),
+                'titulo_nome' => $faker->randomElement($TituloNome),
+            ];
+
+            // Combina os dados fixos, os dados aleatórios e o nome do serviço
+            $dadosInserir[] = array_merge(
+                $dadosFixos, 
+                $dadosAleatorios, 
+                [
+                    'nome_servico' => $nomeServico,
+                ]
+            );
         }
+
+        // Insere todos os dados de uma vez (melhor performance)
+        DB::table('tipo_servicos')->insert($dadosInserir);
     }
-};
+}

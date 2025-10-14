@@ -29,7 +29,6 @@
                                 <div class="col-lg-3">
                                     <label for="grupo_empresarial" class="form-label"><b>1 </b>- Grupo</label>
                                     <select id="grupo_empresarial_select" class="form-select form-control @error('grupo_empresarial') is-invalid @enderror" name="grupo_empresarial">
-                                        <option value="">Selecione</option>
                                         @foreach ($grupos as $id => $nome_grupo)
                                         <option value="{{ $id }}">{{ $nome_grupo }}</option>
                                         @endforeach
@@ -118,7 +117,6 @@
                                 <div class="col-md-3">
                                     <label for="grupo_classificacao" class="form-label"><b>6 </b>- Classificação</label>
                                     <select id="grupo_classificacao" class="form-select form-control @error('grupo_classificacao') is-invalid @enderror" name="grupo_classificacao" required>
-                                        <option value="" disabled selected>Selecione</option>
                                         <option value="I">I</option>
                                         <option value="II">II</option>
                                     </select>
@@ -135,7 +133,6 @@
                                 <div class="col-md-3">
                                     <label for="modalidade" class="form-label"><b>7 </b>- Modalidade</label>
                                     <select id="modalidade" class="form-select form-control @error('modalidade') is-invalid @enderror" name="modalidade">
-                                        <option value="" disabled selected>Selecione</option>
                                         <option value="PRIME">PRIME</option>
                                         <option value="POOL">POOL</option>
                                         <option value="PD SITE">PD SITE</option>
@@ -160,7 +157,6 @@
                                 <div class="col-md-6">
                                     <label for="fif_status" class="form-label"><b>9 </b>- FIF Status</label>
                                     <select id="fif_status" class="form-select form-control @error('fif_status') is-invalid @enderror" name="fif_status">
-                                        <option value="" disabled selected>Selecione</option>
                                         <option value="CORTESIA">CORTESIA</option>
                                         <option value="OK">OK</option>
                                         <option value="PENDENTE">PENDENTE</option>
@@ -191,18 +187,17 @@
                             <div class="row mt-4">
                                 <div class="col-md-6">
                                     <label for="ultima_renovacao_tipo" class="form-label"><b>11 </b>- Tipo Renovação</label>
-                                    <select id="ultima_renovacao_tipo" class="form-select form-control @error('ultima_renovacao_tipo') is-invalid @enderror" name="ultima_renovacao_tipo">
-                                        <option value="" disabled selected>Selecione</option>
+                                    <select id="ultima_renovacao_tipo" class="form-select" name="ultima_renovacao_tipo">
                                         <option value="REN AUT">Renovação Automática</option>
                                         <option value="REN MAN">Renovação Manual</option>
                                     </select>
+
                                     @error('ultima_renovacao_tipo')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
-
                                 <div class="col-md-6">
                                     <label for="ultima_renovacao_contrato" class="form-label"><b>12 </b>- Última Renovação</label>
                                     <input id="ultima_renovacao_contrato" type="date"
@@ -245,15 +240,13 @@
                 </div>
 
                 <div class="modal-footer bg-may-green-b">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" value="Atualizar" class="btn btn-success border-1 border-black">
-                                Atualizar Empresa
-                            </button>
-                            <button type="button" value="Cancelar" data-bs-dismiss="modal" class="btn btn-warning">
-                                Cancelar
-                            </button>
-                        </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" value="Cancelar" data-bs-dismiss="modal" class="btn btn-danger">
+                            Cancelar
+                        </button>
+                        <button type="submit" value="Atualizar" class="btn btn-success border-1 border-black">
+                            Atualizar Empresa
+                        </button>
                     </div>
                 </div>
 

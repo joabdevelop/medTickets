@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('status_produto_preco')->default(false);
             $table->string('modalidade',10)->default("PRIME"); // PRIME, POOL, PD SITE, NUCLEO, NUCLEO ENG
             $table->date('ultima_renovacao')->nullable();
-            $table->string('ultima_renovacao_tipo', 10)->default("REN MANUAL"); // REN MANUAL ou REN AUTO
+            $table->string('ultima_renovacao_tipo', 10)->default("REN MAN"); // REN MANUAL ou REN AUTO
             $table->string('FIF_status', 10)->default("PENDENTE"); // CORTESIA, OK, PENDENTE, RENOV AUT
             $table->date('FIF_data_liberacao')->nullable();
             $table->timestamps();

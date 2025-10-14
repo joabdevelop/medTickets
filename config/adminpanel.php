@@ -71,11 +71,5 @@ return [
             'text' => 'Configurações',
             'icon' => 'construct-outline',
         ],
-        [
-            'text' => 'Sign Out',
-            'route_name' => 'dashboard',
-            'icon' => 'log-out-outline',
-            'icon_color' => 'red',
-        ],
     ],
 ];

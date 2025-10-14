@@ -105,4 +105,10 @@ Route::resource('tipo_servico', \App\Http\Controllers\TipoServicoController::cla
         'destroy' => 'tipo_servico.destroy',
     ]);
 
+// Rota para alternar o status 'servico_ativo' de um TipoServico.
+// O formulário Blade usa @method('PUT') para simular este método HTTP.
+Route::put('tipo_servico/{tipo_servico}/toggle', [\App\Http\Controllers\TipoServicoController::class, 'toggleServicoAtivo'])
+    ->middleware(['auth', 'verified'])
+    ->name('tipo_servico.toggleServicoAtivo');
+
 require __DIR__ . '/auth.php';

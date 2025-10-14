@@ -132,7 +132,7 @@
             <div class="modal-footer bg-may-green-b">
 
                 <div class="flex justify-end">
-                    <button type="button" class="btn btn-warning fw-bold" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-danger fw-bold" data-bs-dismiss="modal"  onclick="event.target.blur()">
                         Fechar
                     </button>
                 </div>

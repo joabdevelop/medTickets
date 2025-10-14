@@ -247,15 +247,13 @@
                 </div>
 
                 <div class="modal-footer bg-may-green-b">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" value="Cadastrar" class="btn btn-success border-1 border-black">
-                                Cadastrar Empresa
-                            </button>
-                            <button type="button" value="Cancelar" data-bs-dismiss="modal" class="btn btn-warning">
-                                Cancelar
-                            </button>
-                        </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" value="Cancelar" data-bs-dismiss="modal" class="btn btn-danger">
+                            Cancelar
+                        </button>
+                        <button type="submit" value="Cadastrar" class="btn btn-success border-1 border-black">
+                            Cadastrar Empresa
+                        </button>
                     </div>
                 </div>
 

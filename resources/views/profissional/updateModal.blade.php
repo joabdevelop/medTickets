@@ -24,8 +24,7 @@
                     <!-- Email Profissional -->
                     <div class="form-group mt-4">
                         <label>Email do Profissional:</label>
-                        <input type="email" class="form-control" name="update_email" id="update_email" value=""
-                            required>
+                        <input type="email" class="form-control" name="update_email" id="update_email" value=""readonly>
                     </div>
 
                     <!-- Nome da Profissional -->

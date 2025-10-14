@@ -7,12 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tipo_servico extends Model
 {
-   use HasFactory;
+    use HasFactory;
     protected $fillable = [
-        'departamento_id',
-        'descricao_servico',
+        'nome_servico',
+        'executante_departamento_id',
         'prioridade',
-        'sla'
+        'sla',
+        'dados_add',
+        'quem_solicita',
+        'servico_ativo',
+        'titulo_nome',
     ];
     protected $table = 'tipo_servicos';
     protected $primaryKey = 'id';
@@ -24,9 +28,6 @@ class Tipo_servico extends Model
     ];
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class, 'departamento_id', 'id');
+        return $this->belongsTo(Departamento::class, 'executante_departamento_id', 'id');
     }
-
 }
-
- 
