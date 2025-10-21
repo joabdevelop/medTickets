@@ -37,6 +37,9 @@
         @include('components.alertas')
         <div class="table-list">
 
+            <!-- O ELEMENTO TOOLTIP QUE SERÁ MANIPULADO PELO JS -->
+            <div id="status-tooltip" class="custom-tooltip"></div>
+
             <table class="table table-hover cursor-pointer table-responsive">
                 <thead>
                     <tr>
@@ -52,15 +55,15 @@
                         <th>Ações</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabela-empresas">
                     @forelse ($empresas as $empresa)
-                    <tr class="{{ $empresa->bloqueio_status_financ == 1 ? 'bloqueio-inativo' : '' }}">
+                    <tr data-status-bloqueio="{{ $empresa->bloqueio_status_financ == 1 ? 'ativo' : 'inativo' }}" class="{{ $empresa->bloqueio_status_financ == 1 ? 'bloqueio-inativo' : '' }}"  >
 
                         <td>
-                            @if ($empresa->status_produto_preco )
-                            <span>Ativo</span>
+                            @if ($empresa->status_produto_preco)
+                            <span class="badge bg-success p-2 text-uppercase h6-font-size">Ativo</span>
                             @else
-                            <span>Inativo</span>
+                            <span class="badge bg-danger p-2 text-uppercase h6-font-size">Inativo</span>
                             @endif
                         </td>
 
@@ -77,7 +80,7 @@
                         <td>{{ $empresa->grupo->profissional->nome }}</td>
                         <td>{{ $empresa->modalidade }}</td>
                         <td>{{ $empresa->created_at->format('d/m/Y') }}</td>
-                        <td >
+                        <td>
                             <div class="btn-group btn-group-sm">
                                 <!-- Botão Alterar -->
                                 <!-- Dentro do <td> de ações -->
@@ -186,7 +189,7 @@
                     console.log('FIF_data_liberacao:', FIF_data_liberacao);
                     const ultima_renovacao_tipo = editButton.getAttribute('data-ultima-renovacao-tipo');
                     console.log('Ultima renovacao tipo:', ultima_renovacao_tipo);
-                    
+
                     const ultima_renovacao_contrato = editButton.getAttribute('data-ultima-renovacao-contrato');
                     const bloqueio_status_financ = editButton.getAttribute('data-bloqueio-status-financ');
                     const status_produto_preco = editButton.getAttribute('data-status-produto-preco');
@@ -277,6 +280,59 @@
                     console.log('Modal de visualização populado para ID:', id);
                 });
             }
+
+            const tabela = document.getElementById('tabela-empresas');
+            const tooltip = document.getElementById('status-tooltip');
+
+            if (!tabela || !tooltip) return;
+
+            // Adiciona listeners aos elementos que contêm o status (as linhas <tr>)
+            const linhas = tabela.querySelectorAll('tr[data-status-bloqueio]');
+
+            linhas.forEach(linha => {
+                const status = linha.getAttribute('data-status-bloqueio'); // 'ativo' ou 'inativo'
+                let statusText;
+                let statusClass;
+
+                if (status === 'ativo') {
+                    statusText = 'FINANCEIRO BLOQUEIODO';
+                    statusClass = 'ativo';
+                } else {
+                    statusText = 'FINANCEIRO ATIVO';
+                    statusClass = 'inativo';
+                }
+
+                // --- Evento: Mouse Entra (Exibir Tooltip) ---
+                linha.addEventListener('mouseenter', function(e) {
+                    // 1. Atualiza o conteúdo e a classe do tooltip
+                    tooltip.textContent = statusText;
+                    tooltip.className = 'custom-tooltip ' + statusClass;
+
+                    // 2. Calcula a posição (para que o tooltip apareça logo abaixo do cursor)
+                    // Usamos clientY e clientX do evento
+                    const x = e.clientX + 10;
+                    const y = e.clientY + 10;
+
+                    tooltip.style.left = `${x}px`;
+                    tooltip.style.top = `${y}px`;
+
+                    // 3. Torna o tooltip visível
+                    tooltip.style.opacity = 1;
+                });
+
+                // --- Evento: Mouse Move (Seguir o Cursor) ---
+                linha.addEventListener('mousemove', function(e) {
+                    // Atualiza a posição constantemente
+                    tooltip.style.left = `${e.clientX + 10}px`;
+                    tooltip.style.top = `${e.clientY + 10}px`;
+                });
+
+                // --- Evento: Mouse Sai (Esconder Tooltip) ---
+                linha.addEventListener('mouseleave', function() {
+                    // Oculta o tooltip
+                    tooltip.style.opacity = 0;
+                });
+            });
 
         });
     </script>

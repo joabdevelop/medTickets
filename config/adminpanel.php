@@ -23,8 +23,8 @@ return [
             'icon' => 'document-text-outline',
             'submenu' => [
                 [
-                    'text' => 'Chamados',
-                    'route_name' => 'empresa.index',
+                    'text' => 'Solicitar Serviço',
+                    'route_name' => 'solicitaServico.index',
                     'icon' => 'megaphone-outline',
                 ],
                 [

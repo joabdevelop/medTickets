@@ -10,6 +10,7 @@ class Grupo extends Model
     use HasFactory;
     protected $fillable = [
         'nome_grupo',
+        'grupo_id',
         'relacionamento_id'
     ];
     protected $table = 'grupos';

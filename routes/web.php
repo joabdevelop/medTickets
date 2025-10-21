@@ -111,4 +111,18 @@ Route::put('tipo_servico/{tipo_servico}/toggle', [\App\Http\Controllers\TipoServ
     ->middleware(['auth', 'verified'])
     ->name('tipo_servico.toggleServicoAtivo');
 
+Route::resource('solicitaServico', \App\Http\Controllers\SolicitaServicoController::class)
+    ->middleware(['auth', 'verified'])
+    ->names([
+        'index' => 'solicitaServico.index',
+        'create' => 'solicitaServico.create',
+        'store' => 'solicitaServico.store',
+        'show' => 'solicitaServico.show',
+        'edit' => 'solicitaServico.edit',
+        'update' => 'solicitaServico.update',
+        'destroy' => 'solicitaServico.destroy',
+    ]);
+
+
+
 require __DIR__ . '/auth.php';

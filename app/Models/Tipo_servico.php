@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tipo_servico extends Model
 {
-    use HasFactory;
     protected $fillable = [
         'nome_servico',
         'executante_departamento_id',

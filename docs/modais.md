@@ -2,23 +2,27 @@ Modal Bootstrap
 
 https://getbootstrap.com/docs/4.0/components/modal/
 
-Para passar dados de elementos HTML para um modal no Bootstrap, você pode usar atributos data-* no botão que aciona o modal, como data-id e data-name, e então, no JavaScript (usando jQuery, por exemplo), capturar esses dados e usá-los para preencher o modal. Primeiro, adicione os atributos ao botão e, em seguida, escreva um listener de evento para o clique do botão que recupera esses dados e atualiza o modal antes de exibi-lo. 
+Para passar dados de elementos HTML para um modal no Bootstrap, você pode usar atributos data-\* no botão que aciona o modal, como data-id e data-name, e então, no JavaScript (usando jQuery, por exemplo), capturar esses dados e usá-los para preencher o modal. Primeiro, adicione os atributos ao botão e, em seguida, escreva um listener de evento para o clique do botão que recupera esses dados e atualiza o modal antes de exibi-lo.
+
 1. No HTML (Botão que aciona o Modal)
-Adicione os atributos data-* ao elemento que abrirá o modal (geralmente um botão). Eles devem conter os dados que você deseja passar. 
-Código
+   Adicione os atributos data-\* ao elemento que abrirá o modal (geralmente um botão). Eles devem conter os dados que você deseja passar.
+   Código
+
+class="{{ $tipo_servico->servico_ativo ? '' : 'bloqueio-inativo' }}"
 
 <!-- Botão para acionar o modal -->
+
 <button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#meuModal"
-  data-id="123"
-  data-nome="Exemplo de Nome"
-  data-email="exemplo@email.com"
->
-  Abrir Modal
-</button>
+type="button"
+class="btn btn-primary"
+data-bs-toggle="modal"
+data-bs-target="#meuModal"
+data-id="123"
+data-nome="Exemplo de Nome"
+data-email="exemplo@email.com"
+
+> Abrir Modal
+> </button>
 
 <!-- Modal ( estrutura básica ) -->
 <div class="modal fade" id="meuModal" tabindex="-1" aria-labelledby="meuModalLabel" aria-hidden="true">
@@ -40,13 +44,13 @@ Código
   </div>
 </div>
 
-data-bs-toggle="modal": Ativa o componente modal. 
-data-bs-target="#meuModal": Especifica qual modal deve ser aberto. 
-data-id="123", data-nome="Exemplo de Nome", data-email="...": São os atributos que carregam os dados. 
+data-bs-toggle="modal": Ativa o componente modal.
+data-bs-target="#meuModal": Especifica qual modal deve ser aberto.
+data-id="123", data-nome="Exemplo de Nome", data-email="...": São os atributos que carregam os dados.
 
 2. No JavaScript (com jQuery)
-Use um listener de evento click no botão para capturar os dados dos atributos data-* e colocá-los dentro do modal. 
-JavaScript
+   Use um listener de evento click no botão para capturar os dados dos atributos data-\* e colocá-los dentro do modal.
+   JavaScript
 
 <script>
 $(document).ready(function() {
@@ -70,3 +74,32 @@ $(this).data('id'): Recupera o valor do atributo data-id do botão clicado.
 $('#idModal').text(userId);: Localiza o <span> com o ID idModal e define seu texto com o valor de userId. 
 
 <\script>
+
+
+{{-- ** SOLUÇÃO: SCRIPT PARA REABRIR O MODAL EM CASO DE ERROS ** --}}
+@if ($errors->any())
+<script>
+    // Usa o vanilla JS para garantir a compatibilidade
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifica se o modal existe
+        var modalElement = document.getElementById('createTicketModal');
+
+        if (modalElement) {
+            // Cria a instância do Modal do Bootstrap 5 (sem jQuery)
+            var modal = new bootstrap.Modal(modalElement);
+            
+            // Força a abertura do modal
+            modal.show();
+
+            // Opcional: Rola a tela para o primeiro campo com erro
+            setTimeout(() => {
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100); // Pequeno atraso para garantir que o modal esteja totalmente aberto
+        }
+    });
+</script>
+
+@endif

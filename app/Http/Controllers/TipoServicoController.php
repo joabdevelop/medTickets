@@ -13,7 +13,7 @@ class TipoServicoController extends Controller
     public function index()
     {
 
-        $departamentos = \App\Models\Departamento::pluck('nome', 'id');
+        $departamentos = \App\Models\Departamento::where('id', '!=', 1)->pluck('nome', 'id');
         $slas = \App\Models\Sla::pluck('nome_sla', 'id');
         $query = \App\Models\Tipo_servico::query()->orderBy('created_at', 'desc');
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Grupo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmpresaFactory extends Factory
@@ -28,7 +29,7 @@ class EmpresaFactory extends Factory
             'codigo_fiscal' => $codigofiscal,
             'email_contato' => $this->faker->unique()->companyEmail,
             'grupo_classificacao' => $this->faker->randomElement($gruposClassificacao),
-            'id_grupo' => $this->faker->numberBetween(2, 2),
+            'id_grupo' => Grupo::inRandomOrder()->first(),
             'bloqueio_status_financ' => $this->faker->boolean,
             'status_produto_preco' => $this->faker->boolean,
             'modalidade' => $this->faker->randomElement($modalidades),

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Generator as Faker;
 use Illuminate\Support\Carbon; // Adicionado para gerenciar datas
+use App\Models\Departamento;
 
 class TipoServicosTableSeeder extends Seeder
 {
@@ -44,7 +45,7 @@ class TipoServicosTableSeeder extends Seeder
         ];
 
         // Definindo as opções disponíveis para os campos
-        $opcoesPrioridade = ['sem prioridade', 'alta', 'media', 'baixa'];
+        $opcoesPrioridade = ['urgente', 'alta', 'media', 'baixa'];
         $opcoesSla = [1, 2, 3, 4, 5, 6]; // Valores em horas
         $opcoesSercicoAtivo = [true, false];
         $TituloNome = [
@@ -57,7 +58,6 @@ class TipoServicosTableSeeder extends Seeder
 
         // Dados fixos que não mudam entre os registros
         $dadosFixos = [
-            'executante_departamento_id' => 1,
             'dados_add' => 0,
             'quem_solicita' => 0,
             'created_at' => $now,
@@ -70,6 +70,7 @@ class TipoServicosTableSeeder extends Seeder
             
             // Gerando os valores aleatórios para CADA serviço dentro do loop
             $dadosAleatorios = [
+                'executante_departamento_id' => Departamento::where('id', '!=', 1)->get()->random()->id,
                 'prioridade' => $faker->randomElement($opcoesPrioridade),
                 'sla' => $faker->randomElement($opcoesSla),
                 'servico_ativo' => $faker->randomElement($opcoesSercicoAtivo),

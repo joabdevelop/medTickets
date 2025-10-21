@@ -43,7 +43,7 @@
                             <th class="col text-start">Nome do Departamento</th>
                             <th class="col text-center">Sigla do Departamento</th>
                             <th class="col text-center">Data da criação</th>
-                            <th class="col text-end pl-5">Ações</th>
+                            <th class="col text-end pl-5">Alterar</th>
                         </tr>
                     </thead>
                     <tbody>

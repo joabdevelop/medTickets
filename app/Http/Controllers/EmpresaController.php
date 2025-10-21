@@ -17,14 +17,14 @@ class EmpresaController extends Controller
     public function index()
     {
         $grupos = \App\Models\Grupo::pluck('nome_grupo', 'id');
-        $query = \App\Models\Empresa::query()->orderBy('created_at', 'desc');
+        $query = \App\Models\Empresa::query()->orderBy('updated_at', 'desc');
 
         // Lógica para filtrar por string de busca (se necessário)
         if (request()->filled('search')) {
             $search = request()->input('search');
             $query->where('razao_social', 'LIKE', '%' . $search . '%');
         }
-
+ 
         $empresas = $query->with(['grupo', 'grupo.profissional'])->paginate(10);
         //$grupos = \App\Models\Grupo::pluck('nome_grupo', 'id');
         $nomeRelacionamento = \App\Models\Departamento::pluck('id', 'sigla_depto');

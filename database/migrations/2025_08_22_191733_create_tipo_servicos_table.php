@@ -22,7 +22,7 @@ return new class extends Migration
                 'alta',
                 'media',
                 'baixa',
-                'sem prioridade'
+                'urgente'
             ])->default('media'); // Hardcoded, sem class
             $table->unsignedBigInteger('sla'); // 1: 30min, 2: 1h, 3: 1h30
             $table->foreign('sla')->references('id')->on('slas'); // Foreign key para tabela slas

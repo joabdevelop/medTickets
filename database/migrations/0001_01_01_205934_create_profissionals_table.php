@@ -13,15 +13,25 @@ return new class extends Migration
     {
         Schema::create('profissionals', function (Blueprint $table) {
             $table->id();
+            
+            // Chaves externas que não causam circularidade
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('nome', 50);
-            $table->string('telefone', 15)->nullable();
+            
             $table->unsignedBigInteger('departamento_id');
             $table->foreign('departamento_id')->references('id')->on('departamentos');
-            $table->integer('tipo_usuario')->nullable(); // 1-cliente ou 2-funcionario
-            $table->string('tipo_acesso', 20)->default(""); // ADMIN, GESTOR, PDD, RELACIONAMENTO E OPERACIONAL
-            $table->boolean('profissional_ativo')->default(true); //->after('tipo_acesso'); // Ativo ou Inativo
+
+            $table->string('nome', 50);
+            $table->string('telefone', 15)->nullable();
+
+            $table->integer('tipo_usuario')->default(1); // 1: Cliente, 2: Funcionario
+            
+            // O campo 'grupo_id' pode ser criado, mas a foreign key será adicionada na Etapa 3
+            $table->unsignedBigInteger('grupo_id'); 
+            // REMOVIDO: $table->foreign('grupo_id')... (Será adicionado na Etapa 3)
+            
+            $table->string('tipo_acesso', 20)->default(""); // ADMIN, GESTOR, CLIENTE, FUNCIONARIO, ESTAGIARIO
+            $table->boolean('profissional_ativo')->default(true); 
             $table->timestamps();
         });
     }

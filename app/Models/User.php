@@ -63,4 +63,9 @@ class User extends Authenticatable
         // Se quiser acessar empresas via grupos relacionados
         return $this->hasManyThrough(Empresa::class, Grupo::class, 'relacionamento_id', 'grupo_id');
     }
+
+    public function profissional()
+    {
+        return $this->hasOne(Profissional::class);
+    }
 }

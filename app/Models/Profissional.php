@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Profissional extends Model
 {
-       protected $fillable = [
+    use HasFactory;
+
+    protected $fillable = [
         'user_id',
         'nome',
         'telefone',
+        'grupo_id',
         'departamento_id',
         'tipo_usuario',
         'tipo_acesso',
@@ -26,5 +31,9 @@ class Profissional extends Model
     {
         return $this->belongsTo(Departamento::class, 'departamento_id', 'id');
     }
-}
 
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class, 'grupo_id', 'id');
+    }
+}

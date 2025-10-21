@@ -38,13 +38,13 @@
         </div>
     </section>
     <!-- Table Section -->
-    <section class="table-section">
+    <section class="table-section ">
         <div class="table-list">
 
             <!-- Alertas de sucesso ou erro -->
             @include('components.alertas')
 
-            <table class="table">
+            <table class="table table-hover cursor-pointer table-responsive">
                 <thead>
                     <tr>
                         <th>Status</th>
@@ -61,8 +61,14 @@
                 </thead>
                 <tbody>
                     @forelse ($tipo_servicos as $tipo_servico)
-                    <tr class="{{ $tipo_servico->servico_ativo ? '' : 'bloqueio-inativo' }}">
-                        <td>{{ $tipo_servico->servico_ativo ? 'Ativo' : 'Inativo' }}</td>
+                    <tr>
+                        <td>
+                            @if ($tipo_servico->servico_ativo)
+                            <h6><span class="badge rounded-pill text-bg-success">Ativo</span></h6>
+                            @else
+                            <h6><span class="badge rounded-pill text-bg-danger">Inativo</span></h6>
+                            @endif
+                        </td>
                         <td>{{ $tipo_servico->nome_servico }}</td>
                         <td>{{ $tipo_servico->departamento->nome }}</td>
                         <td>{{ $tipo_servico->prioridade }}</td>

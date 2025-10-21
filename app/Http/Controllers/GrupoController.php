@@ -25,7 +25,7 @@ class GrupoController extends Controller
         
         $grupos = $query->with('profissional')->paginate(10);
        
-        $relacionamentos = \App\Models\Profissional::pluck('nome', 'id');
+        $relacionamentos = \App\Models\Profissional::where('tipo_usuario', 2)->pluck('nome', 'id');
         return view('grupo.index', compact('grupos','relacionamentos'));
     }
 

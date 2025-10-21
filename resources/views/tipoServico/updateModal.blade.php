@@ -64,7 +64,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mt-2">
-                                    <label>Depto Executante:</label>
+                                    <label>Quem Executa o Serviço:</label>
                                     <select class="form-select form-control" name="update_executante_departamento_id" id="update_executante_departamento_id" required>
                                         @foreach ($departamentos as $id => $nome)
                                         <option value="{{ $id }}">{{ $nome }}</option>
@@ -83,7 +83,7 @@
                                 </div>
 
 
-                                <div style="display: flex;">
+                                <div style="display: none;">
                                     <input type="hidden" name="update_dados_add" id="update_dados_add" value="">
                                     <input type="checkbox" name="update_servico_ativo" id="update_servico_ativo">
                                 </div>

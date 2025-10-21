@@ -1,13 +1,13 @@
 <!-- Create Modal CREATE DEPARTAMENTO HTML -->
 <div class="modal fade" id="createDepartamentoModal" tabindex="-1" role="dialog" aria-labelledby="createDepartamentoModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <form name="createDepartamento" method="POST" action="{{ route('departamento.store') }}">
                 @method('post')
                 @csrf
 
-                <div class="modal-header">
+                <div class="modal-header bg-may-green-t">
                     <div class="col-md-6">
                         <h4 class="modal-title">Incluir Departamento</h4>
                     </div>
@@ -16,29 +16,29 @@
                     </div>
                 </div>
 
-
                 <div class="modal-body">
+                    <div class="container form-cadastro">
 
-                    <!-- Nome da Grupo -->
-                    <input type="hidden" name="id" id="id" />
-                    <div class="form-group">
-                        <label>Nome do Departamento:</label>
-                        <input type="text" class="form-control" name="create_nome" id="create_nome" value=""
-                            oninput="capitalizeInput(this)" required>
-                    </div>
+                        <!-- Nome da Grupo -->
+                        <input type="hidden" name="id" id="id" />
+                        <div class="form-group">
+                            <label>Nome do Departamento:</label>
+                            <input type="text" class="form-control" name="create_nome" id="create_nome" value=""
+                                oninput="capitalizeInput(this)" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Sigla do Departamento:</label>
-                        <input type="text" class="form-control" name="create_sigla" id="create_sigla" value=""
-                            oninput="this.value = this.value.toUpperCase()" required>
+                        <div class="form-group mt-2 mb-3">
+                            <label>Sigla do Departamento:</label>
+                            <input type="text" class="form-control" name="create_sigla" id="create_sigla" value=""
+                                oninput="this.value = this.value.toUpperCase()" required>
+                        </div>
                     </div>
 
                 </div>
 
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-warning btn-default" data-bs-dismiss="modal" value="Cancelar">
-                    <input type="submit" class="btn btn-success" value="Gravar">
-
+                <div class="modal-footer bg-may-green-b">
+                    <input type="button" class="btn btn-danger btn-default" data-bs-dismiss="modal" value="Cancelar" onclick="event.target.blur()">
+                    <input type="submit" class="btn btn-success border-1 border-black" value="Gravar">
                 </div>
             </form>
         </div>

@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('grupos', function (Blueprint $table) {
+       Schema::create('grupos', function (Blueprint $table) {
             $table->id();
             $table->string('nome_grupo', 40)->unique();
-            $table->unsignedBigInteger('relacionamento_id')->nullable(false);
-            $table->foreign('relacionamento_id')->references('id')->on('profissionals')->onDelete('cascade');
+            $table->enum('eh_cliente', ['CLIENTE', 'FUNCIONARIO',])->default('CLIENTE');
+            
+            // REMOVIDO: $table->unsignedBigInteger('relacionamento_id'); (Será adicionado na Etapa 3)
+            // REMOVIDO: $table->foreign('relacionamento_id')... 
+            
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ console.log('executing js >>>>>');
 // ===========================================
 
 
+
 // FUNÇÃO PARA COLOCAR A PRIMEIRA LETRA MAIÚSCULA
 export function capitalizeInput(inputElement) {
     if (inputElement && inputElement.value !== undefined) {

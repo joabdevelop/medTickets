@@ -63,7 +63,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mt-2">
-                                    <label>Depto Executante:</label>
+                                    <label>Quem Executa o Serviço:</label>
                                     <select class="form-select form-control" name="create_executante_departamento_id" id="create_executante_departamento_id" required>
                                         <option value="" disabled selected>Selecione</option>
                                         @foreach ($departamentos as $id => $nome)

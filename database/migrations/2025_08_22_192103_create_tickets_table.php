@@ -13,30 +13,35 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_servico');
-            $table->unsignedBigInteger('descricao_servico_id');
-            $table->foreign('descricao_servico_id')->references('id')->on('tipo_servicos');
+            $table->string('numero_ticket', 10)->index('idx_numero_ticket'); // Identificador do ticket
+            $table->string('descricao_servico', 255); // Descricao do servico solicitado pelo usuario
 
-            $table->string('origem_sigla_depto');    //código departamento para evitar linkar com a tabela
+            $table->unsignedBigInteger('tipo_servico_id');     // tipo_servico_id conectado com servico
+            $table->foreign('tipo_servico_id')->references('id')->on('tipo_servicos');
+
+            $table->string('origem_sigla_depto');    //código departamento do usuario solicitante o servico
 
             $table->unsignedBigInteger('user_id_solicitante');     // departamento_id conectado com solicitante
-            $table->foreign('user_id_solicitante')->references('id')->on('users');
-            $table->unsignedBigInteger('user_id_executante');
-            $table->foreign('user_id_executante')->references('id')->on('users');
+            $table->foreign('user_id_solicitante')->references('id')->on('profissionals');
 
-            $table->string('empresa',50);
-            $table->string('unidade_empresa',50);
-            // dados de HIERARQUIA // só mostra estes dados na tela qdo o serv for  criar/alterar hierarquia
-            $table->string('setor',50);
-            $table->string('cargo',255);
-            $table->string('cbo',7);
-            $table->string('descritivo_cargo',20);
-             // datas
-            $table->datetime('data_solicitacao');
-            $table->datetime('data_conclusao');
-            $table->datetime('data_devolucao');
-            $table->string('status_final',20);   //[aberto, em andamento, Pendente, devolvido (caso erros e pendencias), concluido]
+            $table->foreignId('user_id_executante')
+                ->nullable()
+                ->constrained('profissionals') // USANDO 'profissionals' conforme o seu erro
+                ->onDelete('set null');
 
+            $table->unsignedBigInteger('empresa_id');     // empresa_id conectado com empresa
+            $table->foreign('empresa_id')->references('id')->on('empresas');
+
+            $table->string('observacoes', 255)->nullable(true);
+
+            // datas
+            $table->datetime('data_solicitacao')->nullable(false);
+            $table->datetime('data_conclusao')->nullable(true);
+            $table->datetime('data_devolucao')->nullable(true);
+            $table->string('status_final', 20)->default("Aberto"); //Enums app\Enums\StatusTickets.php  [aberto, em andamento, Pendente, devolvido (caso erros e pendencias), concluido] 
+
+
+            $table->timestamps();
         });
     }
 

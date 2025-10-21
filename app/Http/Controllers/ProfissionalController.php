@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Profissional;
 use App\Models\User;
 use App\Models\Departamento;
+use App\Models\Grupo;
+use App\Enums\TipoAcesso;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,9 +29,11 @@ class ProfissionalController extends Controller
 
         $usuarios = User::all();
         $departamentos = Departamento::all();
-        $profissionais = $query->with('user', 'departamento')->paginate(10);
+        $grupos = Grupo::pluck('nome_grupo', 'id');
+        $profissionais = $query->with('user', 'departamento', 'grupo')->paginate(10);
+        $tiposAcessos = TipoAcesso::cases();
 
-        return view('profissional.index', compact('profissionais', 'usuarios', 'departamentos'));
+        return view('profissional.index', compact('profissionais', 'usuarios', 'departamentos', 'grupos', 'tiposAcessos'));
     }
 
     /**
@@ -53,8 +58,14 @@ class ProfissionalController extends Controller
             'create_nome' => 'required|string|max:50',
             'create_telefone' => 'required|string|max:15',
             'create_tipo_usuario' => 'required|integer|in:1,2',
+            'create_grupo' => 'required|exists:grupos,id',
             'create_departamento' => 'required|exists:departamentos,id',
-            'create_tipo_acesso' => 'required|string|in:Admin,Gestor,PDD,Relacionamento,Operacional,ÁreaTécnica,SemAcesso',
+            'create_tipo_acesso' => [
+                'required',
+                'string',
+                // Esta linha automaticamente pega todos os valores do seu Enum (Admin, Gestor, etc.)
+                Rule::in(TipoAcesso::cases()),
+            ],
         ]);
 
         $emailExiste = User::where('email', $email_profissional)->first();
@@ -81,6 +92,7 @@ class ProfissionalController extends Controller
                 'user_id' => $user_id,
                 'nome' => $request->input('create_nome'),
                 'telefone' => preg_replace('/[^0-9]/', '', $request->input('create_telefone')),
+                'grupo_id' => (int)$request->input('create_grupo'),
                 'departamento_id' => (int)$request->input('create_departamento'),
                 'tipo_usuario' => $request->input('create_tipo_usuario'),
                 'tipo_acesso' => $request->input('create_tipo_acesso'),
@@ -132,13 +144,20 @@ class ProfissionalController extends Controller
                 'update_nome' => 'required|string|max:50',
                 'update_telefone' => 'required|string|max:15',
                 'update_tipo_usuario' => 'required|integer|in:1,2',
+                'update_grupo' => 'required|exists:grupos,id',
                 'update_departamento' => 'required|exists:departamentos,id',
-                'update_tipo_acesso' => 'required|string|in:Admin,Gestor,PDD,Relacionamento,Operacional,ÁreaTécnica,SemAcesso',
+                'update_tipo_acesso' => [
+                'required',
+                'string',
+                // Esta linha automaticamente pega todos os valores do seu Enum (Admin, Gestor, etc.)
+                Rule::in(TipoAcesso::cases()),
+            ],
             ]);
             $profissional = Profissional::where('id', $request->input('id'))->update([
                 'user_id' => $user_id,
                 'nome' => $request->input('update_nome'),
                 'telefone' => preg_replace('/[^0-9]/', '', $request->input('update_telefone')),
+                'grupo_id' => (int)$request->input('update_grupo'),
                 'departamento_id' => (int)$request->input('update_departamento'),
                 'tipo_usuario' => $request->input('update_tipo_usuario'),
                 'tipo_acesso' => $request->input('update_tipo_acesso'),

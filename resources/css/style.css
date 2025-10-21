@@ -92,7 +92,6 @@ body {
     font-size: 24px;
     font-weight: 700;
     /* Negrito para o ícone */
-
 }
 
 .user img {
@@ -101,7 +100,6 @@ body {
 }
 
 /* ======= SIDEBAR ======= */
-
 
 .navigation {
     background-color: var(--color-navigation-bg);
@@ -123,12 +121,10 @@ body {
     margin-left: 250px;
 }
 
-
 .navigation:hover {
     width: 250px;
     overflow: hidden;
 }
-
 
 .menu {
     list-style: none;
@@ -162,12 +158,10 @@ body {
     width: 30px;
 }
 
-
 .title {
     opacity: 0;
     pointer-events: none;
 }
-
 
 .navigation:hover .title {
     font-size: 14px;
@@ -176,7 +170,6 @@ body {
     transition: opacity 0.3s;
     white-space: nowrap;
 }
-
 
 /* ======= SUBMENU ======= */
 .submenu {
@@ -220,13 +213,12 @@ body {
 
 .submenu-toggle-icon.expanded {
     display: flex;
-    border-color: #4AD489;
+    border-color: #4ad489;
 }
 
 .menu-item.active .submenu-toggle-icon {
     transform: rotate(180deg);
 }
-
 
 /* ======= MAIN CONTENT ======= */
 .main-content {
@@ -236,9 +228,8 @@ body {
     transition: margin-left 0.3s;
 }
 
-
 /* Este seletor é a chave para o comportamento de recolher o sidebar */
-.navigation.active~.main-content {
+.navigation.active ~ .main-content {
     margin-left: 60px;
     background-color: aqua;
 }
@@ -380,7 +371,6 @@ body {
     margin-left: 8px;
 }
 
-
 /* ======= TABELAS / TABLES ======= */
 .table-section {
     margin-top: 5px;
@@ -428,11 +418,11 @@ table thead tr {
 
 .table tbody tr.active {
     font-weight: bold;
-    color: #4AD489;
+    color: #4ad489;
 }
 
 .table tbody tr:last-of-type {
-    border-bottom: 2px solid #4AD489;
+    border-bottom: 2px solid #4ad489;
 }
 
 .table button {
@@ -452,6 +442,46 @@ tr.bloqueio-inativo td {
     color: #dc3545; /* vermelho bootstrap */
     font-weight: 600;
 }
+
+/* ======= Visualizando ao passar o mouse se esta ativo ou inativo ======= */
+
+/* Classe visual para linha com bloqueio ATIVO */
+.bloqueio-ativo {
+    background-color: #fee2e2; /* Vermelho claro */
+    cursor: pointer;
+}
+
+/* Classe visual para linha com bloqueio INATIVO (opcional, apenas para hover/contraste) */
+.bloqueio-inativo {
+    background-color: #eff6ff; /* Azul claro */
+    cursor: pointer;
+}
+
+/* Estilo do Tooltip Customizado */
+.custom-tooltip {
+    position: fixed;
+    padding: 8px 12px;
+    background-color: #333;
+    color: white;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    opacity: 0;
+    pointer-events: none; /* Garante que o tooltip não bloqueie eventos do mouse */
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 1000;
+    white-space: nowrap;
+}
+
+/* Estilo para status ATIVO (vermelho escuro) */
+.custom-tooltip.ativo {
+    background-color: #dc2626; /* Cor de bloqueio */
+}
+
+/* Estilo para status INATIVO (verde escuro) */
+.custom-tooltip.inativo {
+    background-color: #16a34a; /* Cor de sucesso */
+}
+
 
 
 /* ======= FORMULÁRIOS / FORMS ======= */
@@ -515,9 +545,9 @@ tr.bloqueio-inativo td {
 }
 
 /* Estilo para inputs, selects e textareas */
-.form-row input[type="text"],
-.form-row input[type="email"],
-.form-row input[type="password"],
+.form-row input[type='text'],
+.form-row input[type='email'],
+.form-row input[type='password'],
 .form-row select,
 .form-row textarea {
     width: 100%;
@@ -560,13 +590,10 @@ tr.bloqueio-inativo td {
     margin-top: 20px !important;
 }
 
-
 .form-check input {
     border: 2px solid #000000;
     transition: border-color 0.2s, box-shadow 0.2s;
 }
-
-
 
 .form-control:focus,
 .form-check-input:focus {
@@ -597,6 +624,7 @@ tr.bloqueio-inativo td {
     /* Alinha o botão à direita */
 }
 
+/* fim do formulario */
 
 .createBtn {
     background-color: #0066cc;
@@ -629,33 +657,37 @@ tr.bloqueio-inativo td {
 
 /* Estilos do Modal */
 .modal-footer {
-    background-color: #92AFC2;
+    background-color: #92afc2;
 }
 
 .modal-header {
-    background-color: #92AFC2;
+    background-color: #92afc2;
     color: white;
 }
 
 .bg-may-green-t {
-  background-color: #2b7e4b !important; /* !important pra sobrescrever o Bootstrap se preciso */
-  color: white; /* Ajusta o texto pra contrastar */
+    background-color: #2b7e4b !important; /* !important pra sobrescrever o Bootstrap se preciso */
+    color: white; /* Ajusta o texto pra contrastar */
 }
 
 .bg-may-green-b {
-  background-color: #a8dfbd !important; /* !important pra sobrescrever o Bootstrap se preciso */
-  color: white; /* Ajusta o texto pra contrastar */
+    background-color: #a8dfbd !important; /* !important pra sobrescrever o Bootstrap se preciso */
+    color: white; /* Ajusta o texto pra contrastar */
 }
 
 .modal-backdrop {
-  background-color: rgba(0, 0, 0, 0.904) !important; /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
-  opacity: 0.8 !important; /* Garante a opacidade no fade-in. */
+    background-color: rgba(
+        0,
+        0,
+        0,
+        0.904
+    ) !important; /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
+    opacity: 0.8 !important; /* Garante a opacidade no fade-in. */
 }
 
 .modal-backdrop.show {
-  opacity: 0.95 !important; /* Para quando o modal está visível. */
+    opacity: 0.95 !important; /* Para quando o modal está visível. */
 }
-
 
 /* ======= RESPONSIVO OPCIONAL ======= */
 @media (max-width: 768px) {

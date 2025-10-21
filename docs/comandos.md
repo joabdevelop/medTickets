@@ -2,6 +2,8 @@ php artisan migrate:fresh --seed
 
 php artisan db:seed --class=EmpresaSeeder
 
+php artisan make:Controller SolicitaServicoController --resource
+
 
 # Navegue até a pasta do seu projeto
 cd /caminho/para/seu/projeto
@@ -24,3 +26,15 @@ git branch -M main
  
 # Envia os arquivos locais para o branch 'main' no remoto ('origin')
 git push -u origin main
+
+
+# --> Atualizações posteriores <---
+
+# Adiciona todos os arquivos ao 'staging area' (área de preparação)
+git add .
+
+# Cria o commit
+git commit -m "feat: Adiciona nova feature"
+
+# Envia os arquivos locais para o branch 'main' no remoto ('origin')
+git push

@@ -19,14 +19,7 @@ class EmpresaSeeder extends Seeder
 
     // Garante que encontrou o profissional antes de criar o grupo
     if ($profissional) {
-      $grupoEmpresarial = Grupo::firstOrCreate(
-        ['nome_grupo' => 'Grupo Teste15'],
-        ['relacionamento_id' => $profissional->id]
-      );
-      $grupoEmpresarial = Grupo::firstOrCreate(
-        ['nome_grupo' => 'Grupo Teste14'],
-        ['relacionamento_id' => $profissional->id]
-      );
+      $grupoEmpresarial = Grupo::inRandomOrder()->first();
     } else {
       // Se não encontrar, pode lançar uma exceção ou logar um erro
       throw new \Exception('Profissional Joabe não encontrado!');
