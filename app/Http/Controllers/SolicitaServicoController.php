@@ -16,9 +16,6 @@ class SolicitaServicoController extends Controller
      */
     public function index(Request $request)
     {
-
-
-
         // 1. Obtém o ID do usuário autenticado
         $userId = Auth::id();
 
@@ -34,18 +31,12 @@ class SolicitaServicoController extends Controller
         }
 
         // 3. Executa a query com as relações e paginação
-        $solicitaServicos = $query->with([
-            'tipo_servico',
-            'empresa',
-            'user_solicitante',
-            'user_executante'
-        ])->paginate(10);
+        $solicitaServicos = $query->with(['tipo_servico', 'empresa', 'user_solicitante', 'user_executante'])->paginate(10);
 
         $tiposServicos = \App\Models\Tipo_servico::where('servico_ativo', true)->select('id', 'nome_servico', 'titulo_nome')->get();
         $departamentos = \App\Models\Departamento::pluck('nome', 'id');
         $grupoUsuarioLogado = \App\Models\Profissional::where('user_id', $userId)->first()->grupo_id;
-        $empresas  = \App\Models\Empresa::where('id_grupo', $grupoUsuarioLogado)->pluck('razao_social', 'id');
-
+        $empresas = \App\Models\Empresa::where('id_grupo', $grupoUsuarioLogado)->pluck('razao_social', 'id');
 
         return view('solicitaServico.index', compact('solicitaServicos', 'tiposServicos', 'departamentos', 'empresas'));
     }
@@ -91,8 +82,7 @@ class SolicitaServicoController extends Controller
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $novoNumero = $ultimoTicket ? str_pad((intval(substr($ultimoTicket->numero_ticket, strlen($siglaDepto) + 1)) + 1), 4, '0', STR_PAD_LEFT)
-                : '0001';
+            $novoNumero = $ultimoTicket ? str_pad(intval(substr($ultimoTicket->numero_ticket, strlen($siglaDepto) + 1)) + 1, 4, '0', STR_PAD_LEFT) : '0001';
 
             $numeroTicket = $siglaDepto . '-' . $novoNumero;
 
@@ -112,10 +102,13 @@ class SolicitaServicoController extends Controller
                 'status_final' => 'Aberto', // sempre começa como Aberto
             ]);
 
-            return redirect()->route('solicitaServico.index')
+            return redirect()
+                ->route('solicitaServico.index')
                 ->with('success', 'Ticket <strong>' . $numeroTicket . '</strong> criado com sucesso!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erro ao criar ticket: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Erro ao criar ticket: ' . $e->getMessage());
         }
     }
 
@@ -146,15 +139,18 @@ class SolicitaServicoController extends Controller
             return redirect()->back()->with('Error', 'Não foi possivel atualizar o ticket tente novamente.');
         }
         try {
-            $validated = $request->validate([
-                'descricao_servico' => 'required',
-                'tipo_servico_id' => 'required',
-                'empresa_id' => 'required',
-            ], [
-                'descricao_servico.required' => 'O campo Descricao do Servico é obrigatório.',
-                'tipo_servico_id.required' => 'O campo Tipo de Servico é obrigatório.',
-                'empresa_id.required' => 'O campo Empresa é obrigatório.',
-            ]);
+            $validated = $request->validate(
+                [
+                    'descricao_servico' => 'required',
+                    'tipo_servico_id' => 'required',
+                    'empresa_id' => 'required',
+                ],
+                [
+                    'descricao_servico.required' => 'O campo Descricao do Servico é obrigatório.',
+                    'tipo_servico_id.required' => 'O campo Tipo de Servico é obrigatório.',
+                    'empresa_id.required' => 'O campo Empresa é obrigatório.',
+                ],
+            );
 
             if ($validated) {
                 $tickets->update([
@@ -162,19 +158,35 @@ class SolicitaServicoController extends Controller
                     'tipo_servico_id' => $request->input('tipo_servico_id'),
                     'empresa_id' => $request->input('empresa_id'),
                 ]);
-                return redirect()->route('solicitaServico.index')->with('success','Ticket <strong>' . $request->input('numero_ticket') . '</strong> atualizado com sucesso!');
+                return redirect()
+                    ->route('solicitaServico.index')
+                    ->with('success', 'Ticket <strong>' . $request->input('numero_ticket') . '</strong> atualizado com sucesso!');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Erro ao atualizar ticket: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'Erro ao atualizar ticket: ' . $e->getMessage());
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $servicoDeletado = \App\Models\Ticket::findOrFail($id);
+            if (!$servicoDeletado) {
+                return redirect()->back()->with('error', 'Não foi possivel excluir o ticket, verifique e tente novamente.');
+            }
+            $servicoDeletado->delete();
+        } catch (\Exception $e) {
+            Log::error('Erro ao excluir ticket: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return redirect()->back()->with('error', 'Não foi possivel excluir o ticket.');
+        }
+
+        return redirect()
+            ->route('solicitaServico.index')
+            ->with('success', 'Ticket <strong>' . $servicoDeletado->numero_ticket . '</strong> Excluido com sucesso!');
     }
 }

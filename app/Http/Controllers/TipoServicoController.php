@@ -114,6 +114,7 @@ class TipoServicoController extends Controller
                 'update_sla' => 'required|exists:slas,id',
                 'update_dados_add' => 'nullable|in:0,1,2',
                 'update_quem_solicita' => 'required|in:0,1,2',
+                'update_observacao' => 'nullable|string',
 
             ], [
                 'update_nome_servico.required' => 'O campo Nome do Serviço é obrigatório.',
@@ -137,6 +138,7 @@ class TipoServicoController extends Controller
                     'dados_add' => $validated['update_dados_add'],
                     'quem_solicita' => $validated['update_quem_solicita'],
                     'servico_ativo' => $servicoAtivo, // Atualiza o campo servico_ativo
+                    'observacao' => $validated['update_observacao'],
                 ]);
 
                 return redirect()->route('tipo_servico.index')->with('success', 'Serviço <strong>' . $tipo_servico->nome_servico . '</strong> foi alterado com sucesso!');

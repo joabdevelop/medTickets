@@ -2,7 +2,7 @@
 <div class="modal fade" id="updateSolicitaServicoModal" tabindex="-1" role="dialog" aria-labelledby="updateSolicitaServicoModalLabel"
     aria-hidden="true">
 
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document ">
+    <div class="modal-dialog modal-lg modal-dialog-centered scrollable" role="document ">
         <div class="modal-content ">
 
             <form name="updateGrupo" id="updateSolicitaServicoForm" method="POST" action="">
@@ -19,17 +19,44 @@
                     </div>
                 </div>
 
+                <!-- Alerta de Status Outros -->
+                <div class="modal-body alert alert-warning m-0" id="ModalBodyStatusOutros">
+                    <div class="container form-cadastro border border-danger p-4">
+                        <span class="fw-bold fs-5">Atenção!</span> <br><br>
+                        <span class="fs-6">A solicitação do Ticket </span><span class="fw-bold" id="update_numero_ticket_outros"></span>
+                        <span class="fs-6">está com o status </span><span class="fw-bold" id="update_status_final_outros"></span>.
+                        <br><br>
+                        <span class="fs-6">Por favor, entre em contato com o Suporte.</span>
+                    </div>
+                </div>
 
-                <div class="modal-body">
+                <!-- Alerta de Status Concluido -->
+                <div class="modal-body alert alert-success m-0" role="alert" id="ModalBodyStatusConcluido">
+                    <div class="container form-cadastro p-4">
+                        <span class="fw-bold fs-5">Atenção!</span> <br><br>
+                        <span class="fs-6">A solicitação do Ticket </span><span class="fw-bold" id="update_numero_ticket_concluido"></span>
+                        <span class="fs-6">foi </span><span class="fw-bold" id="update_status_final_concluido"></span>.
+                        <br><br>
+                        <span class="fs-6">Qualquer duvida, entre em contato com o Suporte.</span>
+                    </div>
+                </div>
+
+                <!-- Corpo do formulário aberto e concluido -->
+                <div class="modal-body" id="ModalBodyAberto">
 
                     <!-- Coluna 1: Informações de Serviço -->
                     <div class="form-cadastro">
 
                         <!-- numero_ticket (Pode ser gerado automaticamente, mas deixo como read-only) -->
-                        <input type="hidden" class="form-control" id="update_numero_ticket1" name="numero_ticket"/>
                         <input type="hidden" class="form-control" id="update_user_departamento" name="update_user_departamento" />
                         <input type="hidden" class="form-control" id="update_user_id" name="update_user_id" />
-                        <input type="hidden" class="form-control" id="update_status_final" name="update_status_final" />
+
+                        <!-- Campo de observacoes Para quando for devolvido -->
+                        <div class="alert alert-danger" role="alert" id="ModalBodyDevolvido">
+                            <label for="update_observacoes" class="form-label">Motivo da Devolução:</label>
+                            <br>
+                            <span id="update_observacoes" name="observacoes" rows="3"></span>
+                        </div>
 
                         <!-- Solicitante E data da solicitação -->
                         <div class="row">
@@ -37,7 +64,7 @@
                             <!-- Numero do Ticket -->
                             <div class="mb-2">
                                 <span class="fw-bold  "> Numero do Ticket: </span>
-                                <span  id="update_numero_ticket" value=""></span>
+                                <span id="update_numero_ticket" value=""></span>
                             </div>
 
                             <!-- user_id_solicitante (Oculto - Usamos o ID do usuário logado) -->
@@ -101,11 +128,11 @@
                         </div>
 
                         <!-- anexar arquivos -->
-                        <div class="form-group mb-3">
-                            <label for="update_anexar_arquivos" class="form-label">Anexar Arquivos</label>
-                            <input type="file" class="form-control @error('anexar_arquivos') is-invalid @enderror" id="update_anexar_arquivos" name="anexar_arquivos[]" multiple>
-                            @error('anexar_arquivos')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
                         </div>
+
 
                         <!-- fim do modal-body -->
                     </div>
@@ -117,7 +144,7 @@
                         <button type="button" value="Cancelar" data-bs-dismiss="modal" onclick="event.target.blur()" class="btn btn-danger">
                             Cancelar
                         </button>
-                        <button type="submit" value="Cadastrar" class="btn btn-success border-1 border-black">
+                        <button type="submit" value="Cadastrar" class="btn btn-success border-1 border-black " id="ModalBodyButton">
                             Solicitar
                         </button>
                     </div>

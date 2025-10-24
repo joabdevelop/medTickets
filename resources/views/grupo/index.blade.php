@@ -111,7 +111,7 @@
         @include('grupo.createModal')
         @include('grupo.updateModal')
         @include('grupo.deleteModal')
-        @include('grupo.VisualisarEmpresasModal')
+        @include('grupo.visualisarEmpresasModal')
     </body>
 
     @push('scripts')

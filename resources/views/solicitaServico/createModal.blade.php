@@ -99,10 +99,9 @@
                         </div>
 
                         <!-- anexar arquivos -->
-                        <div class="form-group mb-3">
-                            <label for="create_anexar_arquivos" class="form-label">Anexar Arquivos</label>
-                            <input type="file" class="form-control @error('anexar_arquivos') is-invalid @enderror" id="create_anexar_arquivos" name="anexar_arquivos[]" multiple>
-                            @error('anexar_arquivos')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
                         </div>
 
                         <!-- fim do modal-body -->
