@@ -12,9 +12,31 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        //
-    }
+        // 1️⃣ Pega o ID do usuário logado
+        $userId = auth()->id();
 
+        // 2️⃣ Obtém o departamento do profissional vinculado ao usuário
+        $profissional = \App\Models\Profissional::where('user_id', $userId)->first();
+
+        if (!$profissional) {
+            // Se o usuário não estiver vinculado a um profissional, retorna vazio
+            $tickets = collect();
+            return view('ticket.index', compact('tickets'));
+        }
+
+        $departamentoId = $profissional->departamento_id;
+
+        // 3️⃣ Busca os tickets cujo tipo_servico pertence ao mesmo departamento do usuário logado
+        $tickets = \App\Models\Ticket::with(['tipo_servico', 'empresa', 'user_solicitante', 'user_executante'])
+            ->whereHas('tipo_servico', function ($query) use ($departamentoId) {
+                $query->where('executante_departamento_id', $departamentoId);
+            })
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        // 4️⃣ Retorna a view com os tickets
+        return view('ticket.index', compact('tickets'));
+    }
     /**
      * Show the form for creating a new resource.
      */

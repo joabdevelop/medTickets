@@ -123,6 +123,17 @@ Route::resource('solicitaServico', \App\Http\Controllers\SolicitaServicoControll
         'destroy' => 'solicitaServico.destroy',
     ]);
 
+Route::resource('ticket', \App\Http\Controllers\TicketsController::class)
+->middleware(['auth', 'verified'])
+->names([
+    'index' => 'ticket.index',
+    'create' => 'ticket.create',
+    'store' => 'ticket.store',
+    'show' => 'ticket.show',
+    'edit' => 'ticket.edit',
+    'update' => 'ticket.update',
+    'destroy' => 'ticket.destroy',
+]);
 
 
 require __DIR__ . '/auth.php';

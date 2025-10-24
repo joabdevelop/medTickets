@@ -36,7 +36,7 @@ class SolicitaServicoController extends Controller
         $tiposServicos = \App\Models\Tipo_servico::where('servico_ativo', true)->select('id', 'nome_servico', 'titulo_nome')->get();
         $departamentos = \App\Models\Departamento::pluck('nome', 'id');
         $grupoUsuarioLogado = \App\Models\Profissional::where('user_id', $userId)->first()->grupo_id;
-        $empresas = \App\Models\Empresa::where('id_grupo', $grupoUsuarioLogado)->pluck('razao_social', 'id');
+        $empresas = \App\Models\Empresa::where('id_grupo', $grupoUsuarioLogado)->pluck('nome_fantasia', 'id');
 
         return view('solicitaServico.index', compact('solicitaServicos', 'tiposServicos', 'departamentos', 'empresas'));
     }
@@ -93,7 +93,7 @@ class SolicitaServicoController extends Controller
                 'tipo_servico_id' => $request->input('tipo_servico_id'),
                 'origem_sigla_depto' => $request->input('create_user_departamento'),
                 'user_id_solicitante' => $request->input('user_id_solicitante'),
-                'user_id_executante' => $userExecutanteId, // automático
+                'user_id_executante' => null, // automático
                 'empresa_id' => $request->input('empresa_id'),
                 'observacoes' => $request->input('observacoes'),
                 'data_solicitacao' => $request->input('data_solicitacao'),

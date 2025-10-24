@@ -57,8 +57,8 @@
                             <label>Nome da Empresa</label>
                             <select class="form-select form-control @error('empresa_id') is-invalid @enderror" id="create_empresa_id" name="empresa_id" required>
                                 <option value="" disabled selected>Selecione a Empresa</option>
-                                @foreach ($empresas as $id => $razao_social)
-                                <option value="{{ $id }}" {{ old('empresa_id') == $id ? 'selected' : '' }}>{{ $razao_social }}</option>
+                                @foreach ($empresas as $id => $nome_fantasia)
+                                <option value="{{ $id }}" {{ old('empresa_id') == $id ? 'selected' : '' }}>{{ $nome_fantasia }}</option>
                                 @endforeach
                             </select>
                             @error('empresa_id')<div class="invalid-feedback">{{ $message }}</div>@enderror

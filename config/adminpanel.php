@@ -19,6 +19,12 @@ return [
             'icon_color' => 'red',
         ],
         [
+            'text' => 'Tickets',
+            'route_name' => 'ticket.index',
+            'icon' => 'ticket-outline',
+            'icon_color' => 'red',
+        ],
+        [
             'text' => 'Chamados',
             'icon' => 'document-text-outline',
             'submenu' => [
