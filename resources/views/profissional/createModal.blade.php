@@ -51,8 +51,8 @@
                                 <label>Tipo de Usuario:</label>
                                 <select name="create_tipo_usuario" class="form-select form-control" id="create_tipo_usuario">
                                     <option value="" disabled selected>Selecione</option>
-                                    <option value="1">Cliente</option>
-                                    <option value="2">Funcionário</option>
+                                    <option value="1">Funcionário</option>
+                                    <option value="2">Cliente</option>
                                 </select>
                             </div>
 

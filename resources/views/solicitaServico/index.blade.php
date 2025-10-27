@@ -176,12 +176,23 @@
                         const numeroTicket = updateButton.getAttribute('data-update_numero_ticket');
                         const observacoes = updateButton.getAttribute('data-update_observacoes');
 
+                        console.log('Empresa', empresaId, tipoServicoId);
+
                         // 2. Preenche os campos de formulário (substituindo .val())
                         document.getElementById('update_user_id').value = userId;
                         document.getElementById('update_user_departamento').value = userDepartamento;
-                        document.getElementById('update_empresa_id').value = empresaId;
 
-                        document.getElementById('update_tipo_servico_id').value = tipoServicoId;
+                        const selectEmpresa = document.getElementById('update_empresa_id');
+                        selectEmpresa.value = empresaId;
+
+                        // Dispara o evento 'change' (necessário para atualizar a UI em alguns navegadores/frameworks)
+                        selectEmpresa.dispatchEvent(new Event('change'));
+
+                        const selectTipoServico = document.getElementById('update_tipo_servico_id');
+                        selectTipoServico.value = tipoServicoId;
+                        // 🔥 AQUI ESTÁ A CHAVE: DISPARAR O EVENTO 'change' para o tipo_servico_id
+                        selectTipoServico.dispatchEvent(new Event('change'));
+
                         document.getElementById('update_descricao_servico').value = descricaoServico;
 
                         const descricaoServicoInput = getLabelDescricao(tipoServicoId);

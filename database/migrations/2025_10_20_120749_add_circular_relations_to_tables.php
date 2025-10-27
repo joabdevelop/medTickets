@@ -21,7 +21,11 @@ return new class extends Migration
         Schema::table('profissionals', function (Blueprint $table) {
             // A coluna 'grupo_id' já existe; apenas adicionamos a chave estrangeira
             $table->foreign('grupo_id')->references('id')->on('grupos');
+            $table->unsignedBigInteger('departamento_id');
+            $table->foreign('departamento_id')->references('id')->on('departamentos');
         });
+
+
     }
 
     /**

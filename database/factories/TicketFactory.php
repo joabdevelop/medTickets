@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Departamento;
 use App\Models\Ticket;
 use App\Models\Tipo_servico;
 use App\Models\User;
@@ -43,6 +44,27 @@ class TicketFactory extends Factory
         // Busca um executante aleatório
         $executanteId = Profissional::inRandomOrder()->first();
 
+        // 1. Encontra um Tipo_servico aleatório.
+        $tipo_Servico = Tipo_servico::inRandomOrder()->first();
+
+        $siglaDeptoExec = null; // Inicializa a variável como nula
+
+        // Verifica se encontrou algum Tipo_servico
+        if ($tipo_Servico) {
+            // 2. Acessa a propriedade departamento_id do objeto $tipo_Servico.
+            $deptoId = $tipo_Servico->executante_departamento_id;
+
+            // 3. Usa o método find() do modelo Departamento para buscar o registro.
+            $departamento = Departamento::find($deptoId);
+
+            // 4. Acessa a sigla do objeto $departamento, se ele foi encontrado.
+            // Como você garantiu que o departamento_id é válido, essa verificação
+            // é tecnicamente redundante, mas é a melhor prática.
+            if ($departamento) {
+                $siglaDeptoExec = $departamento->sigla_depto;
+            }
+        }
+
         // Busca um profissional solicitante aleatório com seu departamento
         $solicitante = Profissional::with('departamento')->inRandomOrder()->first();
 
@@ -62,11 +84,11 @@ class TicketFactory extends Factory
 
         return [
             // CAMPOS OBRIGATÓRIOS (NOT NULL)
-            'numero_ticket'         => $solicitante->departamento->sigla_depto . '-' . str_pad(self::$ticketNumber++, 4, '0', STR_PAD_LEFT), // Gera um número de ticket sequencial com zeros à esquerda
+            'numero_ticket'         => $siglaDeptoExec . '-' . str_pad(self::$ticketNumber++, 4, '0', STR_PAD_LEFT), // Gera um número de ticket sequencial com zeros à esquerda
             'descricao_servico'     => $this->faker->sentence(10),
 
             // Foreign Keys (Assumindo que você tem Factories para estes Models)
-            'tipo_servico_id'       => Tipo_servico::inRandomOrder()->first(),
+            'tipo_servico_id'       =>  $tipo_Servico,
             'user_id_solicitante'   => $solicitante->id,
             'empresa_id'            => Empresa::factory(),
 
@@ -77,7 +99,7 @@ class TicketFactory extends Factory
             'status_final'          => $statusFinal,
 
             // CAMPOS ANULÁVEIS (NULLABLE)
-            'user_id_executante'    => $statusFinal === 'Aberto' ? null : $executanteId->id , // Será NULL em 50% das vezes
+            'user_id_executante'    => $statusFinal === 'Aberto' ? null : $executanteId->id, // Será NULL em 50% das vezes
             'observacoes'           => $this->faker->optional()->paragraph(2),
 
             // Datas Opcionais

@@ -83,7 +83,7 @@
                             {{ $profissional->departamento->nome }}
                         </td>
                         <td>
-                            {{ $profissional->tipo_usuario == 1 ? 'Cliente' : ($profissional->tipo_usuario == 2 ? 'Funcionário' : 'Não definido') }}
+                            {{ $profissional->tipo_usuario == 1 ? 'Funcionário' : 'Cliente' }}
                         </td>
                         <td>
                             {{ $profissional->tipo_acesso }}

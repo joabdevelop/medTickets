@@ -47,8 +47,8 @@
                             <div class="form-group mt-4 col-md-6">
                                 <label>Tipo de Usuario:</label>
                                 <select name="update_tipo_usuario" class="form-select form-control" id="update_tipo_usuario">
-                                    <option value="1">Cliente</option>
-                                    <option value="2" selected>Funcionário</option>
+                                    <option value="1">Funcionário</option>
+                                    <option value="2" selected>Cliente</option>
                                 </select>
                             </div>
                             <!-- Nome do GRUPO -->

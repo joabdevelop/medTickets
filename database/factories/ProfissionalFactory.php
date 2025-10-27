@@ -41,7 +41,7 @@ class ProfissionalFactory extends Factory
             'telefone' => $this->faker->numerify('###########'), // 11 dígitos
             'grupo_id' => Grupo::inRandomOrder()->first(),
             'departamento_id' => $departamentoId,
-            'tipo_usuario' => $this->faker->randomElement([1, 2]), // Cliente (1) ou Colaborador/Pdd/Rel (2)
+            'tipo_usuario' => $this->faker->randomElement([1, 2]), // Funionario (1) ou Cliente (2)
             'tipo_acesso' => $this->faker->randomElement(['Admin', 'Pdd', 'Cliente', 'Rel']),
             'profissional_ativo' => $this->faker->boolean(90), // 90% de chance de ser ativo
         ];

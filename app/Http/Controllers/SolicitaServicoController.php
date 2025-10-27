@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Ticket;
 use App\Models\Tipo_servico;
 use App\Models\Departamento;
-use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
+use App\Models\Empresa;
+use App\Models\Profissional;
+use Illuminate\Support\Facades\Log;
 
 class SolicitaServicoController extends Controller
 {
@@ -30,13 +32,56 @@ class SolicitaServicoController extends Controller
             $query->where('numero_ticket', 'LIKE', '%' . $search . '%');
         }
 
+        $departamentos = \App\Models\Departamento::pluck('nome', 'id');
+
+        // 2. Buscar o registro do profissional para obter o grupo_id e o tipo_acesso
+        $profissional = Profissional::where('user_id', $userId)->first();
+
+        // dd($profissional);
+
+        // Inicializa variáveis (para evitar erros se o profissional não for encontrado)
+        $grupo_id = optional($profissional)->grupo_id;
+
+        // Mapeamento dos tipos de usuário (do Profissional)
+        // 1: Funcionário, 2: Cliente
+        $tipo_usuario = optional($profissional)->tipo_usuario; // (Ou 'tipo_acesso', confirme o nome do campo)
+
+        // 0: ambos, 1: equipe interna, 2: cliente
+
+        $tiposServicos = Tipo_servico::where('servico_ativo', true);
+
+        // ----------------------------------------------------
+        // LÓGICA DE QUEM PODE SOLICITAR
+        // ----------------------------------------------------
+
+        // 1. Se o usuário for um Funcionário (1)
+        if ($tipo_usuario == 1) {
+            // Funcionários veem serviços para 'Ambos' (0) OU para 'Equipe Interna' (1)
+            $tiposServicos->whereIn('quem_solicita', [0, 1]);
+        }
+        // 2. Se o usuário for um Cliente (2)
+        else if ($tipo_usuario == 2) {
+            // Clientes veem serviços para 'Ambos' (0) OU para 'Cliente' (2)
+            $tiposServicos->whereIn('quem_solicita', [0, 2]);
+        }
+
+        
+
+        // 3. Executa a query
+        $tiposServicos = $tiposServicos->select('id', 'nome_servico', 'titulo_nome')->get();
+        // 4. Lógica para carregar as empresas, 1-CLIENTE 2-FUNCIONARIO
+        if ($tipo_usuario === 1) {
+            // Se for Cliente, filtra as empresas pelo grupo_id
+            // Precisa garantir que $grupo_id não é nulo
+            $empresas = Empresa::where('id_grupo', $grupo_id)->pluck('nome_fantasia', 'id');
+        } else {
+            // Se não for Cliente (ex: 'Admin', 'Profissional'), carrega todas as empresas
+            $empresas = Empresa::pluck('nome_fantasia', 'id');
+        }
+
         // 3. Executa a query com as relações e paginação
         $solicitaServicos = $query->with(['tipo_servico', 'empresa', 'user_solicitante', 'user_executante'])->paginate(10);
 
-        $tiposServicos = \App\Models\Tipo_servico::where('servico_ativo', true)->select('id', 'nome_servico', 'titulo_nome')->get();
-        $departamentos = \App\Models\Departamento::pluck('nome', 'id');
-        $grupoUsuarioLogado = \App\Models\Profissional::where('user_id', $userId)->first()->grupo_id;
-        $empresas = \App\Models\Empresa::where('id_grupo', $grupoUsuarioLogado)->pluck('nome_fantasia', 'id');
 
         return view('solicitaServico.index', compact('solicitaServicos', 'tiposServicos', 'departamentos', 'empresas'));
     }

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             
-            $table->unsignedBigInteger('departamento_id');
-            $table->foreign('departamento_id')->references('id')->on('departamentos');
+            // $table->unsignedBigInteger('departamento_id');
+            // $table->foreign('departamento_id')->references('id')->on('departamentos');
 
             $table->string('nome', 50);
             $table->string('telefone', 15)->nullable();
