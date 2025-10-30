@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Enums\TipoUsuario;
+
 class Profissional extends Model
 {
     use HasFactory;
@@ -21,6 +23,10 @@ class Profissional extends Model
     ];
 
     protected $table = 'profissionals';
+
+    protected $casts = [
+        'tipo_usuario' => TipoUsuario::class, // Pega a legenda no enum 
+    ];
 
     public function user()
     {

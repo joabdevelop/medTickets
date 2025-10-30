@@ -45,7 +45,7 @@ class TipoServicosTableSeeder extends Seeder
         ];
 
         // Definindo as opções disponíveis para os campos
-        $opcoesPrioridade = ['urgente', 'alta', 'media', 'baixa'];
+        $opcoesPrioridade = [1,2,3,4];
         $quemSolicita = [0,1,2]; // 0-AMBOS 1-FUNCIONARIO 2-CLIENTE
         $opcoesSla = [1, 2, 3, 4, 5, 6]; // Valores em horas
         $opcoesSercicoAtivo = [true, false];

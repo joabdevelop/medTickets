@@ -45,7 +45,7 @@ class SolicitaServicoController extends Controller
         // Mapeamento dos tipos de usuário (do Profissional)
         // 1: Funcionário, 2: Cliente
         $tipo_usuario = optional($profissional)->tipo_usuario; // (Ou 'tipo_acesso', confirme o nome do campo)
-
+       
         // 0: ambos, 1: equipe interna, 2: cliente
 
         $tiposServicos = Tipo_servico::where('servico_ativo', true);
@@ -55,22 +55,22 @@ class SolicitaServicoController extends Controller
         // ----------------------------------------------------
 
         // 1. Se o usuário for um Funcionário (1)
-        if ($tipo_usuario == 1) {
+        if ($tipo_usuario->value == 1) {
             // Funcionários veem serviços para 'Ambos' (0) OU para 'Equipe Interna' (1)
             $tiposServicos->whereIn('quem_solicita', [0, 1]);
         }
         // 2. Se o usuário for um Cliente (2)
-        else if ($tipo_usuario == 2) {
+        else if ($tipo_usuario->value == 2) {
             // Clientes veem serviços para 'Ambos' (0) OU para 'Cliente' (2)
             $tiposServicos->whereIn('quem_solicita', [0, 2]);
         }
 
-        
+
 
         // 3. Executa a query
         $tiposServicos = $tiposServicos->select('id', 'nome_servico', 'titulo_nome')->get();
-        // 4. Lógica para carregar as empresas, 1-CLIENTE 2-FUNCIONARIO
-        if ($tipo_usuario === 1) {
+        // 4. Lógica para carregar as empresas, 2-CLIENTE 1-FUNCIONARIO
+        if ($tipo_usuario->value == 2) {
             // Se for Cliente, filtra as empresas pelo grupo_id
             // Precisa garantir que $grupo_id não é nulo
             $empresas = Empresa::where('id_grupo', $grupo_id)->pluck('nome_fantasia', 'id');
@@ -101,13 +101,18 @@ class SolicitaServicoController extends Controller
     {
         $validated = $request->validate([
             'descricao_servico' => 'required',
-            'tipo_servico_id' => 'required',
+            'tipo_servico_id' => 'required|exists:tipo_servicos,id',
             'origem_sigla_depto' => 'nullable',
             'user_id_solicitante' => 'required',
             'empresa_id' => 'required',
             'observacoes' => 'nullable',
             'data_solicitacao' => 'required|date',
         ]);
+
+        // Busca a Prioridade a ser copiada (Herança)
+        $tipoServico = Tipo_servico::findOrFail($validated['tipo_servico_id']);
+        // Pega o valor da coluna 'prioridade' do tipo_servico
+        $prioridadeHerdada = $tipoServico->prioridade;
 
         try {
             // 1️⃣ Pega o tipo de serviço
@@ -141,6 +146,7 @@ class SolicitaServicoController extends Controller
                 'user_id_executante' => null, // automático
                 'empresa_id' => $request->input('empresa_id'),
                 'observacoes' => $request->input('observacoes'),
+                'prioridade' => $prioridadeHerdada,
                 'data_solicitacao' => $request->input('data_solicitacao'),
                 'data_conclusao' => null,
                 'data_devolucao' => null,

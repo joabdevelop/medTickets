@@ -42,7 +42,7 @@ class ProfissionalFactory extends Factory
             'grupo_id' => Grupo::inRandomOrder()->first(),
             'departamento_id' => $departamentoId,
             'tipo_usuario' => $this->faker->randomElement([1, 2]), // Funionario (1) ou Cliente (2)
-            'tipo_acesso' => $this->faker->randomElement(['Admin', 'Pdd', 'Cliente', 'Rel']),
+            'tipo_acesso' => $this->faker->randomElement(['Admin', 'Gestor', 'Cliente', 'Funcionario', 'Estagiario']),
             'profissional_ativo' => $this->faker->boolean(90), // 90% de chance de ser ativo
         ];
     }

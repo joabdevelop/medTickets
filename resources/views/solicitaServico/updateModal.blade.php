@@ -92,22 +92,20 @@
                         </div>
 
                         <!-- empresa_id (Select) -->
-                        @if (Auth::check() &&
-                                \App\Models\Profissional::where('user_id', Auth::id())->where('tipo_acesso', '!=', 'Cliente')->exists())
-                            <div class="form-group mb-2">
-                                <label for="update_empresa_id" class="form-label">Nome da Empresa</label>
-                                <select class="form-select form-control @error('empresa_id') is-invalid @enderror"
-                                    id="update_empresa_id" name="empresa_id" required>
-                                    <option value="" disabled selected>Selecione a Empresa</option>
-                                    @foreach ($empresas as $id => $razao_social)
-                                        <option value="{{ $id }}">{{ $razao_social }}</option>
-                                    @endforeach
-                                </select>
-                                @error('empresa_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        @endif
+                        <div class="form-group mb-2">
+                            <label for="update_empresa_id" class="form-label">Nome da Empresa</label>
+                            <select class="form-select form-control @error('empresa_id') is-invalid @enderror"
+                                id="update_empresa_id" name="empresa_id" required>
+                                <option value="" disabled selected>Selecione a Empresa</option>
+                                @foreach ($empresas as $id => $nome_fantasia)
+                                    <option value="{{ $id }}">{{ $nome_fantasia }}</option>
+                                @endforeach
+                            </select>
+
+                            @error('empresa_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                         <!-- tipo_servico_id (Select) -->
                         <div class="form-group mb-3">

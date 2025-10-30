@@ -73,8 +73,6 @@
                             @enderror
                         </div>
 
-
-
                         <!-- tipo_servico_id (Select) -->
                         <div class="form-group mb-3">
                             <label for="create_tipo_servico_id" class="form-label">Qual Tipo de Serviço</label>

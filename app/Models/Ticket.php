@@ -18,6 +18,7 @@ class Ticket extends Model
         'user_id_executante',
         'empresa_id',
         'observacoes',
+        'prioridade',
         'data_solicitacao',
         'data_conclusao',
         'data_devolucao',

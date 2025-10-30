@@ -18,12 +18,7 @@ return new class extends Migration
             $table->string('titulo_nome', 50); // titulo para exibir na tela
             $table->unsignedBigInteger('executante_departamento_id');
             $table->foreign('executante_departamento_id')->references('id')->on('departamentos');
-            $table->enum('prioridade', [
-                'alta',
-                'media',
-                'baixa',
-                'urgente'
-            ])->default('media'); // Hardcoded, sem class
+            $table->integer('prioridade')->default(1); // Enum Prioridad
             $table->unsignedBigInteger('sla'); // 1: 30min, 2: 1h, 3: 1h30
             $table->foreign('sla')->references('id')->on('slas'); // Foreign key para tabela slas
             $table->integer('dados_add')->default(0); // 0: sem dados adicionais, 1: dados adicionais obrigatórios

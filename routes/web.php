@@ -135,5 +135,10 @@ Route::resource('ticket', \App\Http\Controllers\TicketsController::class)
     'destroy' => 'ticket.destroy',
 ]);
 
+Route::post('/ticket/atender/{ticket_id}',[
+    \App\Http\Controllers\TicketsController::class, 
+    'aceitarAtendimento'
+])->middleware(['auth', 'verified'])->name('ticket.aceitarAtendimento');
+
 
 require __DIR__ . '/auth.php';

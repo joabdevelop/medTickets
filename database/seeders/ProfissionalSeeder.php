@@ -30,7 +30,7 @@ class ProfissionalSeeder extends Seeder
             'telefone' => '11999999999',
             'departamento_id' => 2,
             'tipo_usuario' => 2,
-            'tipo_acesso' => 'PDD',
+            'tipo_acesso' => 'Gestor',
             'profissional_ativo' => true,
             'grupo_id' => 2
         ]);
@@ -41,7 +41,7 @@ class ProfissionalSeeder extends Seeder
             'telefone' => '11999999999',
             'departamento_id' => 1,
             'tipo_usuario' => 2,
-            'tipo_acesso' => 'CLIE',
+            'tipo_acesso' => 'Cliente',
             'profissional_ativo' => true,
             'grupo_id' => 3
         ]);
@@ -52,7 +52,7 @@ class ProfissionalSeeder extends Seeder
             'telefone' => '11999999999',
             'departamento_id' => 2,
             'tipo_usuario' => 1,
-            'tipo_acesso' => 'PDD',
+            'tipo_acesso' => 'Estagiario',
             'profissional_ativo' => true,
             'grupo_id' => 1
         ]);
@@ -63,7 +63,7 @@ class ProfissionalSeeder extends Seeder
             'telefone' => '11999999999',
             'departamento_id' => 4,
             'tipo_usuario' => 2,
-            'tipo_acesso' => 'REL',
+            'tipo_acesso' => 'Funcionario',
             'profissional_ativo' => true,
             'grupo_id' => 2
         ]);

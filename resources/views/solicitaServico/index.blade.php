@@ -176,7 +176,7 @@
                         const numeroTicket = updateButton.getAttribute('data-update_numero_ticket');
                         const observacoes = updateButton.getAttribute('data-update_observacoes');
 
-                        console.log('Empresa', empresaId, tipoServicoId);
+                        console.log('Data Solicitacao:', dataSolicitacao, 'Empresa ID:', empresaId, 'Tipo Servico ID:', empresaId, tipoServicoId);
 
                         // 2. Preenche os campos de formulário (substituindo .val())
                         document.getElementById('update_user_id').value = userId;

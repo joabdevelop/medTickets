@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreign('empresa_id')->references('id')->on('empresas');
 
             $table->string('observacoes', 255)->nullable(true);
+            $table->integer('prioridade')->default(1); // Prioridade vindo da tabela tipo Serviços
 
             // datas
             $table->datetime('data_solicitacao')->nullable(false);

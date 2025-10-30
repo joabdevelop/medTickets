@@ -46,6 +46,7 @@ class TicketFactory extends Factory
 
         // 1. Encontra um Tipo_servico aleatório.
         $tipo_Servico = Tipo_servico::inRandomOrder()->first();
+        $prioridade = $tipo_Servico ? $tipo_Servico->prioridade : 1;
 
         $siglaDeptoExec = null; // Inicializa a variável como nula
 
@@ -101,6 +102,7 @@ class TicketFactory extends Factory
             // CAMPOS ANULÁVEIS (NULLABLE)
             'user_id_executante'    => $statusFinal === 'Aberto' ? null : $executanteId->id, // Será NULL em 50% das vezes
             'observacoes'           => $this->faker->optional()->paragraph(2),
+            'prioridade'            => $prioridade,
 
             // Datas Opcionais
             'data_conclusao'        => $dataConclusao,

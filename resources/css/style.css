@@ -229,7 +229,7 @@ body {
 }
 
 /* Este seletor é a chave para o comportamento de recolher o sidebar */
-.navigation.active ~ .main-content {
+.navigation.active~.main-content {
     margin-left: 60px;
     background-color: aqua;
 }
@@ -439,7 +439,8 @@ table thead tr {
 /* Estilo para linhas inativas da tabela bloqueio inativo */
 
 tr.bloqueio-inativo td {
-    color: #dc3545; /* vermelho bootstrap */
+    color: #dc3545;
+    /* vermelho bootstrap */
     font-weight: 600;
 }
 
@@ -447,13 +448,15 @@ tr.bloqueio-inativo td {
 
 /* Classe visual para linha com bloqueio ATIVO */
 .bloqueio-ativo {
-    background-color: #fee2e2; /* Vermelho claro */
+    background-color: #fee2e2;
+    /* Vermelho claro */
     cursor: pointer;
 }
 
 /* Classe visual para linha com bloqueio INATIVO (opcional, apenas para hover/contraste) */
 .bloqueio-inativo {
-    background-color: #eff6ff; /* Azul claro */
+    background-color: #eff6ff;
+    /* Azul claro */
     cursor: pointer;
 }
 
@@ -466,7 +469,8 @@ tr.bloqueio-inativo td {
     border-radius: 6px;
     font-size: 0.85rem;
     opacity: 0;
-    pointer-events: none; /* Garante que o tooltip não bloqueie eventos do mouse */
+    pointer-events: none;
+    /* Garante que o tooltip não bloqueie eventos do mouse */
     transition: opacity 0.2s, transform 0.2s;
     z-index: 1000;
     white-space: nowrap;
@@ -474,12 +478,14 @@ tr.bloqueio-inativo td {
 
 /* Estilo para status ATIVO (vermelho escuro) */
 .custom-tooltip.ativo {
-    background-color: #dc2626; /* Cor de bloqueio */
+    background-color: #dc2626;
+    /* Cor de bloqueio */
 }
 
 /* Estilo para status INATIVO (verde escuro) */
 .custom-tooltip.inativo {
-    background-color: #16a34a; /* Cor de sucesso */
+    background-color: #16a34a;
+    /* Cor de sucesso */
 }
 
 
@@ -656,6 +662,51 @@ tr.bloqueio-inativo td {
 }
 
 /* Estilos do Modal */
+.modal-body {
+    max-height: 65vh;
+    /* limita altura a 65% da tela */
+    overflow-y: auto;
+    /* ativa a rolagem vertical só no corpo */
+}
+
+/* Evita que o modal todo tenha scroll */
+.modal-dialog-scrollable {
+    max-height: calc(100vh - 1rem);
+}
+
+/* Barra de rolagem verde para o corpo do modal */
+.modal-body::-webkit-scrollbar {
+    width: 10px;
+    /* largura da barra */
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #e8f5e9;
+    /* fundo da trilha (um verde bem claro) */
+    border-radius: 10px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: #1e2b4b;
+    /* verde principal */
+    border-radius: 10px;
+    border: 2px solid #e8f5e9;
+    /* faz parecer "encaixada" */
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background-color: #1e2b4b;
+    /* verde mais escuro no hover */
+}
+
+/* Para Firefox */
+.modal-body {
+    scrollbar-width: thin;
+    /* reduz espessura */
+    scrollbar-color: #1e2b4b #e8f5e9;
+    /* cor do thumb e da trilha */
+}
+
 .modal-footer {
     background-color: #92afc2;
 }
@@ -666,27 +717,32 @@ tr.bloqueio-inativo td {
 }
 
 .bg-may-green-t {
-    background-color: #2b7e4b !important; /* !important pra sobrescrever o Bootstrap se preciso */
-    color: white; /* Ajusta o texto pra contrastar */
+    background-color: #2b7e4b !important;
+    /* !important pra sobrescrever o Bootstrap se preciso */
+    color: white;
+    /* Ajusta o texto pra contrastar */
 }
 
 .bg-may-green-b {
-    background-color: #a8dfbd !important; /* !important pra sobrescrever o Bootstrap se preciso */
-    color: white; /* Ajusta o texto pra contrastar */
+    background-color: #a8dfbd !important;
+    /* !important pra sobrescrever o Bootstrap se preciso */
+    color: white;
+    /* Ajusta o texto pra contrastar */
 }
 
 .modal-backdrop {
-    background-color: rgba(
-        0,
-        0,
-        0,
-        0.904
-    ) !important; /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
-    opacity: 0.8 !important; /* Garante a opacidade no fade-in. */
+    background-color: rgba(0,
+            0,
+            0,
+            0.904) !important;
+    /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
+    opacity: 0.8 !important;
+    /* Garante a opacidade no fade-in. */
 }
 
 .modal-backdrop.show {
-    opacity: 0.95 !important; /* Para quando o modal está visível. */
+    opacity: 0.95 !important;
+    /* Para quando o modal está visível. */
 }
 
 /* ======= RESPONSIVO OPCIONAL ======= */

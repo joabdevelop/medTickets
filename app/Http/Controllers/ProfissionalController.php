@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Departamento;
 use App\Models\Grupo;
 use App\Enums\TipoAcesso;
+use App\Enums\TipoUsuario;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,9 @@ class ProfissionalController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Profissional::query();
+        // 1. Inicia o construtor de query e aplica a ordenação
+        // Ordem: Profissional:: (inicia o construtor) -> orderByDesc()
+        $query = Profissional::orderByDesc('updated_at');
 
         // Lógica para filtrar por string de busca
         if ($request->filled('search')) {
@@ -27,13 +30,17 @@ class ProfissionalController extends Controller
             $query->where('nome', 'LIKE', '%' . $search . '%');
         }
 
+        // Carrega dados para a view (mantido)
         $usuarios = User::all();
         $departamentos = Departamento::all();
         $grupos = Grupo::pluck('nome_grupo', 'id');
-        $profissionais = $query->with('user', 'departamento', 'grupo')->paginate(10);
         $tiposAcessos = TipoAcesso::cases();
+        $tipoUsuarios = TipoUsuario::cases();
 
-        return view('profissional.index', compact('profissionais', 'usuarios', 'departamentos', 'grupos', 'tiposAcessos'));
+        // Executa a query com os relacionamentos e paginação
+        $profissionais = $query->with('user', 'departamento', 'grupo')->paginate(10);
+
+        return view('profissional.index', compact('profissionais', 'usuarios', 'departamentos', 'grupos', 'tiposAcessos', 'tipoUsuarios'));
     }
 
     /**
@@ -46,6 +53,21 @@ class ProfissionalController extends Controller
 
     public function store(Request $request)
     {
+
+        $tipoUsuario = (int)$request->input('create_tipo_usuario');
+
+        if ($tipoUsuario === 2) {
+            // Se for Cliente, o departamento deve ser 1 (Cliente) e o acesso deve ser 'CLIENTE'
+            // '1' é o valor que assumimos para o departamento "Cliente" (baseado no seu HTML JS)
+            // 'CLIENTE' é o valor que assumimos para o tipo de acesso "Cliente"
+
+            // Use o merge() para adicionar ou sobrescrever campos no Request
+            $request->merge([
+                'create_departamento' => 1,          // ID do departamento Cliente
+                'create_tipo_acesso' => 'Cliente',   // Valor do tipo de acesso Cliente
+            ]);
+        }
+        //dd($request->all());
         // PRIMEIRO CADASTRAR O LOGIN DO PROFISSIONAL NA TEBELA USERS
         // DEPOIS CADASTRAR O PROFISSIONAL NA TABELA PROFISSIONAIS
         $email_profissional = $request->input('create_email');
@@ -123,6 +145,19 @@ class ProfissionalController extends Controller
     // Update é para alterar o profissional   
     public function update(Request $request, Profissional $profissional)
     {
+        $tipoUsuario = (int)$request->input('update_tipo_usuario');
+
+        if ($tipoUsuario === 2) {
+            // Se for Cliente, o departamento deve ser 1 (Cliente) e o acesso deve ser 'CLIENTE'
+            // '1' é o valor que assumimos para o departamento "Cliente" (baseado no seu HTML JS)
+            // 'CLIENTE' é o valor que assumimos para o tipo de acesso "Cliente"
+
+            // Use o merge() para adicionar ou sobrescrever campos no Request
+            $request->merge([
+                'update_departamento' => 1,          // ID do departamento Cliente
+                'update_tipo_acesso' => 'Cliente',   // Valor do tipo de acesso Cliente
+            ]);
+        }
         // Primeiro esta validando o se o email do profissional existe
         $email_profissional = $request->input('update_email');
         $user_id = User::where('email', $email_profissional)->value('id');
@@ -147,11 +182,11 @@ class ProfissionalController extends Controller
                 'update_grupo' => 'required|exists:grupos,id',
                 'update_departamento' => 'required|exists:departamentos,id',
                 'update_tipo_acesso' => [
-                'required',
-                'string',
-                // Esta linha automaticamente pega todos os valores do seu Enum (Admin, Gestor, etc.)
-                Rule::in(TipoAcesso::cases()),
-            ],
+                    'required',
+                    'string',
+                    // Esta linha automaticamente pega todos os valores do seu Enum (Admin, Gestor, etc.)
+                    Rule::in(TipoAcesso::cases()),
+                ],
             ]);
             $profissional = Profissional::where('id', $request->input('id'))->update([
                 'user_id' => $user_id,

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Prioridad;
+use App\Enums\QuemSolicita;
 use App\Models\Tipo_servico;
 use Illuminate\Http\Request;
 
@@ -24,8 +26,10 @@ class TipoServicoController extends Controller
         }
 
         $tipo_servicos = $query->with(['departamento'])->paginate(10);
+        $quemSolicitas = QuemSolicita::cases();
+        $prioridades = Prioridad::cases();
 
-        return view('tipoServico.index', compact('tipo_servicos', 'departamentos', 'slas'));
+        return view('tipoServico.index', compact('tipo_servicos', 'departamentos', 'slas', 'quemSolicitas', 'prioridades'));
     }
 
     /**

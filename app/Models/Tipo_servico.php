@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Prioridad;
+use App\Enums\QuemSolicita;
 use Illuminate\Database\Eloquent\Model;
 
 class Tipo_servico extends Model
@@ -22,7 +24,10 @@ class Tipo_servico extends Model
     protected $connection = 'mysql';
     protected $casts = [
         'created_at' => 'date',
-        'updated_at' => 'date'
+        'updated_at' => 'date',
+        'quem_solicita' => QuemSolicita::class, // Pega a legenda no enum e envia para o index view
+        'prioridade' => Prioridad::class, // Pega a legenda no enum e envia para o index view
+
     ];
     public function departamento()
     {
