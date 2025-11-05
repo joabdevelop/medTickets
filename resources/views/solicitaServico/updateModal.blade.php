@@ -55,13 +55,18 @@
                         <input type="hidden" class="form-control" id="update_user_departamento"
                             name="update_user_departamento" />
                         <input type="hidden" class="form-control" id="update_user_id" name="update_user_id" />
+                        <input type="hidden" class="form-control" id="update_statusFinal" name="update_statusFinal" />
+                        <input type="hidden" class="form-control" id="update_user_executante_id" name="update_user_executante_id" />
 
                         <!-- Campo de observacoes Para quando for devolvido -->
-                        <div class="alert alert-danger" role="alert" id="ModalBodyDevolvido">
-                            <label for="update_observacoes" class="form-label">Motivo da Devolução:</label>
-                            <br>
-                            <span id="update_observacoes" name="observacoes" rows="3"></span>
+                        <div class="form-group mb-1" id="ModalBodyDevolvido">
+                            <label class="fs-6 form-label mb-2 text-info-emphasis"
+                                for="update_observacoes">Motivo da Devolução:</label>
+                            <div class="border border-success form-control p-3 " id="update_observacoes"
+                                name="observacoes"
+                                style="height: 100px; overflow-y: auto; white-space: pre-wrap; background-color: #A1C7C7;">Sem Historico...{{ old('observacao') }}</div>
                         </div>
+                        
 
                         <!-- Solicitante E data da solicitação -->
                         <div class="row">
@@ -130,7 +135,7 @@
                                 for="update_descricao_servico">Aguardando a seleção...</label>
                             <textarea maxlength="2000" placeholder="Descrição do Serviço..."
                                 class="form-control @error('descricao_servico') is-invalid @enderror" id="update_descricao_servico"
-                                name="descricao_servico" rows="5" required>{{ old('descricao_servico') }}</textarea>
+                                name="descricao_servico" rows="5" required style="white-space: pre-wrap;">{{ old('descricao_servico') }}</textarea>
                             @error('descricao_servico')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

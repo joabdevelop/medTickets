@@ -78,6 +78,7 @@
                                             data-update_numero_ticket="{{ $solicitaServico->numero_ticket }}"
                                             data-update_user_departamento="{{ $solicitaServico->user_departamento }}"
                                             data-update_user_id="{{ $solicitaServico->user_id }}"
+                                            data-update_user_executante_id="{{ $solicitaServico->user_executante_id }}"
                                             data-update_data_solicitacao="{{ $solicitaServico->created_at }}"
                                             data-update_empresa_id="{{ $solicitaServico->empresa_id }}"
                                             data-update_tipo_servico_id="{{ $solicitaServico->tipo_servico_id }}"
@@ -132,6 +133,15 @@
 
             document.addEventListener('DOMContentLoaded', function() {
 
+                // 1. Função NL2BR (adicione no seu arquivo JS ou no bloco <script>)
+                function nl2br(str) {
+                    if (typeof str === 'undefined' || str === null) {
+                        return '';
+                    }
+                    // O regex /\r?\n/g encontra \r\n ou \n e os substitui por <br>
+                    return (str + '').replace(/(\r\n|\r|\n)/g, '<br>');
+                }
+
                 // --------------------------------------------------------------------------------
                 // Lógica principal de CLIQUE nos botões de AÇÃO (Create e Update)
                 // --------------------------------------------------------------------------------
@@ -161,13 +171,15 @@
 
                     // 2. Encontra todos os botões que abrem o update modal
                     const updateButton = e.target.closest('.update');
-
+                    
                     if (updateButton) {
+                        console.log('Abriu update modal');
                         e.preventDefault();
 
                         // 1. Coleta os valores dos atributos data-*
                         const userId = updateButton.getAttribute('data-id');
                         const userDepartamento = updateButton.getAttribute('data-user-departamento');
+                        const userExecutanteId = updateButton.getAttribute('data-user_executante_id');
                         const dataSolicitacao = updateButton.getAttribute('data-update_data_solicitacao');
                         const empresaId = updateButton.getAttribute('data-update_empresa_id');
                         const tipoServicoId = updateButton.getAttribute('data-update_tipo_servico_id');
@@ -176,7 +188,20 @@
                         const numeroTicket = updateButton.getAttribute('data-update_numero_ticket');
                         const observacoes = updateButton.getAttribute('data-update_observacoes');
 
-                        console.log('Data Solicitacao:', dataSolicitacao, 'Empresa ID:', empresaId, 'Tipo Servico ID:', empresaId, tipoServicoId);
+                        // Aplica o nl2br e usa .html() para renderizar as tags <strong> e <br>
+                        const historicoFormatado1 = nl2br(observacoes);
+                        console.log('Historico Formatado:', historicoFormatado1);
+
+                        if (observacoes == '') {
+                            console.log('passou aqui 1');
+                            document.getElementById('update_observacoes').innerHTML = 'Sem Histórico.';
+                        } else {
+                            console.log('passou aqui 2');
+                            document.getElementById('update_observacoes').innerHTML = historicoFormatado1;
+                        }
+
+                        console.log('Data Solicitacao:', dataSolicitacao, 'Empresa ID:', empresaId,
+                            'Tipo Servico ID:', empresaId, tipoServicoId);
 
                         // 2. Preenche os campos de formulário (substituindo .val())
                         document.getElementById('update_user_id').value = userId;
@@ -201,12 +226,13 @@
 
                         document.getElementById('update_status_final_outros').textContent = statusFinal;
                         document.getElementById('update_status_final_concluido').textContent = statusFinal;
+                        document.getElementById('update_statusFinal').value = statusFinal;
+
+                        document.getElementById('update_user_executante_id').value = userExecutanteId;
 
                         document.getElementById('update_numero_ticket').textContent = numeroTicket;
                         document.getElementById('update_numero_ticket_outros').textContent = numeroTicket;
                         document.getElementById('update_numero_ticket_concluido').textContent = numeroTicket;
-
-                        document.getElementById('update_observacoes').textContent = observacoes;
 
                         if (dataSolicitacao) {
                             let dataFormatada = dataSolicitacao.split(' ')[0];
@@ -243,10 +269,12 @@
                         if (statusFinal === 'Aberto') {
                             if (modalBodyAberto) modalBodyAberto.style.display = 'block';
                             if (modalBodyButton) modalBodyButton.style.display = 'block';
+                            if (ModalBodyButton) modalBodyButton.innerHTML = 'Solicitar';
                         } else if (statusFinal === 'Devolvido') {
                             if (modalBodyAberto) modalBodyAberto.style.display = 'block';
                             if (modalBodyDevolvido) modalBodyDevolvido.style.display = 'block';
                             if (modalBodyButton) modalBodyButton.style.display = 'block';
+                            if (ModalBodyButton) modalBodyButton.innerHTML = 'Reenviar';
                         } else if (statusFinal === 'Concluído') {
                             if (modalBodyStatusConcluido) modalBodyStatusConcluido.style.display = 'block';
                         } else {

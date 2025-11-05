@@ -45,7 +45,7 @@ class SolicitaServicoController extends Controller
         // Mapeamento dos tipos de usuário (do Profissional)
         // 1: Funcionário, 2: Cliente
         $tipo_usuario = optional($profissional)->tipo_usuario; // (Ou 'tipo_acesso', confirme o nome do campo)
-       
+
         // 0: ambos, 1: equipe interna, 2: cliente
 
         $tiposServicos = Tipo_servico::where('servico_ativo', true);
@@ -189,6 +189,13 @@ class SolicitaServicoController extends Controller
         if (!$tickets) {
             return redirect()->back()->with('Error', 'Não foi possivel atualizar o ticket tente novamente.');
         }
+
+        $statusFinal = $request->input('update_statusFinal');
+        $executante = $request->input('update_user_executante_id');
+        if ($statusFinal == 'Devolvido') {
+            $statusFinal = 'Aberto';
+            $executante = null;
+        }
         try {
             $validated = $request->validate(
                 [
@@ -208,6 +215,8 @@ class SolicitaServicoController extends Controller
                     'descricao_servico' => $request->input('descricao_servico'),
                     'tipo_servico_id' => $request->input('tipo_servico_id'),
                     'empresa_id' => $request->input('empresa_id'),
+                    'status_final' => $statusFinal,
+                    'user_id_executante' => $executante
                 ]);
                 return redirect()
                     ->route('solicitaServico.index')

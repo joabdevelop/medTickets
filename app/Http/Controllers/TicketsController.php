@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Enums\StatusTickets;
 
 
 class TicketsController extends Controller
@@ -36,7 +37,7 @@ class TicketsController extends Controller
             })
 
             // Aplica a ordenação
-            ->orderByDesc('prioridade');
+            ->orderByDesc('updated_at');
 
 
         // Lógica para filtrar por string de busca (CORREÇÃO)
@@ -52,11 +53,40 @@ class TicketsController extends Controller
             // });
         }
 
+        // Lógica para filtrar por status final
+        if (request()->filled('select_statusFinal')) {
+            $statusFinalSelected = request()->input('select_statusFinal');
+
+            // 1. Condição para filtrar, IGNORANDO se for 'Todos'
+            if ($statusFinalSelected !== 'Todos') {
+
+                // 2. Adiciona a condição WHERE no construtor de query
+                // Correção da sintaxe: deve ser 'coluna', 'operador', 'valor'
+                $query->where('status_final', '=', $statusFinalSelected);
+            }
+            // Se for 'Todos', a query não adiciona nenhuma condição de status_final, listando todos.
+        }
+
+        // Lógica para filtrar por Data
+        if (request()->filled('data_ticket')) {
+            $dataTicket = request()->input('data_ticket');
+
+            // 1. Condição para filtrar, IGNORANDO se for 'Todos'
+            if ($dataTicket !== null) {
+
+                // 2. Adiciona a condição WHERE no construtor de query
+                // Correção da sintaxe: deve ser 'coluna', 'operador', 'valor'
+                $query->whereDate('data_solicitacao', '=', $dataTicket);
+            }
+            // Se for 'Todos', a query não adiciona nenhuma condição de status_final, listando todos.
+        }
+
         // 4️⃣ EXECUTA a query e pagina os resultados
         $tickets = $query->paginate(10);
+        $statusFinals = StatusTickets::cases();
 
         // 5️⃣ Retorna a view com os tickets
-        return view('ticket.index', compact('tickets'));
+        return view('ticket.index', compact('tickets', 'statusFinals'));
     }
     /**
      * Show the form for creating a new resource.
@@ -72,13 +102,13 @@ class TicketsController extends Controller
         }
 
         // 2. Obtém o ID do usuário logado
-        $executorId = auth()->id();
+        $executorId = Auth::user()->id;
 
         // 3. Aplica a alteração (user_id_executante)
         try {
             $ticket->user_id_executante = $executorId;
             // Opcional: Mudar o status para "Em Andamento" ou similar
-            $ticket->status = 'Em Andamento'; 
+            $ticket->status_final = 'Em Andamento';
             $ticket->save();
 
             // 4. Retorna a resposta de sucesso
@@ -98,6 +128,100 @@ class TicketsController extends Controller
         }
     }
 
+    public function devolverAtendimento(Request $request, $ticket_id)
+    {
+        // dd($ticket_id);
+        // 1. Encontra o ticket
+        $ticket = Ticket::find($ticket_id);
+        if (!$ticket) {
+            return response()->json(['message' => 'Ticket não encontrado.'], 404);
+        }
+
+
+        // Texto anterior no banco
+        $observacoesAnteriores = trim($request->input('observacoesAnteriores', ''));
+        Log::info('Ao alterar o observação Anteriores: ' . $observacoesAnteriores);
+
+        // Novo texto digitado
+        $novoTexto = trim($request->input('observacoes', ''));
+
+        // Registro de devolução com destaque
+        $registroDevolucao = '<strong>Devolvido por: ' . Auth::user()->name . ' em ' . now()->format('d-m-Y H:i:s') . '</strong>';
+
+        // Monta o histórico corretamente
+        $partes = [];
+
+        if (!empty($observacoesAnteriores)) {
+            $partes[] = $observacoesAnteriores;
+        }
+
+        if (!empty($novoTexto)) {
+            $partes[] = $novoTexto;
+        }
+
+        // Sempre adiciona o registro de devolução
+        $partes[] = $registroDevolucao;
+
+        // Junta tudo com quebra de linha
+        $historicoCompleto = implode(PHP_EOL, $partes);
+
+        Log::info('Ao alterar o observação: ' . $historicoCompleto);
+        // 2. Aplica a alteração (user_id_executante)
+        try {
+            // Opcional: Mudar o status para "Em Andamento" ou similar
+            $ticket->status_final = 'Devolvido';
+            $ticket->data_devolucao = now();
+            $ticket->observacoes = $historicoCompleto;
+            $ticket->save();
+
+            // 4. Retorna a resposta de sucesso
+            return response()->json([
+                'status' => 200,
+                'success' => true,
+                'message' => 'Atendimento aceito e atribuído.'
+            ]);
+        } catch (\Exception $e) {
+            // Retorna o erro
+            Log::error('Erro ao salvar o ticket: ' . $e->getMessage());
+            return response()->json([
+                'status' => 500,
+                'success' => false,
+                'message' => 'Erro ao salvar o ticket: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+     public function encerrarAtendimento($ticket_id)
+    {
+
+        // 1. Encontra o ticket
+        $ticket = Ticket::find($ticket_id);
+
+        if (!$ticket) {
+            return response()->json(['message' => 'Ticket não encontrado.'], 404);
+        }
+
+        // 2. Aplica a alteração (user_id_executante)
+        try {
+            $ticket->status_final = 'Concluído';
+            $ticket->save();
+
+            // 4. Retorna a resposta de sucesso
+            return response()->json([
+                'status' => 200,
+                'success' => true,
+                'message' => 'Atendimento encerrado.'
+            ]);
+        } catch (\Exception $e) {
+            // Retorna o erro
+            Log::error('Erro ao encerrar o ticket: ' . $e->getMessage());
+            return response()->json([
+                'status' => 500,
+                'success' => false,
+                'message' => 'Erro ao encerrar o ticket: ' . $e->getMessage()
+            ], 500);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      */

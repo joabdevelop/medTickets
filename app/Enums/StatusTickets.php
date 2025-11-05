@@ -19,11 +19,11 @@ enum StatusTickets: string
     public function getBootstrapClass(): string
     {
         return match ($this) {
-            self::Aberto => 'bg-info text-white', // Azul claro
-            self::EmAndamento => 'bg-warning text-dark', // Amarelo/Laranja (requer atenção)
-            self::Pendente => 'bg-secondary text-white', // Cinza/Laranja (depende da sua definição de secondary)
-            self::Devolvido => 'bg-danger text-white', // Vermelho (problema, cancelado ou requer ação imediata)
-            self::Concluido => 'bg-success text-white', // Verde (sucesso, finalizado)
+            self::Aberto => 'bg-info text-whiteborder border border-black', // Azul claro
+            self::EmAndamento => 'bg-warning text-dark border border border-black', // Amarelo/Laranja (requer atenção)
+            self::Pendente => 'bg-secondary text-white border border border-black', // Cinza/Laranja (depende da sua definição de secondary)
+            self::Devolvido => 'bg-danger text-white border border border-black', // Vermelho (problema, cancelado ou requer ação imediata)
+            self::Concluido => 'bg-success text-white border border border-black', // Verde (sucesso, finalizado)
         };
     }
 }

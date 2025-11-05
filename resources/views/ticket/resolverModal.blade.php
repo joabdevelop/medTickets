@@ -11,21 +11,32 @@
 
                 <!-- Cabeçalho do formulário -->
                 <div class="modal-header bg-may-green-t">
-                    <div class="container-fluid p-0">
-                        <div class="row w-100 align-items-center">
-                            <!-- Coluna do título -->
-                            <div class="col-md-8 col-12">
-                                <h4 class="modal-title mb-0">Alterar Serviço</h4>
+                    <div class="row w-100 m-0 p-0 align-items-center">
+
+                        <div class="col-12 col-md-6 d-flex flex-column mb-md-0">
+
+                            <div class="d-flex align-items-center">
+                                <h4 class="modal-title fw-bolder mb-0 text-white">Alterar Serviço</h4>
                             </div>
 
-                            <!-- Coluna da data -->
-                            <div class="col-md-4 col-12 text-md-end text-start">
-                                <div class="d-flex flex-column">
-                                    <span class="fw-semibold mb-0 text-primary-emphasis">Data da Solicitação</span>
-                                    <span id="update_data_solicitacao_display"
-                                        class=" text-secondary-emphasis">29/10/2025</span>
-                                </div>
+                            <div class="small ">
+                                <span class="fw-bolder text-dark">
+                                    Aberto em:
+
+                                </span>
+                                <span id="resolver_data_solicitacao" class="text-dark">29/10/2025</span>
                             </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center">
+
+                            <div class="d-flex flex-column align-items-center ">
+                                <span id="resolver_status_badge_container">
+                                    <span class="badge bg-secondary">Aguardando JS</span>
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -38,9 +49,10 @@
                     <div class="form-cadastro container-fluid p-0">
 
                         <!-- numero_ticket (Pode ser gerado automaticamente, mas deixo como read-only) -->
-                        <input type="hidden" class="form-control" id="update_user_departamento"
-                            name="update_user_departamento" />
+                        <input type="hidden" class="form-control" id="resolver_user_departamento"
+                            name="resolver_user_departamento" />
                         <input type="hidden" class="form-control" id="resolver_ticket_id" name="resolver_ticket_id" />
+
 
 
                         <!-- Solicitante E data da solicitação -->
@@ -50,7 +62,7 @@
                             <div class="col-md-6">
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold text-info-emphasis">Numero do Ticket: </span>
-                                    <span id="update_numero_ticket" value="">OPE-0001</span>
+                                    <span id="resolver_numero_ticket" value="">OPE-0001</span>
                                 </div>
                             </div>
 
@@ -58,8 +70,7 @@
                             <div class="col-md-6 ">
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold text-info-emphasis">Solicitante: </span>
-                                    <span
-                                        id="update_user_id_solicitante_display">{{ Auth::user()->name ?? 'Usuário Autenticado' }}</span>
+                                    <span id="resolver_user_id_solicitante"></span>
                                 </div>
                             </div>
                         </div>
@@ -69,14 +80,14 @@
                             <div class="col-md-6 ">
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold text-info-emphasis">Nome da Empresa: </span>
-                                    <span id="update_empresa_id">Vasques e Neves e Filhos</span>
+                                    <span id="resolver_empresa_id">Vasques e Neves e Filhos</span>
                                 </div>
                             </div>
                             <!-- tipo_servico_id (Select) -->
                             <div class="col-md-6 ">
                                 <div class="d-flex flex-column">
                                     <span class="fw-bold text-info-emphasis">Serviço Solicitado</span>
-                                    <span id="update_tipo_servico_id">Inativação de colaborador de empresa</span>
+                                    <span id="resolver_tipo_servico_id">Inativação de colaborador de empresa</span>
                                 </div>
                             </div>
                         </div>
@@ -86,27 +97,30 @@
                             <div class="d-flex flex-column">
                                 <span class="fw-bold fs-7 text-info-emphasis">Descrição do Serviço: </span>
                                 <div class=" border border-success bg-may-green-b p-3 rounded">
-                                    <span id="update_descricao_servico" class="text-black">
-                                        O computador da recepção não está ligando. Já tentamos reiniciar e verificar os
-                                        cabos, mas a tela permanece preta. Precisamos de um técnico para verificar o
-                                        hardware o mais rápido possível, pois está impactando o atendimento aos
-                                        clientes.
-                                    </span>
+                                    <span id="resolver_descricao_servico" class="text-black"
+                                        style="white-space: pre-wrap;"></span>
                                 </div>
                             </div>
 
                         </div>
 
+                        <!-- observacao Anteriores (TextArea - O principal detalhe) -->
+                        <div class="form-group mb-1">
+                            <label id="resolver_label_observacao" class="fs-6 form-label mb-2 text-info-emphasis"
+                                for="resolver_observacao">Observações:</label>
+                            <div class="border border-success form-control p-3 " id="resolver_observacoesAnteriores"
+                                style="height: 100px; overflow-y: auto; white-space: pre-wrap; background-color: #A1C7C7;">
+                                Sem Historico...{{ old('observacao') }}</div>
+                            <input type="hidden" id="resolver_observacoesAnterioresInput"
+                                name="observacoesAnteriores" />
+                        </div>
+
                         <!-- observacao (TextArea - O principal detalhe) -->
-                        <div class="form-group mb-3">
-                            <label id="update_label_observacao" class="fs-6 form-label mb-2 text-info-emphasis"
-                                for="update_observacao">Observações sobre o atendimento:</label>
-                            <textarea maxlength="2000" placeholder="Descrição do Serviço..."
-                                class="form-control @error('observacao') is-invalid @enderror" id="update_observacao" name="observacao"
-                                rows="3">{{ old('observacao') }}</textarea>
-                            @error('observacao')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="form-group mb-3" id="resolver_observacao">
+                            <label class="fs-6 form-label mb-2 text-info-emphasis" for="resolver_observacao">Motivo da
+                                devolução:</label>
+                            <textarea maxlength="2000" placeholder="Escreva o motivo da devolução..." class="border border-success form-control"
+                                id="resolver_nova_observacao" name="observacoes" rows="3">{{ old('observacao') }}</textarea>
                         </div>
                         <!-- fim do modal-body -->
                     </div>
@@ -115,22 +129,27 @@
 
                 <!-- Rodape do Modal -->
                 <div class="modal-footer bg-may-green-b">
-                        <div class="flex justify-end gap-2">
-                            <button type="button" value="Cancelar" data-bs-dismiss="modal"
-                                onclick="event.target.blur()" class="btn btn-danger">
-                                <i class="bi bi-bookmark-x"></i>
-                                Cancelar
-                            </button>
-                            <button type="button" class="btn btn-warning">
-                                <i class="bi bi-folder-symlink"></i>
-                                Devolver
-                            </button>
-                            <button type="submit" value="aceitar" class="btn btn-success border-1 border-black "
-                                id="ModalBodyButton">
-                                <i class="bi bi-headset"></i>
-                                Atender
-                            </button>
-                        </div>
+                    <div class="flex justify-end gap-2">
+                        <button type="button" value="Cancelar" data-bs-dismiss="modal" onclick="event.target.blur()"
+                            class="btn btn-danger">
+                            <i class="bi bi-bookmark-x"></i>
+                            Cancelar
+                        </button>
+                        <button type="submit" value="devolver" class="btn btn-warning" id="ResolverBtnDevolver">
+                            <i class="bi bi-folder-symlink"></i>
+                            Devolver para Solicitante
+                        </button>
+                        <button type="submit" value="encerrar" class="btn btn-primary border-1 border-black "
+                            id="ResolverBtnEncerrar">
+                            <i class="bi bi-journal-x"></i>
+                            Encerrar Atendimento
+                        </button>
+                        <button type="submit" value="atender" class="btn btn-success border-1 border-black "
+                            id="ResolverBtnAtender">
+                            <i class="bi bi-headset"></i>
+                            Atender Serviço
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

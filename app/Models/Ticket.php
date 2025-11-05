@@ -31,7 +31,10 @@ class Ticket extends Model
     protected $connection = 'mysql';
     protected $casts = [
         'created_at' => 'date',
-        'updated_at' => 'date'
+        'updated_at' => 'date',
+        'data_solicitacao' => 'date',
+        'data_conclusao' => 'date',
+        'data_devolucao' => 'date',
     ];
     
     public function tipo_servico()

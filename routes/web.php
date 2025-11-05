@@ -140,5 +140,15 @@ Route::post('/ticket/atender/{ticket_id}',[
     'aceitarAtendimento'
 ])->middleware(['auth', 'verified'])->name('ticket.aceitarAtendimento');
 
+Route::post('/ticket/devolver/{ticket_id}',[
+    \App\Http\Controllers\TicketsController::class, 
+    'devolverAtendimento'
+])->middleware(['auth', 'verified'])->name('ticket.devolverAtendimento');
+
+Route::post('/ticket/encerrar/{ticket_id}',[
+    \App\Http\Controllers\TicketsController::class, 
+    'encerrarAtendimento'
+])->middleware(['auth', 'verified'])->name('ticket.encerrarAtendimento');
+
 
 require __DIR__ . '/auth.php';

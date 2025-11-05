@@ -6,6 +6,7 @@ use App\Enums\Prioridad;
 use App\Enums\QuemSolicita;
 use App\Models\Tipo_servico;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Enum;
 
 class TipoServicoController extends Controller
 {
@@ -50,7 +51,7 @@ class TipoServicoController extends Controller
         $validated = $request->validate([
             'create_nome_servico' => 'required|string|max:50|unique:tipo_servicos,nome_servico',
             'create_titulo_nome' => 'required|string|max:50|unique:tipo_servicos,titulo_nome',
-            'create_prioridade' => 'required|in:alta,media,baixa,urgente',
+            'create_prioridade' => ['required', new Enum(Prioridad::class)],
             'create_executante_departamento_id' => 'required|exists:departamentos,id',
             'create_sla' => 'required|exists:slas,id',
             'create_dados_add' => 'nullable|in:0,1,2',
@@ -113,7 +114,7 @@ class TipoServicoController extends Controller
             $validated = $request->validate([
                 'update_nome_servico' => 'required|string|max:50',
                 'update_titulo_nome' => 'required|string|max:50',
-                'update_prioridade' => 'required|in:alta,media,baixa,urgente',
+                'update_prioridade' => ['required', new Enum(Prioridad::class)],
                 'update_executante_departamento_id' => 'required|exists:departamentos,id',
                 'update_sla' => 'required|exists:slas,id',
                 'update_dados_add' => 'nullable|in:0,1,2',

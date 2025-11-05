@@ -32,7 +32,7 @@ return new class extends Migration
             $table->unsignedBigInteger('empresa_id');     // empresa_id conectado com empresa
             $table->foreign('empresa_id')->references('id')->on('empresas');
 
-            $table->string('observacoes', 255)->nullable(true);
+            $table->text('observacoes')->nullable();
             $table->integer('prioridade')->default(1); // Prioridade vindo da tabela tipo Serviços
 
             // datas

@@ -361,8 +361,14 @@ body {
     color: #333;
 }
 
-.container-list button {
+.container-list button form{
     display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.container-list .form-search {
+    display: flex;  
     align-items: center;
     margin-right: 15px;
 }
@@ -528,7 +534,7 @@ tr.bloqueio-inativo td {
     border-bottom: 1px solid #ddd;
 }
 
-/* Linha do formulário (label + input) */
+/* Linha do formulário (label + input) ==========>>>*/
 .form-row {
     display: flex;
     flex-direction: column;
@@ -619,7 +625,75 @@ tr.bloqueio-inativo td {
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
-/* Rodapé do formulário */
+
+/* ======= FORM FILTER - ESTILO LIMPO ======= */
+/* Remove bordas e sombras dos inputs */
+.form-Inputs,
+.form-Filter .form-Inputs,
+.form-Filter input[type="search"],
+.form-Filter input[type="date"],
+.form-Filter select.form-Inputs {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: #ffffff00 !important;
+    outline: none !important;
+    color: #222 !important;
+    font-size: 1rem !important;
+    transition: none !important;
+    border-radius: 0 !important;
+    padding: 0.75rem 0.5rem !important;
+}
+
+/* Estilo do input quando em foco */
+.form-Inputs:focus,
+.form-Filter .form-Inputs:focus {
+    background-color: #f6f6f600 !important;
+    box-shadow: none !important;
+}
+
+/* Remove borda do select */
+.form-Filter select.form-select {
+    border: none !important;
+    box-shadow: none !important;
+    background-color: #fff !important;
+    color: #222 !important;
+    border-radius: 0 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 0.5rem !important;
+}
+
+/* Estilo para labels flutuantes (exemplo minimalista) */
+.form-floating > .form-label {
+    top: -1.5rem !important; /* posiciona a label mais acima */
+    left: 0.5rem !important;
+    font-size: 0.95rem !important;
+    opacity: 1 !important;
+}
+
+.form-floating .form-control:focus ~ .form-label,
+.form-floating .form-control:not(:placeholder-shown) ~ .form-label {
+    opacity: 1 !important;
+    top: -1.8rem !important; /* ainda mais acima ao focar/preencher */
+    font-size: 0.95rem !important;
+}
+
+/* Remove backgrounds e bordas extras do form */
+.form-Filter {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Estilo geral para o botão de filtro */
+.btn-success {
+    border-radius: 0.3rem !important;
+    padding: 0.6rem 0.75rem !important;
+    font-size: 1rem !important;
+    box-shadow: none !important;
+}
+
+
+/* ========= RODA PE DO CARD ==========>>>*/
 .card-footer {
     background-color: #f7f7f9;
     padding: 0.75rem 1.25rem;
