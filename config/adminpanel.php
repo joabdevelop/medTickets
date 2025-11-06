@@ -14,9 +14,24 @@ return [
         ],
         [
             'text' => 'Dashboard',
-            'route_name' => 'dashboard',
             'icon' => 'bar-chart-outline',
-            'icon_color' => 'red',
+            'submenu' => [
+                [
+                    'text' => 'Desempenho Operacional',
+                    'route_name' => 'dashboard.operacional',
+                    'icon' => 'footsteps-outline',
+                ],
+                [
+                    'text' => 'Performance de SLA',
+                    'route_name' => 'dashboard.sla',
+                    'icon' => 'layers-outline',
+                ],
+                [
+                    'text' => 'Desempenho de Equipe',
+                    'route_name' => 'dashboard.equipe',
+                    'icon' => 'layers-outline',
+                ],
+            ],
         ],
         [
             'text' => 'Tickets',

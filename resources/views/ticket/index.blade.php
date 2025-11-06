@@ -205,13 +205,14 @@
                     // Aplica o nl2br e usa .html() para renderizar as tags <strong> e <br>
                     const historicoFormatado = nl2br(observacoes ?? 'Sem Histórico.');
 
-                    if (observacoes == '') {
+                    $('#resolver_observacoesAnterioresInput').val(observacoes ?? '');
+
+                    if (!observacoes || observacoes == '') {
                         console.log('passou aqui 1');
-                        $('#resolver_observacoesAnteriores').html('Sem Histórico.');
+                        $('#resolver_observacoesAnteriores').html('Sem Histórico de devolução.');
                     } else {
                         console.log('passou aqui 2');
                         $('#resolver_observacoesAnteriores').html(historicoFormatado);
-                        $('#resolver_observacoesAnterioresInput').val(observacoes);
                     }
 
                     // Campos de Texto/Display (Para tags como <span>, <div>, ou <input> readonly)
@@ -412,9 +413,10 @@
                     // Previne o comportamento padrão do botão submit (que fecharia o modal ou faria um submit de formulário)
                     e.preventDefault();
 
+                    console.log('Clicou no botão Devolver');
+
                     const buttonDevolver = $(this);
-                    const originalText = buttonDevolver
-                .html(); // Salva o HTML original para restaurar em caso de erro
+                    const originalText = buttonDevolver.html(); // Salva o HTML original para restaurar em caso de erro
 
                     // Assumimos que o ID do ticket está armazenado em algum campo oculto ou em um atributo data
                     // AJUSTE ESSA LINHA: Você deve obter o ID do ticket do modal de alguma forma.
@@ -443,7 +445,7 @@
                             _token: '{{ csrf_token() }}', // Necessário para proteção CSRF no Laravel
                             // Você pode adicionar outros dados se necessário
                             observacoes: $('#resolver_nova_observacao').val(),
-                            observacoesAnteriores: $('#resolver_observacoesAnteriores').val()
+                            observacoesAnteriores: $('#resolver_observacoesAnterioresInput').val(),
                         },
                         success: function(response) {
                             // A rota deve retornar status 200 e, idealmente, um JSON de sucesso

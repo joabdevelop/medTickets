@@ -13,18 +13,18 @@
                 <div class="modal-header bg-may-green-t">
                     <div class="row w-100 m-0 p-0 align-items-center">
 
-                        <div class="col-12 col-md-6 d-flex flex-column mb-md-0">
+                        <div class="col-12 col-md-6 d-flex  flex-column mb-md-0">
 
                             <div class="d-flex align-items-center">
-                                <h4 class="modal-title fw-bolder mb-0 text-white">Alterar Serviço</h4>
+                                <h4 class="modal-title fw-bolder mb-0 text-white">Solicitação</h4>
                             </div>
 
                             <div class="small ">
-                                <span class="fw-bolder text-dark">
+                                <span class="fw-bolder text-primary-emphasis">
                                     Aberto em:
 
                                 </span>
-                                <span id="resolver_data_solicitacao" class="text-dark">29/10/2025</span>
+                                <span id="resolver_data_solicitacao" class="text-white-50">29/10/2025</span>
                             </div>
 
                         </div>

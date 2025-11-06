@@ -150,5 +150,19 @@ Route::post('/ticket/encerrar/{ticket_id}',[
     'encerrarAtendimento'
 ])->middleware(['auth', 'verified'])->name('ticket.encerrarAtendimento');
 
+Route::get('/dashboard/operacional',[
+    \App\Http\Controllers\DashboardController::class, 
+    'indexOperacional'
+])->middleware(['auth', 'verified'])->name('dashboard.operacional');
+
+Route::get('/dashboard/sla',[
+    \App\Http\Controllers\DashboardController::class, 
+    'indexSla'
+])->middleware(['auth', 'verified'])->name('dashboard.sla');
+
+Route::get('/dashboard/equipe',[
+    \App\Http\Controllers\DashboardController::class, 
+    'indexEquipe'
+])->middleware(['auth', 'verified'])->name('dashboard.equipe');
 
 require __DIR__ . '/auth.php';

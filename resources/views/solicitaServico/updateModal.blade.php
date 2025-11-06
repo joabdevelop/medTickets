@@ -62,9 +62,9 @@
                         <div class="form-group mb-1" id="ModalBodyDevolvido">
                             <label class="fs-6 form-label mb-2 text-info-emphasis"
                                 for="update_observacoes">Motivo da Devolução:</label>
-                            <div class="border border-success form-control p-3 " id="update_observacoes"
+                            <div class="border border-danger form-control p-3 " id="update_observacoes"
                                 name="observacoes"
-                                style="height: 100px; overflow-y: auto; white-space: pre-wrap; background-color: #A1C7C7;">Sem Historico...{{ old('observacao') }}</div>
+                                style="height: 100px; overflow-y: auto; white-space: pre-wrap; background-color: #f36363bd;">Sem Historico...{{ old('observacao') }}</div>
                         </div>
                         
 

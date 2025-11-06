@@ -21,67 +21,48 @@ class SolicitaServicoController extends Controller
         // 1. Obtém o ID do usuário autenticado
         $userId = Auth::id();
 
-        // 2. Inicia a query e filtra os tickets onde 'user_id_solicitante' é igual ao $userId
-        $query = Ticket::query()
-            ->where('user_id_solicitante', $userId) // <--- ESTA É A LINHA CHAVE
+        // 2. Inicia a query de TICKETS (usando $ticketQuery)
+        $ticketQuery = Ticket::query() // ⬅️ MUDANÇA DE NOME
+            ->where('user_id_solicitante', $userId)
             ->orderBy('updated_at', 'desc');
 
         // Lógica para filtrar por string de busca (se necessário)
         if (request()->filled('search')) {
             $search = request()->input('search');
-            $query->where('numero_ticket', 'LIKE', '%' . $search . '%');
+            $ticketQuery->where('numero_ticket', 'LIKE', '%' . $search . '%'); // ⬅️ MUDANÇA DE NOME
         }
 
         $departamentos = \App\Models\Departamento::pluck('nome', 'id');
 
-        // 2. Buscar o registro do profissional para obter o grupo_id e o tipo_acesso
+        // ... (Lógica de Profissional, Grupo, Tipo de Usuário) ...
         $profissional = Profissional::where('user_id', $userId)->first();
-
-        // dd($profissional);
-
-        // Inicializa variáveis (para evitar erros se o profissional não for encontrado)
         $grupo_id = optional($profissional)->grupo_id;
+        $tipo_usuario = optional($profissional)->tipo_usuario;
 
-        // Mapeamento dos tipos de usuário (do Profissional)
-        // 1: Funcionário, 2: Cliente
-        $tipo_usuario = optional($profissional)->tipo_usuario; // (Ou 'tipo_acesso', confirme o nome do campo)
-
-        // 0: ambos, 1: equipe interna, 2: cliente
-
+        // ... (Lógica de $tiposServicos) ...
         $tiposServicos = Tipo_servico::where('servico_ativo', true);
-
-        // ----------------------------------------------------
-        // LÓGICA DE QUEM PODE SOLICITAR
-        // ----------------------------------------------------
-
-        // 1. Se o usuário for um Funcionário (1)
         if ($tipo_usuario->value == 1) {
-            // Funcionários veem serviços para 'Ambos' (0) OU para 'Equipe Interna' (1)
             $tiposServicos->whereIn('quem_solicita', [0, 1]);
-        }
-        // 2. Se o usuário for um Cliente (2)
-        else if ($tipo_usuario->value == 2) {
-            // Clientes veem serviços para 'Ambos' (0) OU para 'Cliente' (2)
+        } else if ($tipo_usuario->value == 2) {
             $tiposServicos->whereIn('quem_solicita', [0, 2]);
         }
-
-
-
-        // 3. Executa a query
         $tiposServicos = $tiposServicos->select('id', 'nome_servico', 'titulo_nome')->get();
-        // 4. Lógica para carregar as empresas, 2-CLIENTE 1-FUNCIONARIO
+
+        // 4. Lógica para carregar as empresas
+        // 1. Inicia o construtor da query de EMPRESAS (usando $empresaQuery)
+        $empresaQuery = Empresa::query(); // ⬅️ MUDANÇA DE NOME
+
         if ($tipo_usuario->value == 2) {
-            // Se for Cliente, filtra as empresas pelo grupo_id
-            // Precisa garantir que $grupo_id não é nulo
-            $empresas = Empresa::where('id_grupo', $grupo_id)->pluck('nome_fantasia', 'id');
-        } else {
-            // Se não for Cliente (ex: 'Admin', 'Profissional'), carrega todas as empresas
-            $empresas = Empresa::pluck('nome_fantasia', 'id');
+            // 2. Adiciona o filtro (apenas se for Cliente)
+            $empresaQuery->where('id_grupo', $grupo_id); // ⬅️ MUDANÇA DE NOME
         }
 
-        // 3. Executa a query com as relações e paginação
-        $solicitaServicos = $query->with(['tipo_servico', 'empresa', 'user_solicitante', 'user_executante'])->paginate(10);
+        // 3. Aplica a ordenação e o pluck em AMBOS os casos
+        $empresas = $empresaQuery->orderBy('nome_fantasia', 'ASC')->pluck('nome_fantasia', 'id'); // ⬅️ MUDANÇA DE NOME
 
+        // 3. Executa a query de TICKETS com as relações e paginação
+        $solicitaServicos = $ticketQuery->with(['tipo_servico', 'empresa', 'user_solicitante', 'user_executante']) // ⬅️ MUDANÇA DE NOME
+            ->paginate(10);
 
         return view('solicitaServico.index', compact('solicitaServicos', 'tiposServicos', 'departamentos', 'empresas'));
     }
