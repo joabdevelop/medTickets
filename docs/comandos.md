@@ -43,3 +43,4 @@ git push
 git pull origin 
 # Exemplo prático:
 git pull origin main
+*----------*
