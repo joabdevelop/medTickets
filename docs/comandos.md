@@ -38,3 +38,8 @@ git commit -m "feat: Adiciona nova feature"
 
 # Envia os arquivos locais para o branch 'main' no remoto ('origin')
 git push
+
+# Atulaizar o man
+git pull origin 
+# Exemplo prático:
+git pull origin main
