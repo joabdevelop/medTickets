@@ -1,10 +1,11 @@
 <?php
-
+ 
 namespace Database\Seeders;
-
+ 
 use Illuminate\Database\Seeder;
-use App\Models\Sla;
-
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+ 
 class SlaSeeder extends Seeder
 {
     /**
@@ -12,30 +13,44 @@ class SlaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ao invés de usar factory(), que exige um arquivo Factory configurado,
-        // usamos o método create() do Model diretamente, pois os dados são fixos.
-        
-        Sla::create([
-            'nome_sla' => '30 Minutos',
+        $now = Carbon::now();
+ 
+        DB::table('slas')->insert([
+            [
+                'nome_sla' => '30 minutos',
+                'tempo_limite_minutos' => 30,
+                'ativo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'nome_sla' => '1 hora',
+                'tempo_limite_minutos' => 60,
+                'ativo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'nome_sla' => '2 horas',
+                'tempo_limite_minutos' => 120,
+                'ativo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'nome_sla' => '4 horas',
+                'tempo_limite_minutos' => 240,
+                'ativo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'nome_sla' => '8 horas',
+                'tempo_limite_minutos' => 480,
+                'ativo' => true,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
-        Sla::create([
-            'nome_sla' => '1 Hora',
-        ]);
-        Sla::create([
-            'nome_sla' => '2 Horas',
-        ]);
-        Sla::create([
-            'nome_sla' => '4 Horas',
-        ]);
-        Sla::create([
-            'nome_sla' => '8 Horas',
-        ]);
-        Sla::create([
-            'nome_sla' => '24 Horas',
-        ]);
-        
-        // Observação: Certifique-se de que o Model App\Models\Sla
-        // tenha a propriedade $fillable ou $guarded configurada
-        // para permitir a atribuição em massa do campo 'nome_sla'.
     }
 }

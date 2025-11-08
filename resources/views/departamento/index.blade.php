@@ -3,41 +3,41 @@
     <body>
         <section class="container-section">
             <div class="container-list">
-                <h1>Lista de Departamentos</h1>
+                <h1 class="mb-3 mb-lg-0 fs-3">Lista de Departamentos</h1>
+                <div
+                    class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center">
 
-                <form class="input-group w-25">
-                    <input
-                        type="search"
-                        class="form-control rounded-start"
-                        placeholder="Buscar..."
-                        aria-label="Buscar">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
-                    </button>
-                </form>
+                      <!-- Falta alterar o tamanho dos botões e do search -->
 
-                <!-- Button trigger modal -->
+                    <div class="row justify-content-end flex-sm-row gap-2 w-100 w-lg-auto">
+                        <form class="input-group col-12-md col-lg-auto flex-grow-1 flex-sm-grow-0">
+                            <input type="search" class="form-control rounded-start" placeholder="Buscar..."
+                                aria-label="Buscar">
+                            <button class="btn btn-outline-primary" type="submit">
+                                <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
+                            </button>
+                        </form>
 
-                <button
-                    type="button"
-                    class=" btn btn-outline-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#createDepartamentoModal"
-                    title="Incluir">
-                    Adicionar
-                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">domain_add</i>
-                </button>
+                        <!-- Button trigger modal -->
+
+                        <button type="button" class="col-12-md col-lg-auto btn btn-outline-primary" data-bs-toggle="modal"
+                            data-bs-target="#createDepartamentoModal" title="Incluir">
+                            Adicionar
+                            <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">domain_add</i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Tabela de Departamentos -->
         <section class="table-section">
-            <div class="table-list">
+            <div class="table-responsive table-list">
 
                 <!-- Alertas de sucesso ou erro -->
                 @include('components.alertas')
 
-                <table class="table table-hover cursor-pointer table-responsive">
+                <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
                     <thead class="w-100">
                         <tr class="d-flex justify-content-between">
                             <th class="col text-start">Nome do Departamento</th>
@@ -48,27 +48,25 @@
                     </thead>
                     <tbody>
                         @forelse ($departamentos as $departamento)
-                        <tr class="d-flex justify-content-between ">
-                            <td class="col text-start d-flex align-items-center">{{ $departamento->nome }}</td>
-                            <td class="col text-center d-flex justify-content-center align-items-center">{{ $departamento->sigla_depto }}</td>
-                            <td class="col text-center d-flex justify-content-center align-items-center">{{ $departamento->created_at->format('d/m/Y') }}</td>
-                            <td class="col align-items-end d-flex justify-content-end">
-                                <!-- Botão Alterar -->
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-success edit "
-                                    data-id="{{ $departamento->id }}"
-                                    data-nome="{{ $departamento->nome}}"
-                                    data-sigla="{{ $departamento->sigla_depto}}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#updateDepartamentoModal">
-                                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">edit_note</i>
-                                </button>
+                            <tr class="d-flex justify-content-between ">
+                                <td class="col text-start d-flex align-items-center">{{ $departamento->nome }}</td>
+                                <td class="col text-center d-flex justify-content-center align-items-center">
+                                    {{ $departamento->sigla_depto }}</td>
+                                <td class="col text-center d-flex justify-content-center align-items-center">
+                                    {{ $departamento->created_at->format('d/m/Y') }}</td>
+                                <td class="col align-items-end d-flex justify-content-end">
+                                    <!-- Botão Alterar -->
+                                    <button type="button" class="btn btn-outline-success edit "
+                                        data-id="{{ $departamento->id }}" data-nome="{{ $departamento->nome }}"
+                                        data-sigla="{{ $departamento->sigla_depto }}" data-bs-toggle="modal"
+                                        data-bs-target="#updateDepartamentoModal">
+                                        <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">edit_note</i>
+                                    </button>
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @empty
-                        <td colspan="8" class="text-center">Nenhum departamento encontrado.</td>
+                            <td colspan="8" class="text-center">Nenhum departamento encontrado.</td>
                         @endforelse
                     </tbody>
                 </table>
@@ -85,36 +83,36 @@
     </body>
 
     @push('scripts')
-     <script>
-         $(document).on('click', '.edit', function(e) {
-             e.preventDefault();
-             $('#update_id').val($(this).data('id'));
-             $('#update_nome').val($(this).data('nome'));
-             $('#update_sigla').val($(this).data('sigla'));
-             // Se quiser alterar o action do form dinamicamente:
-             let action = "{{ route('departamento.update', ':id') }}";
-             action = action.replace(':id', $(this).data('id'));
-             $('#updateDepartamentoModal form').attr('action', action);
+        <script>
+            $(document).on('click', '.edit', function(e) {
+                e.preventDefault();
+                $('#update_id').val($(this).data('id'));
+                $('#update_nome').val($(this).data('nome'));
+                $('#update_sigla').val($(this).data('sigla'));
+                // Se quiser alterar o action do form dinamicamente:
+                let action = "{{ route('departamento.update', ':id') }}";
+                action = action.replace(':id', $(this).data('id'));
+                $('#updateDepartamentoModal form').attr('action', action);
 
-             $('#updateDepartamentoModal').on('shown.bs.modal', function() {
-                 $('#update_nome').trigger('focus');
-             });
+                $('#updateDepartamentoModal').on('shown.bs.modal', function() {
+                    $('#update_nome').trigger('focus');
+                });
 
-             $('#updateDepartamentoModal').on('hidden.bs.modal', function() {
-                 $('#update_nome').val('');
-                 $('#update_sigla').val('');
-             });
-         });
-         $(document).on('click', '.delet', function(e) {
-             e.preventDefault();
-             $('#delete_id').val($(this).data('id'));
-             $('#delete_nome').val($(this).data('nome'));
-             // Se quiser alterar o action do form dinamicamente:
-             let action = "{{ route('departamento.destroy', ':id') }}";
-             action = action.replace(':id', $(this).data('id'));
-             $('#deleteDepartamentoModal form').attr('action', action);
-         });
-     </script>
+                $('#updateDepartamentoModal').on('hidden.bs.modal', function() {
+                    $('#update_nome').val('');
+                    $('#update_sigla').val('');
+                });
+            });
+            $(document).on('click', '.delet', function(e) {
+                e.preventDefault();
+                $('#delete_id').val($(this).data('id'));
+                $('#delete_nome').val($(this).data('nome'));
+                // Se quiser alterar o action do form dinamicamente:
+                let action = "{{ route('departamento.destroy', ':id') }}";
+                action = action.replace(':id', $(this).data('id'));
+                $('#deleteDepartamentoModal form').attr('action', action);
+            });
+        </script>
     @endpush
 
- </x-app-layout>
+</x-app-layout>

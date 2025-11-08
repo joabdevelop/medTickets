@@ -5,7 +5,7 @@
         <!-- Cabeçalho da Página e Filtros -->
         <header class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-5">
             <div>
-                <h1 class="h2 fw-bold mb-1">Dashboard de Performance de SLA</h1>
+                <h1 class="h2 fw-bold mb-1">Dashboard de SLA Por Departamento</h1>
                 <p class="text-muted mb-0">Acompanhe os principais indicadores de desempenho da equipe.</p>
             </div>
             <div class="d-flex align-items-center gap-2" role="group">
@@ -90,7 +90,7 @@
                         <h3 class="card-title h5 fw-semibold mb-4">Top 10 Tickets com Maior Tempo de Resolução</h3>
                         <div class="table-responsive">
                             <table class="table table-borderless table-hover align-middle caption-top">
-                                <thead class="table-light">
+                                <thead >
                                     <tr>
                                         <th scope="col" class="py-3 px-3">Ticket ID</th>
                                         <th scope="col" class="py-3 px-3">Assunto</th>

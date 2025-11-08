@@ -12,7 +12,7 @@ class Tipo_servico extends Model
         'nome_servico',
         'executante_departamento_id',
         'prioridade',
-        'sla',
+        'sla_id',
         'dados_add',
         'quem_solicita',
         'servico_ativo',
@@ -32,5 +32,10 @@ class Tipo_servico extends Model
     public function departamento()
     {
         return $this->belongsTo(Departamento::class, 'executante_departamento_id', 'id');
+    }
+
+    public function sla()
+    {
+        return $this->belongsTo(Sla::class, 'sla_id', 'id');
     }
 }

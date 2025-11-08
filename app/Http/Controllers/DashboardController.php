@@ -8,7 +8,7 @@ class DashboardController extends Controller
 {
     public function indexOperacional()
     {
-        return view('dashboard');
+        return view('dashboard.operacional');
     }
 
     public function indexSla()

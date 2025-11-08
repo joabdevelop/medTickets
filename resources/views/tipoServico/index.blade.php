@@ -29,12 +29,12 @@
     </section>
     <!-- Table Section -->
     <section class="table-section ">
-        <div class="table-list">
+        <div class="table-responsive table-list">
 
             <!-- Alertas de sucesso ou erro -->
             @include('components.alertas')
 
-            <table class="table table-hover cursor-pointer table-responsive">
+            <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
                 <thead>
                     <tr>
                         <th>Status</th>

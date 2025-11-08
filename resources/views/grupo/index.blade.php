@@ -34,12 +34,12 @@
             </div>
         </section>
         <section class="table-section">
-            <div class="table-list">
+            <div class="table-responsive table-list">
 
                 <!-- Alertas de sucesso ou erro -->
                 @include('components.alertas')
 
-                <table class="table table-hover cursor-pointer table-responsive">
+                <table class="table table-borderless cursor-pointer table-hover align-middle caption-top">
                     <thead class="w-100">
                         <tr class="d-flex justify-content-between">
                             <th class="col text-start">Nome do Grupo</th>

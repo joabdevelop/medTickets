@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('executante_departamento_id');
             $table->foreign('executante_departamento_id')->references('id')->on('departamentos');
             $table->integer('prioridade')->default(1); // Enum Prioridad
-            $table->unsignedBigInteger('sla'); // 1: 30min, 2: 1h, 3: 1h30
-            $table->foreign('sla')->references('id')->on('slas'); // Foreign key para tabela slas
+            $table->unsignedBigInteger('sla_id'); // 1: 30min, 2: 1h, 3: 1h30
+            $table->foreign('sla_id')->references('id')->on('slas'); // Foreign key para tabela slas
             $table->integer('dados_add')->default(0); // 0: sem dados adicionais, 1: dados adicionais obrigatórios
             $table->integer('quem_solicita')->default(0); // 0: ambos, 1: equipe interna, 2: cliente
             $table->boolean('servico_ativo')->default(true); // verificar se o servico esta ativo

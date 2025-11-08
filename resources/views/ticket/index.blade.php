@@ -95,11 +95,11 @@
             </div>
         </section>
         <section class="table-section">
-            <div class="table-list">
+            <div class="table-responsive table-list">
                 <!-- Alertas de sucesso ou erro -->
                 @include('components.alertas')
 
-                <table class="table table-hover cursor-pointer table-responsive">
+                <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
                     <thead>
                         <tr>
                             <th>Numero do Ticket</th>
@@ -110,6 +110,7 @@
                             <th>Executante</th>
                             <th>Prioridade</th>
                             <th>Status</th>
+                            <th>Sla</th>
                             <th>Ações</span>
                             </th>
                         </tr>
@@ -139,7 +140,14 @@
                                         {{ $ticket->status_final }} {{-- Exibe como texto simples se a conversão falhar --}}
                                     @endif
                                 </td>
-                                <td class="d-flex justify-content-center">
+                                <td>
+                                    @if ( $ticket->cumpriu_sla )
+                                        <span class="badge bg-success">Sim</span>
+                                    @else
+                                        <span class="badge bg-danger">Não</span>
+                                    @endif
+                                </td>
+                                <td>
 
                                     <!-- Action Buttons -->
 

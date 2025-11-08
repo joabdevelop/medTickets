@@ -47,7 +47,7 @@ class TipoServicosTableSeeder extends Seeder
         // Definindo as opções disponíveis para os campos
         $opcoesPrioridade = [1,2,3,4];
         $quemSolicita = [0,1,2]; // 0-AMBOS 1-FUNCIONARIO 2-CLIENTE
-        $opcoesSla = [1, 2, 3, 4, 5, 6]; // Valores em horas
+        $opcoesSla = [1, 2, 3, 4, 5]; // Valores em horas
         $opcoesSercicoAtivo = [true, false];
         $TituloNome = [
             'Digite o nome do serviço',
@@ -73,7 +73,7 @@ class TipoServicosTableSeeder extends Seeder
             $dadosAleatorios = [
                 'executante_departamento_id' => Departamento::where('id', '!=', 1)->get()->random()->id,
                 'prioridade' => $faker->randomElement($opcoesPrioridade),
-                'sla' => $faker->randomElement($opcoesSla),
+                'sla_id' => $faker->randomElement($opcoesSla),
                 'servico_ativo' => $faker->randomElement($opcoesSercicoAtivo),
                 'titulo_nome' => $faker->randomElement($TituloNome),
                 'quem_solicita' => $faker->randomElement($quemSolicita),

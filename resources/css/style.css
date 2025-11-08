@@ -9,8 +9,8 @@ html,
     --color-table-header: #2b7e4b;
     --color-content-header-bg: #1e2b4b;
     --color-navigation-bg: #1e2b4b;
-    --bs-body-font-family: "Inter", sans-serif;
-    --bs-body-font-family: "Inter", sans-serif;
+    --bs-body-font-family: 'Inter', sans-serif;
+    --bs-body-font-family: 'Inter', sans-serif;
     --bs-body-bg: #f5f7f8;
     --bs-border-radius: 0.5rem;
     /* border-radius-lg */
@@ -406,13 +406,20 @@ body {
     min-width: 100%;
     overflow: hidden;
     border-radius: 5px 5px 0 0;
+    --bs-table-bg: transparent;
+    --bs-table-hover-bg: rgba(0, 0, 0, 0.02);
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.01);
 }
 
-table thead tr {
+.table thead tr {
     color: #ebe7ef;
     background: var(--color-table-header);
     text-align: left;
     font-weight: bold;
+}
+
+.table thead th {
+    color: #ebe7ef;
 }
 
 .table th,
@@ -500,8 +507,6 @@ tr.bloqueio-inativo td {
     background-color: #16a34a;
     /* Cor de sucesso */
 }
-
-
 
 /* ======= FORMULÁRIOS / FORMS ======= */
 
@@ -632,13 +637,12 @@ tr.bloqueio-inativo td {
     box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
 }
 
-
 /* ======= FORM FILTER - ESTILO LIMPO ======= */
 /* Remove bordas e sombras dos inputs */
 .form-Inputs,
 .form-Filter .form-Inputs,
-.form-Filter input[type="search"],
-.form-Filter input[type="date"],
+.form-Filter input[type='search'],
+.form-Filter input[type='date'],
 .form-Filter select.form-Inputs {
     border: none !important;
     box-shadow: none !important;
@@ -700,7 +704,6 @@ tr.bloqueio-inativo td {
     font-size: 1rem !important;
     box-shadow: none !important;
 }
-
 
 /* ========= RODA PE DO CARD ==========>>>*/
 .card-footer {
@@ -814,10 +817,7 @@ tr.bloqueio-inativo td {
 }
 
 .modal-backdrop {
-    background-color: rgba(0,
-            0,
-            0,
-            0.904) !important;
+    background-color: rgba(0, 0, 0, 0.904) !important;
     /* Aumenta a opacidade para 0.8 (mais escuro que o padrão 0.5). Use rgba para translucidez. */
     opacity: 0.8 !important;
     /* Garante a opacidade no fade-in. */
@@ -843,10 +843,9 @@ tr.bloqueio-inativo td {
     }
 }
 
-
 /* ==== DASHBOARD style ====== */
 
-/* Estilo dos cards DESEMPENHO EQUIPE */
+/* ====== Estilo dos cards DESEMPENHO EQUIPE ====== */
 .card {
     border: none;
     border-radius: 0.75rem;
@@ -869,11 +868,10 @@ tr.bloqueio-inativo td {
     text-align: center;
 }
 
-
-/* Estilo dos cards SLA */
+/*======= Estilo dos cards SLA ========*/
 
 /* Ajustes para modo escuro */
-[data-bs-theme="dark"] {
+[data-bs-theme='dark'] {
     --bs-body-bg: #0f1923;
     --bs-card-bg: #1a2836;
     --bs-border-color: #334155;
@@ -887,13 +885,8 @@ tr.bloqueio-inativo td {
 }
 
 /* Estilo para Tabela */
-.table {
-    --bs-table-bg: transparent;
-    --bs-table-hover-bg: rgba(0, 0, 0, 0.02);
-    --bs-table-striped-bg: rgba(0, 0, 0, 0.01);
-}
 
-[data-bs-theme="dark"] .table {
+[data-bs-theme='dark'] .table {
     --bs-table-hover-bg: rgba(255, 255, 255, 0.02);
     --bs-table-striped-bg: rgba(255, 255, 255, 0.01);
 }
@@ -917,12 +910,47 @@ tr.bloqueio-inativo td {
     color: #ffc107;
 }
 
-[data-bs-theme="dark"] .bg-positive-subtle {
+[data-bs-theme='dark'] .bg-positive-subtle {
     background-color: rgba(40, 167, 69, 0.2);
     color: #a3e9b4;
 }
 
-[data-bs-theme="dark"] .bg-warning-subtle {
+[data-bs-theme='dark'] .bg-warning-subtle {
     background-color: rgba(255, 193, 7, 0.2);
     color: #ffe69c;
+}
+
+/*======= Estilo dos cards OPERACIONAL ========*/
+
+.card {
+    border-radius: 0.75rem;
+    /* rounded-xl */
+}
+
+.text-primary-custom {
+    color: #007bff;
+    /* primary */
+}
+
+.bg-primary-custom {
+    background-color: #007bff !important;
+}
+
+.bg-primary-light {
+    background-color: rgba(0, 123, 255, 0.1);
+    /* primary/10 */
+}
+
+.text-dark-custom {
+    color: #0f1923;
+}
+
+.text-subtitle {
+    color: #6c757d;
+}
+
+/* slate-500 */
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }

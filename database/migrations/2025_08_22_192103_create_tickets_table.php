@@ -34,6 +34,7 @@ return new class extends Migration
 
             $table->text('observacoes')->nullable();
             $table->integer('prioridade')->default(1); // Prioridade vindo da tabela tipo Serviços
+            $table->boolean('cumpriu_sla')->default(false);
 
             // datas
             $table->datetime('data_solicitacao')->nullable(false);

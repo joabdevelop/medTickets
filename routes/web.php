@@ -7,10 +7,6 @@ Route::get('/', function () {
     return view('home');
 })->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     // To show the logged-in user's profile
     Route::get('/profile/index', [ProfileController::class, 'index'])->name('profile.index');

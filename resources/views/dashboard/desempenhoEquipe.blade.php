@@ -6,7 +6,7 @@
 
             <!-- Cabeçalho e Filtros de Data -->
             <header class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center gap-4 mb-5">
-                <h1 class="h2 fw-bold mb-0">Dashboard de Desempenho</h1>
+                <h1 class="h2 fw-bold mb-0">Dashboard de Desempenho Geral</h1>
 
                 <!-- Filtros de Data (convertidos para btn-group) -->
                 <div class="d-flex align-items-center gap-2">
@@ -123,7 +123,7 @@
                 <div class="col-lg-8">
                     <div class="card h-100 shadow-sm">
                         <div class="card-body p-4 p-md-5">
-                            <h3 class="card-title fs-5 fw-semibold mb-4">Volume de Atendimentos por Canal</h3>
+                            <h3 class="card-title fs-5 fw-semibold mb-4">Volume de Atendimentos por Departamento </h3>
                             <div class="chart-container" style="height: 300px;">
                                 <canvas id="barChartCanal"></canvas>
                             </div>

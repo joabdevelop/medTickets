@@ -35,12 +35,12 @@
     <section class="table-section">
         <!-- Alertas de sucesso ou erro -->
         @include('components.alertas')
-        <div class="table-list">
+        <div class="table-list table-responsive">
 
             <!-- O ELEMENTO TOOLTIP QUE SERÁ MANIPULADO PELO JS -->
             <div id="status-tooltip" class="custom-tooltip"></div>
 
-            <table class="table table-hover cursor-pointer table-responsive">
+            <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
                 <thead>
                     <tr>
                         <th>Status Produto/Preço</th>

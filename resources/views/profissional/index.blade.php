@@ -1,35 +1,37 @@
 <x-app-layout title="profissionais">
 
 
+    <!-- Seção de Cabeçalho e Controles (Título, Busca e Botão Adicionar) -->
     <section class="container-section">
+
         <div class="container-list">
+
             <h1>Lista de Profissionais</h1>
-
             <form method="GET" action="{{ route('profissional.index') }}" class="input-group w-25">
-
                 <input type="search" name="search" id="search" value="{{ old('search') ?? request('search') }}"
                     class="form-control rounded-start" placeholder="Buscar..." aria-label="Buscar">
+
                 <button class="btn btn-outline-primary" type="submit">
                     <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
                 </button>
             </form>
-
             <!-- Button trigger modal -->
-
             <button type="button" class=" btn btn-outline-primary" data-bs-toggle="modal"
                 data-bs-target="#createProfissionalModal" title="Incluir">
                 Adicionar
                 <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">group_add</i>
             </button>
+
         </div>
+
     </section>
     <section class="table-section">
-        <div class="table-list">
+        <div class="table-responsive table-list">
 
             <!-- Alert Messages -->
             @include('components.alertas')
 
-            <table class="table table-hover cursor-pointer table-responsive  ">
+            <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
                 <thead>
                     <tr>
                         <th>Status</th>

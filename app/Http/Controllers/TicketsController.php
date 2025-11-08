@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Enums\StatusTickets;
 
-
 class TicketsController extends Controller
 {
     /**
@@ -39,7 +38,6 @@ class TicketsController extends Controller
             // Aplica a ordenação
             ->orderByDesc('updated_at');
 
-
         // Lógica para filtrar por string de busca (CORREÇÃO)
         if (request()->filled('search')) {
             $search = request()->input('search');
@@ -59,7 +57,6 @@ class TicketsController extends Controller
 
             // 1. Condição para filtrar, IGNORANDO se for 'Todos'
             if ($statusFinalSelected !== 'Todos') {
-
                 // 2. Adiciona a condição WHERE no construtor de query
                 // Correção da sintaxe: deve ser 'coluna', 'operador', 'valor'
                 $query->where('status_final', '=', $statusFinalSelected);
@@ -73,7 +70,6 @@ class TicketsController extends Controller
 
             // 1. Condição para filtrar, IGNORANDO se for 'Todos'
             if ($dataTicket !== null) {
-
                 // 2. Adiciona a condição WHERE no construtor de query
                 // Correção da sintaxe: deve ser 'coluna', 'operador', 'valor'
                 $query->whereDate('data_solicitacao', '=', $dataTicket);
@@ -93,7 +89,6 @@ class TicketsController extends Controller
      */
     public function aceitarAtendimento($ticket_id)
     {
-
         // 1. Encontra o ticket
         $ticket = Ticket::find($ticket_id);
 
@@ -115,16 +110,19 @@ class TicketsController extends Controller
             return response()->json([
                 'status' => 200,
                 'success' => true,
-                'message' => 'Atendimento aceito e atribuído.'
+                'message' => 'Atendimento aceito e atribuído.',
             ]);
         } catch (\Exception $e) {
             // Retorna o erro
             Log::error('Erro ao salvar o ticket: ' . $e->getMessage());
-            return response()->json([
-                'status' => 500,
-                'success' => false,
-                'message' => 'Erro ao salvar o ticket: ' . $e->getMessage()
-            ], 500);
+            return response()->json(
+                [
+                    'status' => 500,
+                    'success' => false,
+                    'message' => 'Erro ao salvar o ticket: ' . $e->getMessage(),
+                ],
+                500,
+            );
         }
     }
 
@@ -136,7 +134,6 @@ class TicketsController extends Controller
         if (!$ticket) {
             return response()->json(['message' => 'Ticket não encontrado.'], 404);
         }
-
 
         // Texto anterior no banco
         $observacoesAnteriores = trim($request->input('observacoesAnteriores', ''));
@@ -178,22 +175,24 @@ class TicketsController extends Controller
             return response()->json([
                 'status' => 200,
                 'success' => true,
-                'message' => 'Atendimento aceito e atribuído.'
+                'message' => 'Atendimento aceito e atribuído.',
             ]);
         } catch (\Exception $e) {
             // Retorna o erro
             Log::error('Erro ao salvar o ticket: ' . $e->getMessage());
-            return response()->json([
-                'status' => 500,
-                'success' => false,
-                'message' => 'Erro ao salvar o ticket: ' . $e->getMessage()
-            ], 500);
+            return response()->json(
+                [
+                    'status' => 500,
+                    'success' => false,
+                    'message' => 'Erro ao salvar o ticket: ' . $e->getMessage(),
+                ],
+                500,
+            );
         }
     }
 
-     public function encerrarAtendimento($ticket_id)
+    public function encerrarAtendimento($ticket_id)
     {
-
         // 1. Encontra o ticket
         $ticket = Ticket::find($ticket_id);
 
@@ -203,23 +202,36 @@ class TicketsController extends Controller
 
         // 2. Aplica a alteração (user_id_executante)
         try {
+
+            // 3. Calcula o tempo real sla
+            $sla = $ticket->tipoServico->sla;
+            $tempoReal = $ticket->data_conclusao->diffInMinutes($ticket->data_solicitacao);
+                           
+            $cumpriu = ($tempoReal <= $sla->tempo_limite_minutos);
+
+            // 4. Atualiza o ticket
+            $ticket->cumpriu_sla = $cumpriu;
+            $ticket->data_conclusao = now();
             $ticket->status_final = 'Concluído';
             $ticket->save();
 
-            // 4. Retorna a resposta de sucesso
+            // 5. Retorna a resposta de sucesso
             return response()->json([
                 'status' => 200,
                 'success' => true,
-                'message' => 'Atendimento encerrado.'
+                'message' => 'Atendimento encerrado.',
             ]);
         } catch (\Exception $e) {
             // Retorna o erro
             Log::error('Erro ao encerrar o ticket: ' . $e->getMessage());
-            return response()->json([
-                'status' => 500,
-                'success' => false,
-                'message' => 'Erro ao encerrar o ticket: ' . $e->getMessage()
-            ], 500);
+            return response()->json(
+                [
+                    'status' => 500,
+                    'success' => false,
+                    'message' => 'Erro ao encerrar o ticket: ' . $e->getMessage(),
+                ],
+                500,
+            );
         }
     }
     /**

@@ -10,6 +10,10 @@ use App\Models\Empresa;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Profissional;
+use App\Models\Sla;
+use Carbon\Carbon;
+
+use Illuminate\Support\Facades\Log;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
@@ -46,7 +50,39 @@ class TicketFactory extends Factory
 
         // 1. Encontra um Tipo_servico aleatório.
         $tipo_Servico = Tipo_servico::inRandomOrder()->first();
-        $prioridade = $tipo_Servico ? $tipo_Servico->prioridade : 1;
+        
+        // Adicionando uma verificação de segurança caso não exista Tipo_servico.
+        if (!$tipo_Servico) {
+            // Retorna um tempo limite padrão e uma prioridade se não houver Tipo_servico.
+            return [
+                // Defina os campos necessários para um Ticket, usando valores padrão
+                'tempo_limite_minutos' => 15,
+                'prioridade' => 1,
+                // ... outros campos
+            ];
+        }
+
+        Log::info('Tipo serviço: ' . $tipo_Servico->sla_id);
+        
+        // Tenta encontrar o SLA. Pode retornar null.
+        $tempo_sla = Sla::find($tipo_Servico->sla_id);
+
+        // CORREÇÃO: Usa o operador null-safe (disponível no PHP 8+) ou verifica se é nulo.
+        // Se $tempo_sla for null, ele não tentará acessar tempo_limite_minutos,
+        // retornando null, que será tratado pelo operador de coalescência nula (??) com o valor 15.
+        $tempo_limite_minutos = $tempo_sla?->tempo_limite_minutos ?? 15;
+        
+        Log::info('Tempo limite: ' . $tempo_limite_minutos);
+
+        // Se estiver usando uma versão do PHP anterior a 8.0, use a sintaxe abaixo:
+        /*
+        $tempo_limite_minutos = $tempo_sla 
+            ? $tempo_sla->tempo_limite_minutos 
+            : 15;
+        */
+
+        $prioridade = $tipo_Servico->prioridade ?? 1;
+
 
         $siglaDeptoExec = null; // Inicializa a variável como nula
 
@@ -75,10 +111,16 @@ class TicketFactory extends Factory
 
         $dataConclusao = null;
         $dataDevolucao = null;
+        $cumpriu_sla = false;
 
         // Lógica de datas baseada no status
         if ($statusFinal === 'Concluído') {
             $dataConclusao = $this->faker->dateTimeBetween($dataSolicitacao, 'now');
+
+            $tempoReal = Carbon::instance($dataConclusao)->diffInMinutes(Carbon::instance($dataSolicitacao));
+            $cumpriu = ($tempoReal <= $tempo_limite_minutos);
+            $cumpriu_sla = $cumpriu;
+
         } elseif ($statusFinal === 'Devolvido') {
             $dataDevolucao = $this->faker->dateTimeBetween($dataSolicitacao, 'now');
         }
@@ -103,6 +145,7 @@ class TicketFactory extends Factory
             'user_id_executante'    => $statusFinal === 'Aberto' ? null : $executanteId->id, // Será NULL em 50% das vezes
             'observacoes'           => $this->faker->optional()->paragraph(2),
             'prioridade'            => $prioridade,
+            'cumpriu_sla'           => $cumpriu_sla,
 
             // Datas Opcionais
             'data_conclusao'        => $dataConclusao,
