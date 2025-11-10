@@ -71,8 +71,6 @@ class TicketFactory extends Factory
         // Se $tempo_sla for null, ele não tentará acessar tempo_limite_minutos,
         // retornando null, que será tratado pelo operador de coalescência nula (??) com o valor 15.
         $tempo_limite_minutos = $tempo_sla?->tempo_limite_minutos ?? 15;
-        
-        Log::info('Tempo limite: ' . $tempo_limite_minutos);
 
         // Se estiver usando uma versão do PHP anterior a 8.0, use a sintaxe abaixo:
         /*
@@ -109,16 +107,18 @@ class TicketFactory extends Factory
         $dataSolicitacao = $this->faker->dateTimeBetween('-1 year', 'now');
         $statusFinal = $this->faker->randomElement($statuses);
 
+        // Inicializa as variáveis 
         $dataConclusao = null;
         $dataDevolucao = null;
         $cumpriu_sla = false;
+        $cumpriu = false;
+        $tempoReal = 0;
 
         // Lógica de datas baseada no status
         if ($statusFinal === 'Concluído') {
             $dataConclusao = $this->faker->dateTimeBetween($dataSolicitacao, 'now');
-
-            $tempoReal = Carbon::instance($dataConclusao)->diffInMinutes(Carbon::instance($dataSolicitacao));
-            $cumpriu = ($tempoReal <= $tempo_limite_minutos);
+            $tempoReal = Carbon::instance($dataSolicitacao)->diffInMinutes(Carbon::instance($dataConclusao));
+            $cumpriu = ($tempoReal <= $tempo_limite_minutos) ? 0 : 1;
             $cumpriu_sla = $cumpriu;
 
         } elseif ($statusFinal === 'Devolvido') {
@@ -146,6 +146,8 @@ class TicketFactory extends Factory
             'observacoes'           => $this->faker->optional()->paragraph(2),
             'prioridade'            => $prioridade,
             'cumpriu_sla'           => $cumpriu_sla,
+            'tempo_execucao'        => $tempoReal,
+
 
             // Datas Opcionais
             'data_conclusao'        => $dataConclusao,

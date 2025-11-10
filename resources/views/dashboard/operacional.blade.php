@@ -11,7 +11,7 @@
                 <!-- Page Heading -->
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-4 mb-4">
                     <div class="d-flex flex-column gap-2">
-                        <h1 class="text-dark-custom display-6 fw-bold mb-0">Dashboard de Desempenho</h1>
+                        <h1 class="text-dark-custom display-6 fw-bold mb-0">Dashboard - Operacional</h1>
                         <p class="text-subtitle lead mb-0 fs-6">Acompanhe as métricas de performance da equipe de
                             atendimento.</p>
                     </div>

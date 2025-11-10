@@ -6,7 +6,7 @@
 
             <!-- Cabeçalho e Filtros de Data -->
             <header class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center gap-4 mb-5">
-                <h1 class="h2 fw-bold mb-0">Dashboard de Desempenho Geral</h1>
+                <h1 class="h2 fw-bold mb-0">Dashboard - Desempenho da Empresa</h1>
 
                 <!-- Filtros de Data (convertidos para btn-group) -->
                 <div class="d-flex align-items-center gap-2">
@@ -87,7 +87,7 @@
                         <div class="card-body d-flex flex-column p-4">
                             <div class="d-flex align-items-center text-muted mb-2">
                                 <i class="bi bi-headset fs-5 me-2"></i>
-                                <span class="fw-semibold small">Volume de Atendimentos</span>
+                                <span class="fw-semibold small">Qtd. de Atendimentos</span>
                             </div>
                             <h2 class="fw-bold my-1">1,254</h2>
                             <div class="d-flex align-items-center text-success small mt-1">

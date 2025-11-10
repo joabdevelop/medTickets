@@ -20,6 +20,7 @@ class Ticket extends Model
         'observacoes',
         'prioridade',
         'cumpriu_sla',
+        'tempo_execucao',
         'data_solicitacao',
         'data_conclusao',
         'data_devolucao',

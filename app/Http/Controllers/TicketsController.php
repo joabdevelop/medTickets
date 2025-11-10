@@ -203,14 +203,19 @@ class TicketsController extends Controller
         // 2. Aplica a alteração (user_id_executante)
         try {
 
-            // 3. Calcula o tempo real sla
-            $sla = $ticket->tipoServico->sla;
-            $tempoReal = $ticket->data_conclusao->diffInMinutes($ticket->data_solicitacao);
+            // 3. Calcula o tempo que tomou para resolver o ticket
+            $sla = $ticket->tipo_servico?->sla?->tempo_limite_minutos ?? 15; // Obtém o tempo limite do SLA do tipo de serviço
+            $tempoExecucao = $ticket->data_solicitacao->diffInMinutes(now()); // Verifica a diferença em minutos
+
+            Log::info('Tempo limite de SLA obtido: ' . $sla . ' minutos.');
+            Log::info('Tempo de execução do ticket: ' . $tempoExecucao . ' minutos.');
+
                            
-            $cumpriu = ($tempoReal <= $sla->tempo_limite_minutos);
+            $cumpriu = ($tempoExecucao <= $sla) ? 0 : 1;
 
             // 4. Atualiza o ticket
             $ticket->cumpriu_sla = $cumpriu;
+            $ticket->tempo_execucao = $tempoExecucao;
             $ticket->data_conclusao = now();
             $ticket->status_final = 'Concluído';
             $ticket->save();

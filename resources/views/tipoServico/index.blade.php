@@ -62,7 +62,7 @@
                             <td>{{ $tipo_servico->nome_servico }}</td>
                             <td>{{ $tipo_servico->departamento->nome }}</td>
                             <td>{{ $tipo_servico->prioridade->label() }}</td>
-                            <td> {{ $tipo_servico->sla }} horas</td>
+                            <td> {{ $tipo_servico->sla_id }} horas</td>
                             <td>
                                 {{ $tipo_servico->quem_solicita->label() }}
                             </td>

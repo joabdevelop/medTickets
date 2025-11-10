@@ -25,6 +25,13 @@
 
 
                 <div class="container-search">
+                    <form method="POST" action="{{ route('metricas.consolidadas') }}" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-info" data-bs-toggle="tooltip"
+                            title="Processar Métricas Consolidadas">
+                            <i class="bi bi-calculator"></i>
+                        </button>
+                    </form>
                     <!-- Filtar por Numero do tickets, status e data -->
                     <form method="GET" action="{{ route('ticket.index') }}"
                         class="row g-2 d-flex align-items-center justify-content-center form-floating form-cadastro form-search">

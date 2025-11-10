@@ -5,25 +5,26 @@
         <!-- Cabeçalho da Página e Filtros -->
         <header class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-5">
             <div>
-                <h1 class="h2 fw-bold mb-1">Dashboard de SLA Por Departamento</h1>
+                <h1 class="h2 fw-bold mb-1">Dashboard - SLA </h1>
                 <p class="text-muted mb-0">Acompanhe os principais indicadores de desempenho da equipe.</p>
             </div>
-            <div class="d-flex align-items-center gap-2" role="group">
+            <form method="GET" action="{{ route('dashboard.sla') }}" class="d-flex align-items-center gap-2"
+                role="group">
                 <div class="btn-group btn-group-sm shadow-sm" role="group">
-                    <input type="radio" class="btn-check" name="timefilter" id="filter_today" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="filter_today">Hoje</label>
-
-                    <input type="radio" class="btn-check" name="timefilter" id="filter_7days" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="filter_7days">7 dias</label>
-
-                    <input type="radio" class="btn-check" name="timefilter" id="filter_30days" autocomplete="off"
-                        checked>
-                    <label class="btn btn-primary" for="filter_30days">30 dias</label>
+                    <button type="submit" name="periodo" value="1"
+                        class="btn @if ($periodo == 1) btn-primary @else btn-outline-secondary @endif">Hoje</button>
+                    <button type="submit" name="periodo" value="7"
+                        class="btn @if ($periodo == 7) btn-primary @else btn-outline-secondary @endif">7 dias</button>
+                    <button type="submit" name="periodo" value="30"
+                        class="btn @if ($periodo == 30) btn-primary @else btn-outline-secondary @endif">30 dias</button>
                 </div>
-                <button class="btn btn-light bg-body btn-sm shadow-sm border d-flex align-items-center gap-2">
+                {{-- <button class="btn btn-light bg-body btn-sm shadow-sm border d-flex align-items-center gap-2">
                     <i class="bi bi-calendar-month"></i> Período <i class="bi bi-chevron-down small"></i>
                 </button>
-            </div>
+                <button class="btn btn-light bg-body btn-sm shadow-sm border d-flex align-items-center gap-2">
+                    <i class="bi bi-calendar-month"></i> Departamento <i class="bi bi-chevron-down small"></i>
+                </button> --}}
+            </form>
         </header>
 
         <!-- Grid de Stats (KPIs e Donuts) -->
@@ -37,11 +38,11 @@
                             <i class="bi bi-timer fs-5"></i>
                         </div>
                         <div>
-                            <p class="h1 fw-bold my-2">8h 32m</p>
-                            <p class="text-positive small fw-medium d-flex align-items-center gap-1 mb-0">
+                            <p class="h1 fw-bold my-2">{{ $tempoMedioResolucao }}</p>
+                            {{-- <p class="text-positive small fw-medium d-flex align-items-center gap-1 mb-0">
                                 <i class="bi bi-arrow-up-short"></i>
                                 <span>-5.2% vs. mês anterior</span>
-                            </p>
+                            </p> --}}
                         </div>
                     </div>
                 </div>
@@ -55,7 +56,7 @@
                             <canvas id="donutSlaResposta"></canvas>
                             <div class="chart-donut-label"
                                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                <h3 class="h2 fw-bold mb-0">92%</h3>
+                                <h3 class="h2 fw-bold mb-0">{{ $percentualSlaResposta }}%</h3>
                                 <span class="small text-muted">Cumprido</span>
                             </div>
                         </div>
@@ -71,7 +72,7 @@
                             <canvas id="donutSlaResolucao"></canvas>
                             <div class="chart-donut-label"
                                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                <h3 class="h2 fw-bold mb-0">85%</h3>
+                                <h3 class="h2 fw-bold mb-0">{{ $percentualSlaResolucao }}%</h3>
                                 <span class="small text-muted">Cumprido</span>
                             </div>
                         </div>
@@ -92,59 +93,44 @@
                             <table class="table table-borderless table-hover align-middle caption-top">
                                 <thead >
                                     <tr>
-                                        <th scope="col" class="py-3 px-3">Ticket ID</th>
-                                        <th scope="col" class="py-3 px-3">Assunto</th>
+                                        <th scope="col" class="py-3 px-3">Ticket</th>
+                                        <th scope="col" class="py-3 px-3">Descrição</th>
                                         <th scope="col" class="py-3 px-3">Agente</th>
                                         <th scope="col" class="py-3 px-3">Status</th>
                                         <th scope="col" class="py-3 px-3">Tempo de Resolução</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="px-3 fw-medium text-primary">#78321</td>
-                                        <td class="px-3">Problema com faturamento da assinatura</td>
-                                        <td class="px-3">Lucas</td>
-                                        <td class="px-3"><span
-                                                class="badge rounded-pill fw-medium bg-warning-subtle">Em
-                                                Aberto</span></td>
-                                        <td class="px-3 fw-medium text-negative">96h 15m</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 fw-medium text-primary">#78155</td>
-                                        <td class="px-3">Erro ao exportar relatório mensal</td>
-                                        <td class="px-3">Roberto</td>
-                                        <td class="px-3"><span
-                                                class="badge rounded-pill fw-medium bg-warning-subtle">Em
-                                                Aberto</span></td>
-                                        <td class="px-3 fw-medium text-negative">88h 40m</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 fw-medium text-primary">#78002</td>
-                                        <td class="px-3">API não retorna dados corretos</td>
-                                        <td class="px-3">Mariana</td>
-                                        <td class="px-3"><span
-                                                class="badge rounded-pill fw-medium bg-positive-subtle">Resolvido</span>
-                                        </td>
-                                        <td class="px-3 fw-medium text-negative">75h 22m</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 fw-medium text-primary">#77984</td>
-                                        <td class="px-3">Não consigo acessar minha conta</td>
-                                        <td class="px-3">Lucas</td>
-                                        <td class="px-3"><span
-                                                class="badge rounded-pill fw-medium bg-positive-subtle">Resolvido</span>
-                                        </td>
-                                        <td class="px-3 fw-medium text-negative">68h 05m</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-3 fw-medium text-primary">#77901</td>
-                                        <td class="px-3">Dúvida sobre integração com sistema X</td>
-                                        <td class="px-3">Roberto</td>
-                                        <td class="px-3"><span
-                                                class="badge rounded-pill fw-medium bg-positive-subtle">Resolvido</span>
-                                        </td>
-                                        <td class="px-3 fw-medium text-warning">55h 30m</td>
-                                    </tr>
+                                    @php
+                                        dd($topTicketsLentos)
+                                    @endphp
+                                    @forelse ($topTicketsLentos as $ticket)
+
+                                        @php
+                                            $statusEnum = \App\Enums\StatusTickets::tryFrom($ticket->status_final);
+                                        @endphp
+                                        <tr>
+                                            <td class="px-3 fw-medium text-primary">{{ $ticket->numero_ticket }}</td>
+                                            <td class="px-3">{{ Str::limit($ticket->descricao_servico, 40) }}</td>
+                                            <td class="px-3">{{ $ticket->user_executante->nome ?? 'N/A' }}</td>
+                                            <td class="px-3">
+                                                @if ($statusEnum)
+                                                    <span class="badge rounded-pill fw-medium {{ $statusEnum->getBootstrapClass(true) }}">
+                                                        {{ $statusEnum->value }}
+                                                    </span>
+                                                @else
+                                                    <span class="badge rounded-pill fw-medium bg-secondary-subtle text-secondary-emphasis">
+                                                        {{ $ticket->status_final }}
+                                                    </span>
+                                                @endif
+                                            </td>
+                                            <td class="px-3 fw-medium text-negative">{{ gmdate('H\h i\m', $ticket->tempo_execucao * 60) }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="5" class="text-center py-4">Nenhum ticket encontrado.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -155,7 +141,7 @@
             <div class="col-xl-4 h-100">
                 <div class="card shadow-sm rounded-xl h-100 ">
                     <div class="card-body h-100">
-                        <h3 class="card-title h5 fw-semibold">SLA de Resolução por Agente</h3>
+                        <h3 class="card-title h5 fw-semibold mb-1">SLA de Resolução por Agente</h3>
                         <p class="card-subtitle text-muted small mb-4">Neste mês</p>
                         <!-- Adicionado overflow-y: auto para rolagem vertical se o gráfico for maior que 320px -->
                         <div style="height: 320px; overflow-y: auto;">
@@ -179,30 +165,18 @@
             document.addEventListener("DOMContentLoaded", function() {
 
                 // Dados de exemplo (substitua pelos seus dados reais)
-                const donutData1 = {
-                    value: 92,
+                const donutSlaRespostaData = {
+                    value: {{ $percentualSlaResposta }},
                     color: '#007bff' // primary
                 };
-                const donutData2 = {
-                    value: 85,
+                const donutSlaResolucaoData = {
+                    value: {{ $percentualSlaResolucao }},
                     color: '#28a745' // positive
                 };
 
-                const lineData = {
-                    labels: Array.from({
-                        length: 30
-                    }, (_, i) => i + 1), // Rótulos de 1 a 30
-                    slaTotal: [88, 90, 92, 91, 89, 93, 94, 91, 90, 88, 85, 87, 89, 92, 95, 94, 93, 91, 90, 92, 94,
-                        95, 96, 94, 92, 93, 95, 97, 96, 98
-                    ],
-                    slaResolucao: [85, 86, 88, 87, 85, 89, 90, 88, 87, 86, 82, 84, 85, 88, 91, 90, 89, 88, 87, 89,
-                        90, 91, 92, 90, 89, 90, 92, 94, 93, 95
-                    ]
-                };
-
                 const barDataAgentes = {
-                    labels: ['Carlos', 'Beatriz', 'Mariana', 'Lucas', 'Juliana', 'Roberto',],
-                    valores: [98, 95, 89, 72, 91, 65,]
+                    labels: @json($agentesLabels),
+                    valores: @json($agentesValores)
                 };
 
                 // Cores base
@@ -227,8 +201,8 @@
                         type: 'doughnut',
                         data: {
                             datasets: [{
-                                data: [donutData1.value, 100 - donutData1.value],
-                                backgroundColor: [donutData1.color, corBorda],
+                                data: [donutSlaRespostaData.value, 100 - donutSlaRespostaData.value],
+                                backgroundColor: [donutSlaRespostaData.color, corBorda],
                                 borderColor: 'transparent'
                             }]
                         },
@@ -255,8 +229,8 @@
                         type: 'doughnut',
                         data: {
                             datasets: [{
-                                data: [donutData2.value, 100 - donutData2.value],
-                                backgroundColor: [donutData2.color, corBorda],
+                                data: [donutSlaResolucaoData.value, 100 - donutSlaResolucaoData.value],
+                                backgroundColor: [donutSlaResolucaoData.color, corBorda],
                                 borderColor: 'transparent'
                             }]
                         },

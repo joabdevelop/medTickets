@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-})->middleware(['auth', 'verified'])->name('home');
+})
+    ->middleware(['auth', 'verified'])
+    ->name('home');
 
 Route::middleware('auth')->group(function () {
     // To show the logged-in user's profile
@@ -43,7 +45,6 @@ Route::resource('empresa', \App\Http\Controllers\EmpresaController::class)
         'destroy' => 'empresa.destroy',
     ]);
 
-
 // Resource routes for GrupoController
 Route::resource('grupo', \App\Http\Controllers\GrupoController::class)
     ->middleware(['auth', 'verified'])
@@ -69,7 +70,6 @@ Route::resource('profissional', \App\Http\Controllers\ProfissionalController::cl
         'update' => 'profissional.update',
         'destroy' => 'profissional.destroy',
     ]);
-
 
 Route::post('profissional/{profissional}/toggle', [\App\Http\Controllers\ProfissionalController::class, 'toggle'])
     ->middleware(['auth', 'verified'])
@@ -120,45 +120,43 @@ Route::resource('solicitaServico', \App\Http\Controllers\SolicitaServicoControll
     ]);
 
 Route::resource('ticket', \App\Http\Controllers\TicketsController::class)
-->middleware(['auth', 'verified'])
-->names([
-    'index' => 'ticket.index',
-    'create' => 'ticket.create',
-    'store' => 'ticket.store',
-    'show' => 'ticket.show',
-    'edit' => 'ticket.edit',
-    'update' => 'ticket.update',
-    'destroy' => 'ticket.destroy',
-]);
+    ->middleware(['auth', 'verified'])
+    ->names([
+        'index' => 'ticket.index',
+        'create' => 'ticket.create',
+        'store' => 'ticket.store',
+        'show' => 'ticket.show',
+        'edit' => 'ticket.edit',
+        'update' => 'ticket.update',
+        'destroy' => 'ticket.destroy',
+    ]);
 
-Route::post('/ticket/atender/{ticket_id}',[
-    \App\Http\Controllers\TicketsController::class, 
-    'aceitarAtendimento'
-])->middleware(['auth', 'verified'])->name('ticket.aceitarAtendimento');
+Route::post('/ticket/atender/{ticket_id}', [\App\Http\Controllers\TicketsController::class, 'aceitarAtendimento'])
+    ->middleware(['auth', 'verified'])
+    ->name('ticket.aceitarAtendimento');
 
-Route::post('/ticket/devolver/{ticket_id}',[
-    \App\Http\Controllers\TicketsController::class, 
-    'devolverAtendimento'
-])->middleware(['auth', 'verified'])->name('ticket.devolverAtendimento');
+Route::post('/ticket/devolver/{ticket_id}', [\App\Http\Controllers\TicketsController::class, 'devolverAtendimento'])
+    ->middleware(['auth', 'verified'])
+    ->name('ticket.devolverAtendimento');
 
-Route::post('/ticket/encerrar/{ticket_id}',[
-    \App\Http\Controllers\TicketsController::class, 
-    'encerrarAtendimento'
-])->middleware(['auth', 'verified'])->name('ticket.encerrarAtendimento');
+Route::post('/ticket/encerrar/{ticket_id}', [\App\Http\Controllers\TicketsController::class, 'encerrarAtendimento'])
+    ->middleware(['auth', 'verified'])
+    ->name('ticket.encerrarAtendimento');
 
-Route::get('/dashboard/operacional',[
-    \App\Http\Controllers\DashboardController::class, 
-    'indexOperacional'
-])->middleware(['auth', 'verified'])->name('dashboard.operacional');
+Route::get('/dashboard/operacional', [\App\Http\Controllers\DashboardController::class, 'indexOperacional'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.operacional');
 
-Route::get('/dashboard/sla',[
-    \App\Http\Controllers\DashboardController::class, 
-    'indexSla'
-])->middleware(['auth', 'verified'])->name('dashboard.sla');
+Route::get('/dashboard/sla', [\App\Http\Controllers\DashboardController::class, 'indexSla'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.sla');
 
-Route::get('/dashboard/equipe',[
-    \App\Http\Controllers\DashboardController::class, 
-    'indexEquipe'
-])->middleware(['auth', 'verified'])->name('dashboard.equipe');
+Route::get('/dashboard/equipe', [\App\Http\Controllers\DashboardController::class, 'indexEquipe'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard.equipe');
+
+Route::post('/metricas/consolidadas', [\App\Http\Controllers\MetricasConsolidadasController::class, 'processarMetricasConsolidadas'])
+    ->middleware(['auth', 'verified'])
+    ->name('metricas.consolidadas');
 
 require __DIR__ . '/auth.php';

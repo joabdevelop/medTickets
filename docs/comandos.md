@@ -4,6 +4,10 @@ php artisan db:seed --class=EmpresaSeeder
 
 php artisan make:Controller SolicitaServicoController --resource
 
+php artisan make:migration add_circular_relations_to_tables
+
+php artisan make:model MetricasConsolidadas -r
+
 
 # Navegue até a pasta do seu projeto
 cd /caminho/para/seu/projeto
@@ -28,7 +32,7 @@ git branch -M main
 git push -u origin main
 
 
-# --> Atualizações posteriores <---
+*--> Atualizações posteriores <---*
 
 # Adiciona todos os arquivos ao 'staging area' (área de preparação)
 git add .
