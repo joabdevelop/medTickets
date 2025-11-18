@@ -11,8 +11,10 @@ class MetricasConsolidadas extends Model
         'user_id_executante',
         'tipo_servico_id',
         'origem_sigla_depto',
+        'status_final',
         'total_tickets',
         'tickets_concluidos',
+        'tickets_devolvidos',
         'tickets_sla_ok',
         'tempo_total_execucao_segundos',
         'total_tickets_com_tempo',
@@ -37,6 +39,11 @@ class MetricasConsolidadas extends Model
     public function origem()
     {
         return $this->belongsTo(Departamento::class, 'origem_sigla_depto', 'sigla_depto');
+    }
+
+     public function executante()
+    {
+        return $this->belongsTo(Profissional::class, 'user_id_executante');
     }
 
 

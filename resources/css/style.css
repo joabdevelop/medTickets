@@ -168,6 +168,7 @@ body {
 .title {
     opacity: 0;
     pointer-events: none;
+    display: none;
 }
 
 .navigation:hover .title {
@@ -176,6 +177,7 @@ body {
     /* Garante que o título esteja visível por padrão */
     transition: opacity 0.3s;
     white-space: nowrap;
+    display: block;
 }
 
 /* ======= SUBMENU ======= */
@@ -953,4 +955,34 @@ tr.bloqueio-inativo td {
 
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* 1. Classe Base para garantir que apenas a borda esquerda apareça com 4px */
+.custom-border-card {
+    /* Remove a borda padrão do Bootstrap */
+    border: none !important; 
+    /* Garante que o padding não mude o tamanho total */
+    box-sizing: border-box; 
+}
+
+/* 2. Classes Específicas para Cores e Espessura (4px) */
+
+/* Borda Rosa/Vermelho */
+.card-border-danger {
+    border-left: 4px solid var(--bs-danger) !important;
+}
+
+/* Borda Azul */
+.card-border-primary {
+    border-left: 4px solid var(--bs-primary) !important;
+}
+
+/* Borda Amarela */
+.card-border-warning {
+    border-left: 4px solid var(--bs-warning) !important;
+}
+
+/* Borda Verde */
+.card-border-success {
+    border-left: 4px solid var(--bs-success) !important;
 }

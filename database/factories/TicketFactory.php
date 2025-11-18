@@ -104,7 +104,7 @@ class TicketFactory extends Factory
         $solicitante = Profissional::with('departamento')->inRandomOrder()->first();
 
         // Simula datas para tickets concluídos, pendentes ou em andamento
-        $dataSolicitacao = $this->faker->dateTimeBetween('-1 year', 'now');
+        $dataSolicitacao = $this->faker->dateTimeBetween('-6 month', 'now');
         $statusFinal = $this->faker->randomElement($statuses);
 
         // Inicializa as variáveis 

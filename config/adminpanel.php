@@ -11,25 +11,30 @@ return [
             'route_name' => 'home',
             'icon' => 'home-outline',
             'icon_color' => 'red',
+            'perfil' => [1, 2, 3, 4, 5],
         ],
         [
             'text' => 'Dashboard',
             'icon' => 'bar-chart-outline',
+            'perfil' => [4, 5],
             'submenu' => [
                 [
                     'text' => 'Desempenho Operacional',
                     'route_name' => 'dashboard.operacional',
                     'icon' => 'footsteps-outline',
+                    'perfil' => [4, 5],
                 ],
                 [
                     'text' => 'Performance de SLA',
                     'route_name' => 'dashboard.sla',
                     'icon' => 'layers-outline',
+                    'perfil' => [4, 5],
                 ],
                 [
                     'text' => 'Desempenho de Equipe',
                     'route_name' => 'dashboard.equipe',
                     'icon' => 'layers-outline',
+                    'perfil' => [4, 5],
                 ],
             ],
         ],
@@ -38,59 +43,43 @@ return [
             'route_name' => 'ticket.index',
             'icon' => 'ticket-outline',
             'icon_color' => 'red',
+            'perfil' => [2, 3, 4, 5],
         ],
         [
-            'text' => 'Chamados',
-            'icon' => 'document-text-outline',
-            'submenu' => [
-                [
-                    'text' => 'Solicitar Serviço',
-                    'route_name' => 'solicitaServico.index',
-                    'icon' => 'megaphone-outline',
-                ],
-                [
-                    'text' => 'Tipos de Serviço',
-                    'route_name' => 'tipo_servico.index',
-                    'icon' => 'build-outline',
-                ],
-            ],
+            'text' => 'Solicitar Serviço',
+            'route_name' => 'solicitaServico.index',
+            'icon' => 'megaphone-outline',
+            'perfil' => [1, 2, 3, 4, 5],
         ],
         [
-            'text' => 'Empresa/Grupos',
+            'text' => 'Tipos de Serviço',
+            'route_name' => 'tipo_servico.index',
+            'icon' => 'build-outline',
+            'perfil' => [3, 4, 5],
+        ],
+        [
+            'text' => 'Empresas',
+            'route_name' => 'empresa.index',
             'icon' => 'business-outline',
-            'submenu' => [
-                [
-                    'text' => 'Empresas',
-                    'route_name' => 'empresa.index',
-                    'icon' => 'briefcase-outline',
-                ],
-                [
-                    'text' => 'Grupos',
-                    'route_name' => 'grupo.index',
-                    'icon' => 'file-tray-stacked-outline',
-                ],
-            ],
+            'perfil' => [2, 3, 4, 5],
+        ],
+        [
+            'text' => 'Grupos',
+            'route_name' => 'grupo.index',
+            'icon' => 'file-tray-stacked-outline',
+            'perfil' => [3, 4, 5],
         ],
         [
             'text' => 'Profissionais',
+            'route_name' => 'profissional.index',
             'icon' => 'woman-outline',
-            'icon_color' => 'red',
-            'submenu' => [
-                [
-                    'text' => 'Profissionais',
-                    'route_name' => 'profissional.index',
-                    'icon' => 'footsteps-outline',
-                ],
-                [
-                    'text' => 'Departamentos',
-                    'route_name' => 'departamento.index',
-                    'icon' => 'layers-outline',
-                ],
-            ],
+            'perfil' => [4, 5],
         ],
         [
-            'text' => 'Configurações',
-            'icon' => 'construct-outline',
+            'text' => 'Departamentos',
+            'route_name' => 'departamento.index',
+            'icon' => 'layers-outline',
+            'perfil' => [4, 5],
         ],
     ],
 ];

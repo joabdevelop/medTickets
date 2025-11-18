@@ -16,7 +16,7 @@ class DepartamentoSeeder extends Seeder
 
         Departamento::create([
             'nome' => 'Cliente',
-            'sigla_depto' => 'Clie',
+            'sigla_depto' => 'CLIE',
         ]);
 
         Departamento::create([

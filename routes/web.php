@@ -3,11 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-})
-    ->middleware(['auth', 'verified'])
-    ->name('home');
+
+Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
 Route::middleware('auth')->group(function () {
     // To show the logged-in user's profile
