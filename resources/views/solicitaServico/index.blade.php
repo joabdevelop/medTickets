@@ -2,28 +2,14 @@
 
     <body>
         <section class="container-section">
-            <div class="container-list">
-                <h1>Solicitações de Serviços</h1>
+            <x-list-header title="Solicitações de Serviços" route="{{ route('solicitaServico.index') }}"
+                placeholder="Digite o numero do ticket" modal="createSolicitaServicoModal" icon="bi bi-plus-lg"
+                :rounded="false"
+                buttonLabel="Adicionar" :extraData="[
+                    'data-user-id' => Auth::user()->id,
+                    'data-user-departamento' => Auth::user()->profissional?->departamento?->sigla_depto,
+                ]" />
 
-                <form method="GET" action="{{ route('solicitaServico.index') }}" class="input-group w-25">
-
-                    <input type="search" name="search" id="search" value="{{ old('search') ?? request('search') }}"
-                        class="form-control rounded-start" placeholder="Digite o numero do ticket" aria-label="Buscar">
-                    <button class="btn btn-outline-primary" type="submit">
-                        <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
-                    </button>
-                </form>
-
-                <!-- Button trigger modal -->
-
-                <button type="button" class=" btn btn-outline-primary create " data-bs-toggle="modal"
-                    data-bs-target="#createSolicitaServicoModal" data-user-id="{{ Auth::user()->id }}"
-                    data-user-departamento="{{ Auth::user()->profissional?->departamento?->sigla_depto }}"
-                    title="Incluir">
-                    Adicionar
-                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">group_add</i>
-                </button>
-            </div>
         </section>
         <section class="table-section">
             <div class="table-responsive table-list">
@@ -171,7 +157,7 @@
 
                     // 2. Encontra todos os botões que abrem o update modal
                     const updateButton = e.target.closest('.update');
-                    
+
                     if (updateButton) {
                         console.log('Abriu update modal');
                         e.preventDefault();

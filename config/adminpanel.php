@@ -36,6 +36,12 @@ return [
                     'icon' => 'layers-outline',
                     'perfil' => [4, 5],
                 ],
+                [
+                    'text' => 'Processar Métricas',
+                    'route_name' => 'metricas.consolidadas.index',
+                    'icon' => 'layers-outline',
+                    'perfil' => [4, 5],
+                ],
             ],
         ],
         [

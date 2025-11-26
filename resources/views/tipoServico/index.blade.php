@@ -6,26 +6,10 @@
 
     <!-- List Section -->
     <section class="container-section">
-        <div class="container-list">
-            <h1>Serviços</h1>
+        <x-list-header title="Serviços" :route="route('tipo_servico.index')" modal="createTipoServicoModal" placeholder="Buscar..."
+            icon="bi bi-file-earmark-plus" :rounded="false" {{-- parâmetros novos --}} sectionClass="container-section"
+            containerClass="container-list" searchWidth="w-25" buttonLabel="Adicionar" />
 
-            <form method="GET" action="{{ route('tipo_servico.index') }}" class="input-group w-25">
-
-                <input type="search" name="search" id="search" value="{{ old('search') ?? request('search') }}"
-                    class="form-control rounded-start" placeholder="Buscar..." aria-label="Buscar">
-                <button class="btn btn-outline-primary" type="submit">
-                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
-                </button>
-            </form>
-
-            <!-- Button trigger modal -->
-
-            <button type="button" class=" btn btn-outline-primary" data-bs-toggle="modal"
-                data-bs-target="#createTipoServicoModal" title="Incluir">
-                Adicionar
-                <i class="bi bi-folder-plus"></i>
-            </button>
-        </div>
     </section>
     <!-- Table Section -->
     <section class="table-section ">
@@ -160,7 +144,7 @@
                             'data-update_executante_departamento_id');
                         const dados_add = editButton.getAttribute('data-update_dados_add');
                         const servico_ativo = editButton.getAttribute(
-                        'data-update_servico_ativo'); // Valor booleano
+                            'data-update_servico_ativo'); // Valor booleano
 
                         // Preencher os campos
                         updateTipoServicoModal.querySelector('#id').value = id || '';

@@ -4,8 +4,6 @@ console.log('executing js >>>>>');
 // FUNÇÕES GLOBAIS (acessíveis de qualquer lugar, ideais para serem chamadas do HTML ou por outros scripts)
 // ===========================================
 
-
-
 // FUNÇÃO PARA COLOCAR A PRIMEIRA LETRA MAIÚSCULA
 export function capitalizeInput(inputElement) {
     if (inputElement && inputElement.value !== undefined) {
@@ -97,6 +95,37 @@ document.addEventListener('DOMContentLoaded', function () {
     navigation.addEventListener('mouseleave', () => {
         submenuToggleIcons.forEach(icon => icon.classList.remove('expanded'));
     });
+
+    // --- CÓDIGO PARA O SPINNER GLOBAL AO NAVEGAR/ENVIAR FORMULÁRIOS ---
+
+    const spinner = document.getElementById("main-spinner");
+
+    // Ao clicar em links (mas não no menu que só expande)
+    document.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", function (e) {
+
+            const href = this.getAttribute("href");
+
+            // ignora dropdowns ou links vazios
+            if (!href || href === "#" || this.closest(".has-submenu")) {
+                return;
+            }
+
+            // ignora links que abrem em nova aba
+            if (this.target === "_blank") return;
+
+            spinner.classList.remove("d-none");
+        });
+    });
+
+    // Ao enviar formulários
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", () => {
+            spinner.classList.remove("d-none");
+        });
+    });
+
+
 
 }); // Fim do DOMContentLoaded principal
 

@@ -1,86 +1,64 @@
 <x-app-layout title="Departamentos">
 
-    <body>
-        <section class="container-section">
-            <div class="container-list">
-                <h1 class="mb-3 mb-lg-0 fs-3">Lista de Departamentos</h1>
-                <div
-                    class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center">
+    <!-- Seção de Lista de Departamentos -->
+    <section class="container-section">
 
-                      <!-- Falta alterar o tamanho dos botões e do search -->
+        <x-list-header title="Lista de Departamentos" :route="route('departamento.index')" placeholder="Buscar departamento..."
+            modal="createDepartamentoModal" buttonLabel="Adicionar" buttonIcon="domain_add" />
 
-                    <div class="row justify-content-end flex-sm-row gap-2 w-100 w-lg-auto">
-                        <form class="input-group col-12-md col-lg-auto flex-grow-1 flex-sm-grow-0">
-                            <input type="search" class="form-control rounded-start" placeholder="Buscar..."
-                                aria-label="Buscar">
-                            <button class="btn btn-outline-primary" type="submit">
-                                <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
-                            </button>
-                        </form>
+    </section>
 
-                        <!-- Button trigger modal -->
+    <!-- Tabela de Departamentos -->
+    <section class="table-section">
+        <div class="table-responsive table-list">
 
-                        <button type="button" class="col-12-md col-lg-auto btn btn-outline-primary" data-bs-toggle="modal"
-                            data-bs-target="#createDepartamentoModal" title="Incluir">
-                            Adicionar
-                            <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">domain_add</i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <!-- Alertas de sucesso ou erro -->
+            @include('components.alertas')
 
-        <!-- Tabela de Departamentos -->
-        <section class="table-section">
-            <div class="table-responsive table-list">
+            <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
+                <thead class="w-100">
+                    <tr class="d-flex justify-content-between">
+                        <th class="col text-start">Nome do Departamento</th>
+                        <th class="col text-center">Sigla do Departamento</th>
+                        <th class="col text-center">Data da criação</th>
+                        <th class="col text-end pl-5">Alterar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($departamentos as $departamento)
+                        <tr class="d-flex justify-content-between ">
+                            <td class="col text-start d-flex align-items-center">{{ $departamento->nome }}</td>
+                            <td class="col text-center d-flex justify-content-center align-items-center">
+                                {{ $departamento->sigla_depto }}</td>
+                            <td class="col text-center d-flex justify-content-center align-items-center">
+                                {{ $departamento->created_at->format('d/m/Y') }}</td>
+                            <td class="col align-items-end d-flex justify-content-end">
+                                <!-- Botão Alterar -->
+                                <button type="button" class="btn btn-outline-success edit "
+                                    data-id="{{ $departamento->id }}" data-nome="{{ $departamento->nome }}"
+                                    data-sigla="{{ $departamento->sigla_depto }}" data-bs-toggle="modal"
+                                    data-bs-target="#updateDepartamentoModal">
+                                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">edit_note</i>
+                                </button>
 
-                <!-- Alertas de sucesso ou erro -->
-                @include('components.alertas')
-
-                <table class="table cursor-pointer table-borderless table-hover align-middle caption-top">
-                    <thead class="w-100">
-                        <tr class="d-flex justify-content-between">
-                            <th class="col text-start">Nome do Departamento</th>
-                            <th class="col text-center">Sigla do Departamento</th>
-                            <th class="col text-center">Data da criação</th>
-                            <th class="col text-end pl-5">Alterar</th>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($departamentos as $departamento)
-                            <tr class="d-flex justify-content-between ">
-                                <td class="col text-start d-flex align-items-center">{{ $departamento->nome }}</td>
-                                <td class="col text-center d-flex justify-content-center align-items-center">
-                                    {{ $departamento->sigla_depto }}</td>
-                                <td class="col text-center d-flex justify-content-center align-items-center">
-                                    {{ $departamento->created_at->format('d/m/Y') }}</td>
-                                <td class="col align-items-end d-flex justify-content-end">
-                                    <!-- Botão Alterar -->
-                                    <button type="button" class="btn btn-outline-success edit "
-                                        data-id="{{ $departamento->id }}" data-nome="{{ $departamento->nome }}"
-                                        data-sigla="{{ $departamento->sigla_depto }}" data-bs-toggle="modal"
-                                        data-bs-target="#updateDepartamentoModal">
-                                        <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">edit_note</i>
-                                    </button>
+                    @empty
+                        <td colspan="8" class="text-center">Nenhum departamento encontrado.</td>
+                    @endforelse
+                </tbody>
+            </table>
 
-                                </td>
-                            </tr>
-                        @empty
-                            <td colspan="8" class="text-center">Nenhum departamento encontrado.</td>
-                        @endforelse
-                    </tbody>
-                </table>
-
-                <div class="clearfix">
-                    {{ $departamentos->links('pagination::bootstrap-5') }}
-                </div>
+            <div class="clearfix">
+                {{ $departamentos->links('pagination::bootstrap-5') }}
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Modals -->
-        @include('departamento.createModal')
-        @include('departamento.updateModal')
-    </body>
+    <!-- Modals -->
+    @include('departamento.createModal')
+    @include('departamento.updateModal')
+
 
     @push('scripts')
         <script>

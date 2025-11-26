@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class MetricasConsolidadasController extends Controller
 {
+    public function index()
+    {
+        return view('dashboard.index');
+    }
+
     public function processarMetricasConsolidadas(Request $request)
     {
         try {
@@ -64,10 +69,13 @@ class MetricasConsolidadasController extends Controller
                 $query,
             );
 
-            return redirect()->back()->with('success', 'Métricas consolidadas foram processadas com sucesso!');
+            return redirect()
+        ->route('dashboard.operacional')   // <--- qualquer rota final
+        ->with('success', 'Métricas consolidadas com sucesso!');
+            
         } catch (Throwable $th) {
             return redirect()
-                ->back()
+                ->route('dashboard.operacional')
                 ->with('error', 'Erro ao processar métricas: ' . $th->getMessage());
         }
     }

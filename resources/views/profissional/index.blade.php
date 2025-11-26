@@ -4,25 +4,8 @@
     <!-- Seção de Cabeçalho e Controles (Título, Busca e Botão Adicionar) -->
     <section class="container-section">
 
-        <div class="container-list">
-
-            <h1>Lista de Profissionais</h1>
-            <form method="GET" action="{{ route('profissional.index') }}" class="input-group w-25">
-                <input type="search" name="search" id="search" value="{{ old('search') ?? request('search') }}"
-                    class="form-control rounded-start" placeholder="Buscar..." aria-label="Buscar">
-
-                <button class="btn btn-outline-primary" type="submit">
-                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">search</i>
-                </button>
-            </form>
-            <!-- Button trigger modal -->
-            <button type="button" class=" btn btn-outline-primary" data-bs-toggle="modal"
-                data-bs-target="#createProfissionalModal" title="Incluir">
-                Adicionar
-                <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">group_add</i>
-            </button>
-
-        </div>
+        <x-list-header title="Lista de Profissionais" :route="route('profissional.index')" modal="createProfissionalModal"
+            placeholder="Buscar profissional..." buttonLabel="Adicionar" />
 
     </section>
     <section class="table-section">

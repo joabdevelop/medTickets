@@ -3,104 +3,10 @@
     <body>
         {{-- Titulo do Ticket --}}
         <section class="container-section">
-            {{-- 1. BLOCO PHP NO INÍCIO DA SEÇÃO --}}
-            @php
-                // 1. Encontra qual parâmetro de filtro está preenchido na URL
-                $filtroAtivo = '';
-
-                // A ordem de checagem é importante. Priorize o filtro que deseja.
-                if (request()->filled('search')) {
-                    $filtroAtivo = 'campo-search';
-                } elseif (request()->filled('select_statusFinal') && request('select_statusFinal') !== 'Todos') {
-                    $filtroAtivo = 'campo-status';
-                } elseif (request()->filled('data_ticket')) {
-                    $filtroAtivo = 'campo-data';
-                } else {
-                    // Padrão, se nenhum filtro estiver ativo (mostra o campo de busca por padrão)
-                    $filtroAtivo = 'campo-search';
-                }
-            @endphp
-            <div class="container-list">
-                <h1>Tickets - Fila de Solicitações</h1>
-
-
-                <div class="container-search">
-                    <form method="POST" action="{{ route('metricas.consolidadas') }}" class="me-2">
-                        @csrf
-                        <button type="submit" class="btn btn-info" data-bs-toggle="tooltip"
-                            title="Processar Métricas Consolidadas">
-                            <i class="bi bi-calculator"></i>
-                        </button>
-                    </form>
-                    <!-- Filtar por Numero do tickets, status e data -->
-                    <form method="GET" action="{{ route('ticket.index') }}"
-                        class="row g-2 d-flex align-items-center justify-content-center form-floating form-cadastro form-search">
-                        <div class="input-group">
-                            <!-- Campo de busca -->
-                            <div class="col-md-4 form-floating filtro-campo" id="campo-search">
-                                <input type="search" name="search" id="search"
-                                    value="{{ old('search') ?? request('search') }}" class="form-control rounded-start"
-                                    placeholder="Digite o numero" aria-label="Buscar">
-                                <label for="search" class="form-label">numero do ticket</label>
-                            </div>
-
-                            <!-- Status -->
-                            <div class="col-md-3 form-floating filtro-campo" id="campo-status">
-                                <select name="select_statusFinal" id="select_statusFinal"
-                                    class="form-select form-control">
-                                    <option value="Todos" @selected(request('select_statusFinal') == 'Todos' || !request('select_statusFinal'))>
-                                        Todos
-                                    </option>
-                                    @foreach ($statusFinals as $statusFinal)
-                                        <option value="{{ $statusFinal->value }}" {{-- Seleciona a opção se ela for igual ao valor na URL --}}
-                                            @selected(old('select_statusFinal', request('select_statusFinal')) == $statusFinal->value)>
-                                            {{ $statusFinal->value }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="select_statusFinal" class="form-label">Status</label>
-                            </div>
-
-                            <!-- Data -->
-                            <div class="col-md-3 form-floating filtro-campo" id="campo-data">
-                                <input type="date" class="form-control" id="data_ticket" name="data_ticket"
-                                    value="{{ old('data_ticket', request('data_ticket')) }}">
-                                <label for="data_ticket" class="form-label">Data</label>
-                            </div>
-                            <button type="button"
-                                class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="p-2" id="filtro-selecionado-texto">Filtrar por</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
-                                    <a class="dropdown-item" href="#" data-target="campo-search">
-                                        Numero do ticket
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" data-target="campo-status">
-                                        Status do ticket
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="#" data-target="campo-data">
-                                        Data do ticket
-                                    </a>
-                                </li>
-                            </ul>
-                            <button type="submit" class="btn btn-outline-secondary">Procurar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            <x-ticket-header title="Tickets - Fila de Solicitações" route="{{ route('ticket.index') }}"
+                :statusList="$statusFinals" />
         </section>
+        
         <section class="table-section">
             <div class="table-responsive table-list">
                 <!-- Alertas de sucesso ou erro -->
@@ -148,7 +54,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @if ( $ticket->cumpriu_sla )
+                                    @if ($ticket->cumpriu_sla)
                                         <span class="badge bg-success">Sim</span>
                                     @else
                                         <span class="badge bg-danger">Não</span>
@@ -347,7 +253,7 @@
 
                 // Use a base estática (sem o ID)
                 const aceitarAtendimentoBase =
-                "{{ url('ticket/atender') }}"; // gera: http://medtickets.test/ticket/atender/
+                    "{{ url('ticket/atender') }}"; // gera: http://medtickets.test/ticket/atender/
 
                 // 1. Intercepta o clique no botão "Atender"
                 $(document).on('click', '#ResolverBtnAtender', function(e) {
@@ -431,7 +337,8 @@
                     console.log('Clicou no botão Devolver');
 
                     const buttonDevolver = $(this);
-                    const originalText = buttonDevolver.html(); // Salva o HTML original para restaurar em caso de erro
+                    const originalText = buttonDevolver
+                        .html(); // Salva o HTML original para restaurar em caso de erro
 
                     // Assumimos que o ID do ticket está armazenado em algum campo oculto ou em um atributo data
                     // AJUSTE ESSA LINHA: Você deve obter o ID do ticket do modal de alguma forma.
@@ -501,13 +408,14 @@
 
                 const encerrarAtendimentoBase = "{{ url('ticket/encerrar') }}";
 
-                 // 1. Intercepta o clique no botão "Encerrar"
+                // 1. Intercepta o clique no botão "Encerrar"
                 $(document).on('click', '#ResolverBtnEncerrar', function(e) {
                     // Previne o comportamento padrão do botão submit (que fecharia o modal ou faria um submit de formulário)
                     e.preventDefault();
 
                     const buttonEncerrar = $(this);
-                    const originalText = buttonEncerrar.html(); // Salva o HTML original para restaurar em caso de erro
+                    const originalText = buttonEncerrar
+                        .html(); // Salva o HTML original para restaurar em caso de erro
 
                     // Assumimos que o ID do ticket está armazenado em algum campo oculto ou em um atributo data
                     // AJUSTE ESSA LINHA: Você deve obter o ID do ticket do modal de alguma forma.
@@ -541,7 +449,8 @@
 
                                 // 4. Sucesso: Altera o botão para "Em Andamento" e bloqueia
                                 buttonEncerrar.removeClass('btn-success').addClass('btn-secondary');
-                                buttonEncerrar.html('<i class="bi bi-person-fill-gear"></i> Em Andamento');
+                                buttonEncerrar.html(
+                                    '<i class="bi bi-person-fill-gear"></i> Em Andamento');
                                 buttonEncerrar.prop('disabled', true); // Mantém o botão bloqueado
 
                                 window.location.reload();
@@ -615,17 +524,7 @@
                     });
                 });
 
-                // 3. NOVA LÓGICA: Estado inicial da visibilidade dos campos após o carregamento (Refresh)
 
-                // Oculta todos os campos primeiro
-                document.querySelectorAll('.filtro-campo').forEach(f => f.style.display = 'none');
-
-                // Define o campo ativo com base na variável PHP lida na inicialização
-                const filtroAtivoId = '{{ $filtroAtivo }}';
-
-                if (filtroAtivoId && document.getElementById(filtroAtivoId)) {
-                    document.getElementById(filtroAtivoId).style.display = 'block';
-                }
 
 
 

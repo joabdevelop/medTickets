@@ -206,7 +206,16 @@
 
     <!-- =============== Main Content ================ -->
     <div class="main-content">
+
+
+        <!-- Spinner interno -->
+        <div id="main-spinner" class="main-spinner d-none">
+            <div class="loader"></div>
+            <span>Carregando...</span>
+        </div>
+
         {{ $slot }}
+
         @stack('scripts')
     </div>
 
