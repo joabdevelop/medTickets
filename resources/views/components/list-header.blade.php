@@ -34,7 +34,7 @@
                     >
 
                     <button class="btn btn-outline-primary" type="submit">
-                        <i class="material-icons">search</i>
+                       <i class="bi bi-search"></i>
                     </button>
                 </form>
 

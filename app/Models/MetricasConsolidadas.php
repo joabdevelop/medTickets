@@ -18,12 +18,16 @@ class MetricasConsolidadas extends Model
         'tickets_sla_ok',
         'tempo_total_execucao_segundos',
         'total_tickets_com_tempo',
+        'created_at',   
+        'updated_at',
     ];
 
     protected $table = 'metricas_consolidadas';
 
     protected $casts = [
         'data_metrica' => 'date',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function user()

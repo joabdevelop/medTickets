@@ -2,11 +2,10 @@
 
     <body>
         <section class="container-section">
-            <x-list-header title="Lista de Grupo" :route="route('grupo.index')"
-                buttonLabel="Adicionar" placeholder="Buscar..."
+            <x-list-header title="Lista de Grupo" :route="route('grupo.index')" buttonLabel="Adicionar" placeholder="Buscar..."
                 modal="createGrupoModal" :rounded="false">
             </x-list-header>
-            
+
         </section>
         <section class="table-section">
             <div class="table-responsive table-list">
@@ -36,34 +35,30 @@
 
                                     <!-- Action Buttons -->
 
-                                    <div class="btn-group btn-group-sm">
+                                    <div class="btn-group btn-group-sm gap-2">
                                         <!-- Botão Alterar -->
-                                        <a href="#" class="edit" data-id="{{ $grupo->id }}"
-                                            data-nome="{{ $grupo->nome_grupo }}"
+                                        <button type="button" class="btn btn-outline-success edit"
+                                            data-id="{{ $grupo->id }}" data-nome="{{ $grupo->nome_grupo }}"
                                             data-relacionamento_id="{{ $grupo->relacionamento_id }}"
-                                            data-bs-toggle="modal" data-bs-target="#updateGrupoModal">
-                                            <i class="material-icons " data-bs-toggle="tooltip"
-                                                title="Alterar">&#xE254;</i>
-                                        </a>
-                                    </div>
-
-                                    <div class="btn-group btn-group-sm">
+                                            data-bs-toggle="modal" data-bs-target="#updateGrupoModal"
+                                            title="Alterar Grupo">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
                                         <!-- Botão Excluir -->
-                                        <a href="#" class="delet" data-id="{{ $grupo->id }}"
-                                            data-nome="{{ $grupo->nome_grupo }}" data-bs-toggle="modal"
-                                            data-bs-target="#deleteGrupoModal">
-                                            <i class="material-icons text-danger" data-bs-toggle="tooltip"
-                                                title="Excluir">&#xE872;</i>
-                                        </a>
-                                    </div>
-
-                                    <div class="btn-group btn-group-sm">
+                                        <button type="button" class="btn btn-outline-danger delete"
+                                            data-id="{{ $grupo->id }}" data-nome="{{ $grupo->nome_grupo }}"
+                                            data-bs-toggle="modal" data-bs-target="#deleteGrupoModal"
+                                            title="Excluir Grupo">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
                                         <!-- Botão Visualizar Empresas -->
-                                        <a href="#" class="visualizar-empresas" data-id="{{ $grupo->id }}"
-                                            data-bs-toggle="modal" data-bs-target="#visualizarEmpresasModal">
-                                            <i class="material-icons text-success"
-                                                title="Visualizar Empresas">search</i>
-                                        </a>
+                                        <button type="button"
+                                            class="btn btn-outline-primary search visualizar-empresas"
+                                            data-id="{{ $grupo->id }}" data-bs-toggle="modal"
+                                            title="Visualizar Empresas"
+                                            data-bs-target="#visualizarEmpresasModal">
+                                            <i class="bi bi-search"></i>
+                                        </button>
                                     </div>
 
                                 </td>

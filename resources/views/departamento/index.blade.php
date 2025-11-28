@@ -37,8 +37,8 @@
                                 <button type="button" class="btn btn-outline-success edit "
                                     data-id="{{ $departamento->id }}" data-nome="{{ $departamento->nome }}"
                                     data-sigla="{{ $departamento->sigla_depto }}" data-bs-toggle="modal"
-                                    data-bs-target="#updateDepartamentoModal">
-                                    <i class="material-icons" data-bs-toggle="tooltip" title="Incluir">edit_note</i>
+                                    data-bs-target="#updateDepartamentoModal" title="Alterar Departamento">
+                                    <i class="bi bi-pencil-fill"></i>
                                 </button>
 
                             </td>

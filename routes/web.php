@@ -156,9 +156,5 @@ Route::get('/dashboard/equipe', [\App\Http\Controllers\DashboardController::clas
 Route::post('/metricas/consolidadas', [\App\Http\Controllers\MetricasConsolidadasController::class, 'processarMetricasConsolidadas'])
     ->middleware(['auth', 'verified'])
     ->name('metricas.consolidadas');
-    
-Route::get('/metricas/consolidadas/index', [\App\Http\Controllers\MetricasConsolidadasController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('metricas.consolidadas.index');
 
 require __DIR__ . '/auth.php';

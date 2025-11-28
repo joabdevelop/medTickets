@@ -76,22 +76,23 @@
 
                                     <div class="btn-group btn-group-sm">
                                         <!-- Botão Alterar -->
-                                        <a href="#" class="edit" data-id="{{ $profissional->id }}"
+                                        <button type="button" class="btn btn-outline-success edit" data-id="{{ $profissional->id }}"
                                             data-nome="{{ $profissional->nome }}"
                                             data-email="{{ $profissional->user->email }}"
                                             data-telefone="{{ preg_replace('/(\\d{2})(\\d{4,5})(\\d{4})/', '($1) $2-$3', $profissional->telefone) }}"
                                             data-tipo_usuario="{{ $profissional->tipo_usuario }}"
                                             data-grupo="{{ $profissional->grupo_id }}"
                                             data-departamento="{{ $profissional->departamento_id }}"
-                                            data-tipo_acesso="{{ $profissional->tipo_acesso }}" data-bs-toggle="modal"
+                                            data-tipo_acesso="{{ $profissional->tipo_acesso }}" 
+                                            data-bs-toggle="modal"
+                                            title="Alterar Profissional"
                                             data-bs-target="#updateProfissionalModal">
-                                            <i class="material-icons" data-bs-toggle="tooltip"
-                                                title="Alterar">&#xE254;</i>
-                                        </a>
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
                                     </div>
                                     <div class="form-switch">
                                         <!-- Botão Ativar/Inativar -->
-                                        <input class="form-check-input status-toggle" type="checkbox"
+                                        <input class="form-check-input status-toggle " type="checkbox"
                                             data-id="{{ $profissional->id }}" data-nome="{{ $profissional->nome }}"
                                             data-status="{{ $profissional->profissional_ativo }}"
                                             data-bs-toggle="tooltip" title="Ativar/Inativar Profissional"

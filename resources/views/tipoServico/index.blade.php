@@ -1,9 +1,5 @@
 <x-app-layout title="Tipos de Serviço">
-    @push('styles')
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    @endpush
-
-
+  
     <!-- List Section -->
     <section class="container-section">
         <x-list-header title="Serviços" :route="route('tipo_servico.index')" modal="createTipoServicoModal" placeholder="Buscar..."
@@ -54,7 +50,8 @@
                                 <!-- Action Buttons -->
                                 <div class="btn-group btn-group-sm">
                                     <!-- Botão Alterar -->
-                                    <a href="#" class="edit" data-id="{{ $tipo_servico->id }}"
+                                    <button type="button" class="btn btn-outline-success edit"
+                                        data-id="{{ $tipo_servico->id }}"
                                         data-update_nome_servico="{{ $tipo_servico->nome_servico }}"
                                         data-update_titulo_nome="{{ $tipo_servico->titulo_nome }}"
                                         data-update_prioridade="{{ $tipo_servico->prioridade }}"
@@ -63,9 +60,10 @@
                                         data-update_executante_departamento_id="{{ $tipo_servico->departamento->nome }}"
                                         data-update_dados_add="{{ $tipo_servico->dados_add }}"
                                         data-update_servico_ativo="{{ $tipo_servico->servico_ativo }}"
-                                        data-bs-toggle="modal" data-bs-target="#updateTipoServicoModal">
-                                        <i class="material-icons" data-bs-toggle="tooltip" title="Alterar">&#xE254;</i>
-                                    </a>
+                                        data-bs-toggle="modal" data-bs-target="#updateTipoServicoModal"
+                                        title="Alterar Tipo de Serviço">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
                                 </div>
 
                             </td>

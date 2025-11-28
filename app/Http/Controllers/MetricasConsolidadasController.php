@@ -38,7 +38,9 @@ class MetricasConsolidadasController extends Controller
                     SUM(CASE WHEN tickets.data_devolucao IS NOT NULL THEN 1 ELSE 0 END) AS tickets_devolvidos,
                     SUM(CASE WHEN tickets.cumpriu_sla = TRUE THEN 1 ELSE 0 END) AS tickets_sla_ok,
                     SUM(tickets.tempo_execucao) AS tempo_total_execucao_segundos,
-                    SUM(CASE WHEN tickets.tempo_execucao > 0 THEN 1 ELSE 0 END) AS total_tickets_com_tempo
+                    SUM(CASE WHEN tickets.tempo_execucao > 0 THEN 1 ELSE 0 END) AS total_tickets_com_tempo,
+                    NOW() AS created_at,
+                    NOW() AS updated_at 
                     ",
                 )
                 ->whereIn('tickets.status_final', ['Aberto', 'Em Andamento', 'Pendente', 'Devolvido', 'Concluído'])
@@ -65,6 +67,8 @@ class MetricasConsolidadasController extends Controller
                     'tickets_sla_ok',
                     'tempo_total_execucao_segundos',
                     'total_tickets_com_tempo',
+                    'created_at',
+                    'updated_at',
                 ],
                 $query,
             );

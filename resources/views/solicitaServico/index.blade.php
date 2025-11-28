@@ -4,8 +4,7 @@
         <section class="container-section">
             <x-list-header title="Solicitações de Serviços" route="{{ route('solicitaServico.index') }}"
                 placeholder="Digite o numero do ticket" modal="createSolicitaServicoModal" icon="bi bi-plus-lg"
-                :rounded="false"
-                buttonLabel="Adicionar" :extraData="[
+                :rounded="false" buttonLabel="Adicionar" :extraData="[
                     'data-user-id' => Auth::user()->id,
                     'data-user-departamento' => Auth::user()->profissional?->departamento?->sigla_depto,
                 ]" />
@@ -53,13 +52,13 @@
                                     @endif
                                 </td>
                                 <td>
-
                                     <!-- Action Buttons -->
 
-                                    <div class="btn-group btn-group-sm">
+                                    <div class="btn-group btn-group-sm gap-2">
                                         <!-- Botão Alterar -->
-                                        <a href="#" class="update" data-id="{{ $solicitaServico->id }}"
-                                            data-bs-toggle="modal" data-user-id="{{ Auth::user()->id }}"
+                                        <button type="button" class="btn btn-outline-success edit update"
+                                            data-id="{{ $solicitaServico->id }}" data-bs-toggle="modal"
+                                            data-user-id="{{ Auth::user()->id }}"
                                             data-user-departamento="{{ Auth::user()->profissional?->departamento?->sigla_depto }}"
                                             data-update_numero_ticket="{{ $solicitaServico->numero_ticket }}"
                                             data-update_user_departamento="{{ $solicitaServico->user_departamento }}"
@@ -71,26 +70,29 @@
                                             data-update_descricao_servico="{{ $solicitaServico->descricao_servico }}"
                                             data-update_status_final="{{ $solicitaServico->status_final }}"
                                             data-update_observacoes="{{ $solicitaServico->observacoes }}"
-                                            data-bs-target="#updateSolicitaServicoModal">
-                                            <i class="material-icons " data-bs-toggle="tooltip"
-                                                title="Alterar">&#xE254;</i>
-                                        </a>
-                                    </div>
+                                            data-bs-target="#updateSolicitaServicoModal" title="Alterar Solicitação">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
+                                        <!-- Botão Excluir -->
 
-                                    @if ($solicitaServico->status_final == 'Aberto')
-                                        <a href="#" class="delete" data-id="{{ $solicitaServico->id }}"
-                                            data-numero-ticket="{{ $solicitaServico->numero_ticket }}"
-                                            data-bs-toggle="modal" data-bs-target="#deleteSolicitaServicoModal">
-                                            <i class="material-icons text-danger" data-bs-toggle="tooltip"
-                                                title="Excluir">&#xE872;</i>
-                                        </a>
-                                    @else
-                                        <a href="javascript:void(0)" class="delete disabled" tabindex="-1"
-                                            aria-disabled="true" style="pointer-events:none; opacity:0.5;">
-                                            <i class="material-icons text-danger"
-                                                title="Excluir não permitido">&#xE872;</i>
-                                        </a>
-                                    @endif
+                                        @if ($solicitaServico->status_final == 'Aberto')
+                                            <button type="button" class="btn btn-outline-danger delete"
+                                                data-id="{{ $solicitaServico->id }}"
+                                                data-numero-ticket="{{ $solicitaServico->numero_ticket }}"
+                                                data-bs-toggle="modal" data-bs-target="#deleteSolicitaServicoModal"
+                                                title="Excluir Solicitação">
+
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-outline-danger delete" disabled
+                                                title="Excluir não permitido"
+                                                style="opacity: 0.5; cursor: not-allowed;">
+
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        @endif
+                                    </div>
 
                                 </td>
                             </tr>

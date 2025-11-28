@@ -1,13 +1,12 @@
-import './bootstrap';
+import 'bootstrap';
 import '../css/app.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../css/style.css';
+import 'jquery';
 
 import Alpine from 'alpinejs';
-
 window.Alpine = Alpine;
-
 Alpine.start();
+
 import './main.js';
-import './global-function.js'; // Importa o arquivo global-function.js
+import './global-function.js';

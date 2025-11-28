@@ -60,8 +60,8 @@
                                     <!-- Dentro do <td> de ações -->
                                     <div class="btn-group btn-group-sm">
                                         <!-- Botão Editar (agora abre modal diretamente) -->
-                                        <a href="#" class="edit" class="btn btn-sm btn-outline-primary edit"
-                                            data-bs-toggle="modal" data-bs-target="#updateEmpresaModal"
+                                        <button type="button" class="btn btn-outline-success edit"
+                                              data-bs-toggle="modal" data-bs-target="#updateEmpresaModal"
                                             data-id="{{ $empresa->id }}"
                                             data-grupo-empresarial="{{ $empresa->id_grupo }}"
                                             data-data-contrato="{{ $empresa->data_contrato ? $empresa->data_contrato->format('Y-m-d') : '' }}"
@@ -76,15 +76,16 @@
                                             data-ultima-renovacao-tipo="{{ $empresa->ultima_renovacao_tipo }}"
                                             data-ultima-renovacao-contrato="{{ $empresa->ultima_renovacao ? $empresa->ultima_renovacao->format('Y-m-d') : '' }}"
                                             data-bloqueio-status-financ="{{ $empresa->bloqueio_status_financ ? 1 : 0 }}"
+                                             title="Alterar Empresa"
                                             data-status-produto-preco="{{ $empresa->status_produto_preco ? 1 : 0 }}">
-                                            <i class="material-icons" data-bs-toggle="tooltip"
-                                                title="Alterar">&#xE254;</i>
-                                        </a>
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-sm">
                                     <!-- Botão Visualizar Dados -->
-                                    <a href="#" class="alterar" role="button" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-outline-primary search visualizar-empresas"
+                                        role="button" data-bs-toggle="modal"
                                         data-bs-target="#visualizarEmpresaModal"
                                         data-bs-relacionamento="{{ $empresa->grupo->profissional->nome }}"
                                         data-id="{{ $empresa->id }}"
@@ -101,10 +102,10 @@
                                         data-ultima-renovacao-tipo="{{ $empresa->ultima_renovacao_tipo }}"
                                         data-ultima-renovacao-contrato="{{ $empresa->ultima_renovacao ? $empresa->ultima_renovacao->format('Y-m-d') : '' }}"
                                         data-bloqueio-status-financ="{{ $empresa->bloqueio_status_financ ? 1 : 0 }}"
-                                        data-status-produto-preco="{{ $empresa->status_produto_preco ? 1 : 0 }}">
-                                        <i class="material-icons text-success" data-bs-toggle="tooltip"
-                                            title="Visualizar Empresa">visibility</i>
-                                    </a>
+                                         title="Visualizar Empresa"
+                                        data-status-produto-preco="{{ $empresa->status_produto_preco ? 1 : 0 }}" >
+                                        <i class="bi bi-search"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -178,7 +179,7 @@
                         updateEmpresaModal.querySelector('#modalidade').value = modalidade || '';
                         updateEmpresaModal.querySelector('#fif_status').value = fif_status || '';
                         updateEmpresaModal.querySelector('#FIF_data_liberacao').value = FIF_data_liberacao ||
-                        '';
+                            '';
                         updateEmpresaModal.querySelector('#ultima_renovacao_tipo').value =
                             ultima_renovacao_tipo || '';
                         updateEmpresaModal.querySelector('#ultima_renovacao_contrato').value =

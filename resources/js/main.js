@@ -60,9 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (userInfoDiv) userInfoDiv.classList.remove('active');
     });
 
-
-
-
     // --- CÓDIGO PARA O SUBMENU AO CLICAR ---
     const submenuLis = document.querySelectorAll('.has-submenu');
     submenuLis.forEach(li => {

@@ -89,7 +89,7 @@ class DashboardController extends Controller
         $agentesValores = $slaPorAgente->map(fn($item) => round($item->percentual_sla));
 
         // 4. Envia os dados para a view
-        return view('dashboard.sla', [
+        $viewData = [
             'tempoMedioResolucao' => $tempoMedioResolucao,
             'percentualSlaResolucao' => $percentualSlaResolucao,
             'percentualSlaResposta' => $percentualSlaResposta,
@@ -99,7 +99,9 @@ class DashboardController extends Controller
             'periodo' => $periodo,
             'dataInicio' => $dataInicio,
             'dataFim' => $dataFim,
-        ]);
+        ];
+
+        return view('dashboard.sla', $viewData);
     }
 
     /**
@@ -107,7 +109,6 @@ class DashboardController extends Controller
      */
     public function indexOperacional(Request $request)
     {
-        
         $deptos = Departamento::All();
 
         // 1. Capturar e definir o período
@@ -131,6 +132,9 @@ class DashboardController extends Controller
                 $query->where('origem_sigla_depto', '=', $origemDepto);
             }
         };
+
+        // Captura a data da última geração de métricas
+        $ultimaGeracao = DB::table('metricas_consolidadas')->max('created_at');
 
         // --- 1️⃣ Utilização / Ocupação do Agente ---
         $ocupacao = DB::table('metricas_consolidadas as mc')
@@ -209,7 +213,7 @@ class DashboardController extends Controller
             ->limit(10)
             ->get();
 
-        return view('dashboard.operacional', [
+        $viewData = [
             'ocupacao' => $ocupacao,
             'absenteismo',
             'sla' => $sla,
@@ -220,7 +224,10 @@ class DashboardController extends Controller
             'diasTrabalhados' => $diasTrabalhados,
             'origemDepto' => $origemDepto, // Retorna o valor do filtro
             'deptos' => $deptos, // Lista de departamentos
-        ]);
+            'ultimaGeracao' => $ultimaGeracao,
+        ];
+
+        return view('dashboard.operacional', $viewData);
     }
 
     public function indexEquipe(Request $request)
@@ -249,16 +256,14 @@ class DashboardController extends Controller
         $dataInicio = $request->input('inicio', now()->subDays($periodo)->startOfDay()->toDateString());
         $dataFim = $request->input('fim', now()->toDateString());
 
-        $dados = DB::table('metricas_consolidadas')->select( 'origem_sigla_depto', 
-                 DB::raw('SUM(total_tickets) as total'), 
-                 DB::raw('SUM(tickets_concluidos) as concluidos'), 
-                 DB::raw('SUM(tickets_devolvidos) as devolvidos'), 
-                 DB::raw('SUM(tickets_sla_ok) as sla_ok'), 
-                 DB::raw('SUM(tempo_total_execucao_segundos) as tempo_total'), 
-                 DB::raw('SUM(total_tickets_com_tempo) as tickets_tempo'))
-                ->whereBetween('data_metrica', [$dataInicio, $dataFim])
-                ->groupBy('origem_sigla_depto')->get();
+        $dados = DB::table('metricas_consolidadas')
+            ->select('origem_sigla_depto', DB::raw('SUM(total_tickets) as total'), DB::raw('SUM(tickets_concluidos) as concluidos'), DB::raw('SUM(tickets_devolvidos) as devolvidos'), DB::raw('SUM(tickets_sla_ok) as sla_ok'), DB::raw('SUM(tempo_total_execucao_segundos) as tempo_total'), DB::raw('SUM(total_tickets_com_tempo) as tickets_tempo'))
+            ->whereBetween('data_metrica', [$dataInicio, $dataFim])
+            ->groupBy('origem_sigla_depto')
+            ->get();
         // Lógica para o dashboard de equipe
-        return view('dashboard.desempenhoEquipe', compact('dados', 'dataInicio', 'dataFim')); // Supondo que a view exista
+        $viewData = compact('dados', 'dataInicio', 'dataFim');
+
+        return view('dashboard.desempenhoEquipe', $viewData); // Supondo que a view exista
     }
 }

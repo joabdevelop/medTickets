@@ -516,6 +516,7 @@ body {
     background: var(--color-table-header);
     text-align: left;
     font-weight: bold;
+    font-size: 16px;
 }
 
 .table thead th {
@@ -554,6 +555,26 @@ body {
     background: #4ad48883;
     color: #fff;
     transition: 0.5rem;
+}
+
+.table .edit:hover {
+    background: #ffd102ad;
+    color: #0f7a3fbd;
+    transition: 0.5rem;
+}
+
+.table .search:hover {
+    background: #0270ff9a;
+    color: #000000;
+    transition: 0.5rem;
+    border-color: #000000ad;
+}
+
+.table .delete:hover {
+    background: #ff2002ad;
+    color: #000000bd;
+    transition: 0.5rem;
+    border-color: #000000ad;
 }
 
 /* Estilo para linhas inativas da tabela bloqueio inativo */
@@ -725,6 +746,58 @@ tr.bloqueio-inativo td {
     box-shadow: none !important;
     border-color: #577bd8 !important;
     /* ou a cor que preferir */
+}
+
+/* Switch Profissional*/
+/* Força remoção da aparência nativa e define tamanho base */
+.form-switch .form-check-input {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #dc3545; /* INICIAL: vermelho (inativo) */
+    border-radius: 2rem;
+    position: relative;
+    outline: none;
+    border: 1px solid #dc3545;
+    transition: background-color .18s ease, border-color .18s ease;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+/* Cria a bolinha (knob) */
+.form-switch .form-check-input::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0.12rem;                    /* posição quando INATIVO */
+    transform: translateY(-50%);
+    width: 0.50rem;                   /* tamanho da bolinha */
+    height: 0.50rem;
+    border-radius: 50%;
+    background: #ffffff;              /* bolinha branca sempre */
+    box-shadow: 0 0.08rem 0.18rem rgba(0,0,0,0.12);
+    transition: left .18s ease, transform .18s ease;
+}
+
+/* Estado ATIVO (checked): fundo verde escuro e mover bolinha para direita */
+.form-switch .form-check-input:checked {
+    background-color: #198754; /* verde escuro */
+    border-color: #198754;
+}
+
+/* Posição da bolinha quando marcado */
+.form-switch .form-check-input:checked::after {
+    left: calc(100% - 0.12rem - 0.50rem); /* desloca a bolinha para o lado direito */
+}
+
+/* Assegura que inputs recebam foco com leve outline acessível */
+.form-switch .form-check-input:focus {
+    box-shadow: 0 0 0 0.15rem rgba(25,135,84,0.15); /* leve highlight verde (quando focado) */
+}
+
+/* Pequena melhoria para when disabled (opcional) */
+.form-switch .form-check-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* Foco nos campos de input */
@@ -1097,7 +1170,7 @@ tr.bloqueio-inativo td {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.842);
     backdrop-filter: blur(2px);
     z-index: 9999;
     display: flex;
@@ -1118,7 +1191,7 @@ tr.bloqueio-inativo td {
 .main-spinner span {
     margin-top: 10px;
     font-size: 16px;
-    color: #333;
+    color: #ffffff;
 }
 
 .d-none {

@@ -13,6 +13,12 @@
                         <h1 class="text-dark-custom display-6 fw-bold mb-0">Dashboard - Operacional</h1>
                         <p class="text-subtitle lead mb-0 fs-6">Acompanhe as métricas de performance da equipe de
                             atendimento.</p>
+                        @if ($ultimaGeracao)
+                            <p>Última atualização: {{ \Carbon\Carbon::parse($ultimaGeracao)->format('d/m/Y H:i:s') }}
+                            </p>
+                        @else
+                            <p>Métricas ainda não foram geradas.</p>
+                        @endif
                     </div>
                     <form action="{{ route('dashboard.operacional') }}" method="GET" class="d-flex flex-wrap gap-2">
                         <input type="date" name="inicio" value="{{ $dataInicio }}">
@@ -27,7 +33,8 @@
                                 <option value="TODOS" @if ($origemDepto === 'TODOS') selected @endif>Todos</option>
 
                                 @foreach ($deptos as $depto)
-                                    <option value="{{ $depto->sigla_depto }}" @if (isset($origemDepto) && $origemDepto === $depto->sigla_depto) selected @endif >
+                                    <option value="{{ $depto->sigla_depto }}"
+                                        @if (isset($origemDepto) && $origemDepto === $depto->sigla_depto) selected @endif>
                                         {{ $depto->nome }}
                                     </option>
                                 @endforeach

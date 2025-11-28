@@ -28,6 +28,7 @@ class EmpresaController extends Controller
         $empresas = $query->with(['grupo', 'grupo.profissional'])->paginate(10);
         //$grupos = \App\Models\Grupo::pluck('nome_grupo', 'id');
         $nomeRelacionamento = \App\Models\Departamento::pluck('id', 'sigla_depto');
+
         return view('empresa.index', compact('empresas', 'nomeRelacionamento', 'grupos'));
     }
 

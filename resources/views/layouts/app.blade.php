@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,22 +17,10 @@
         @endif
     </title>
 
+    <!-- CSS + JS compilados pelo Vite (muito mais rápido) -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- JQUERY -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- IONICONS -->
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-    <!-- FONTE ROBOTO -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
     @stack('styles')
+
 </head>
 
 <body>
@@ -41,7 +30,6 @@
 
         $userId = Auth::user()->id;
 
-        // Pega o profissional pelo user_id (não profile_id)
         $tipoAcesso = Profissional::where('user_id', $userId)->value('tipo_acesso');
 
         switch ($tipoAcesso) {
@@ -69,8 +57,6 @@
                 $userProfileId = 1;
                 break;
         }
-
-        // ====== FILTRO DO MENU ======
 
         $menuItems = collect(config('adminpanel.menu'));
 
@@ -106,19 +92,17 @@
 
     <!-- =============== Topbar ================ -->
     <div class="topbar">
-        <!-- Grid 1 -->
         <div class="topbar-brand">
             <img src="{{ asset(config('adminpanel.logo_image')) }}" alt="Logo" class="logo-image" />
             <span class="logo-text">{{ config('adminpanel.logo_name') }}</span>
         </div>
 
-        <!-- Grid 2 -->
         <div class="topbar-controls">
 
             <!-- Usuário -->
             <div class="user-dropdown-container">
                 <div class="user-info">
-                    <ion-icon name="person-circle-outline"></ion-icon>
+                    <i class="bi bi-person-circle"></i>
                     <span class="username">{{ auth()->user()->name }}</span>
                 </div>
 
@@ -150,46 +134,40 @@
             @foreach ($filteredMenuItems as $menuItem)
                 <li class="menu-item {{ isset($menuItem['submenu']) ? 'has-submenu' : '' }}">
 
-                    <!-- LINK PRINCIPAL -->
                     <a href="{{ isset($menuItem['route_name']) ? route($menuItem['route_name']) : url($menuItem['url'] ?? '#') }}"
                         @if (isset($menuItem['target'])) target="{{ $menuItem['target'] }}" @endif>
 
                         <span class="icon">
-                            <ion-icon name="{{ $menuItem['icon'] ?? 'menu-outline' }}"></ion-icon>
+                            <i class="bi bi-{{ $menuItem['icon'] ?? 'menu-button-wide' }}"></i>
                         </span>
 
                         <span class="title">{{ $menuItem['text'] }}</span>
 
                         @if (isset($menuItem['submenu']))
                             <span class="submenu-toggle-icon">
-                                <ion-icon name="chevron-down-outline"></ion-icon>
+                                <i class="bi bi-chevron-down"></i>
                             </span>
                         @endif
                     </a>
 
-                    <!-- SUBMENU -->
                     @if (isset($menuItem['submenu']))
                         <ul class="submenu">
                             @foreach ($menuItem['submenu'] as $subItem)
                                 <li class="submenu-item">
 
                                     @php
-                                        // Geração correta da URL do submenu
-                                        if (isset($subItem['route_name'])) {
-                                            $routeUrl = isset($subItem['route_params'])
+                                        $routeUrl = isset($subItem['route_name'])
+                                            ? (isset($subItem['route_params'])
                                                 ? route($subItem['route_name'], $subItem['route_params'])
-                                                : route($subItem['route_name']);
-                                        } else {
-                                            $routeUrl = url($subItem['url'] ?? '#');
-                                        }
+                                                : route($subItem['route_name']))
+                                            : url($subItem['url'] ?? '#');
                                     @endphp
 
                                     <a href="{{ $routeUrl }}"
                                         @if (isset($subItem['target'])) target="{{ $subItem['target'] }}" @endif>
 
                                         <span class="icon">
-                                            <ion-icon
-                                                name="{{ $subItem['icon'] ?? 'ellipsis-horizontal-outline' }}"></ion-icon>
+                                            <i class="bi bi-{{ $subItem['icon'] ?? 'dot' }}"></i>
                                         </span>
 
                                         <span class="title">{{ $subItem['text'] }}</span>
@@ -204,21 +182,17 @@
         </ul>
     </div>
 
-    <!-- =============== Main Content ================ -->
+    <!-- MAIN CONTENT -->
     <div class="main-content">
 
-
-        <!-- Spinner interno -->
         <div id="main-spinner" class="main-spinner d-none">
             <div class="loader"></div>
             <span>Carregando...</span>
         </div>
-
         {{ $slot }}
-
         @stack('scripts')
     </div>
-
+    @stack('modals');
 </body>
 
 </html>

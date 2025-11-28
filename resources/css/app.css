@@ -1,25 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap/dist/css/bootstrap.css';
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
 @import 'tailwindcss';
-@source "./resources/**/*.blade.php";
-@source "./resources/**/*.js";
-@source '../../app/Components/**/*.php';
 
-@theme {
-    --color-primary-500: #3b82f6;
-}
+@import  './style.css';
 
-@layer components {
-    .card-hero {
-        @apply font-semibold  
-        pb-5 
-        pl-5
-        line-clamp-2
-        text-pink-600;
-    }
-
-    .container-login {
-        @apply w-full sm:max-w-md mt-6 bg-white/20 backdrop-blur shadow-md sm:rounded-lg border-3 border-blue-600/50 fill-white drop-shadow-xl/50;
-    }
-
-
-}
